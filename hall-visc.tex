@@ -1,0 +1,389 @@
+\documentclass[preprint,aps,eqsecnum]{revtex4-1}
+\usepackage{bm,amssymb,amsfonts,amsmath,graphicx,hyperref,subfig}
+\newcommand{\fplus}[1]{{#1}^{+}}
+\newcommand{\fminus}[1]{{#1}^{-}}
+\newcommand{\fplusminus}[1]{{#1}^{\pm}}
+\renewcommand{\Re}{\mathop{\mathrm{Re}}\nolimits}
+\renewcommand{\Im}{\mathop{\mathrm{Im}}\nolimits}
+\newcommand{\sgn}{\mathop{\mathrm{sgn}}\nolimits}
+\newcommand{\dct}[1]{{#1}_\mathrm{direct}}
+\captionsetup[subfigure]{justification=justified,singlelinecheck=false}
+\captionsetup{justification=centerlast,singlelinecheck=false}
+%\newcommand{\rhoplus}{\rho^{(\plus)}}
+%\newcommand{\rhominus}{\rho^{(\minus)}}
+%\newcommand{\jplus}{j^{(\plus)}}
+%\newcommand{\jminus}{j^{(\minus)}}
+\begin{document}
+\title{Manifestations of the odd viscosity at the onset of fluidity}
+\author{people}
+\affiliation{places}
+\maketitle
+
+We write the kinetic equation in the form
+\begin{align}
+  {\bm v} \cdot\nabla f - \omega_c \frac{\partial f}{\partial \alpha}
+  = J(\alpha) + I[f]\ , 
+\end{align}
+with the collision integral of the form
+\begin{align}
+  I[f] = -\gamma f +  \gamma \rho + 2 \gamma' {\bm j}\cdot {\bm v}\ .
+\end{align}
+Here~${\bm v}$ is the unit vector in the direction of particle's
+velocity, $|{\bm v}| = 1$, and $\alpha$ is the propagation
+direction: ${\bm v} = (\cos\alpha, \sin\alpha)$.
+The quantity~$\gamma$ is the total collision rate, while
+$\gamma'$ is the rate of momentum-conserving collisions.
+The number density~${\rho}({\bm r})$ and current density~${\bm j}$
+are defined via
+\begin{align}
+  \rho({\bm r}) \equiv \left\langle f({\bm r}) \right\rangle \ ,
+  \qquad
+  {\bm j}({\bm r}) \equiv \left\langle f({\bm r}) {\bm v} \right\rangle\ , 
+\end{align}
+where the brackets denote angular averaging:
+\begin{align}
+  \left\langle \ldots \right\rangle \equiv \oint \frac{d\alpha}{2\pi} (\ldots)\ .
+\end{align}
+The equation is supplied with the source term~$J({\bm r}, \alpha)$
+which represents both particles injected into the system and
+the particles scattered by diffuse walls. The magnetic field
+enters via the cyclotron frequency~$\omega_c$.
+
+In the previous article, we explained how the equation
+can be solved in the absence of the magnetic field in the Fourier
+representation defined by
+\begin{align}
+  f({\bm r}) = \int \frac{d^2 {\bm k}}{(2\pi)^2} e^{-i{\bm k}\cdot{\bm r}}
+  f_{\bm k}\ ,
+\end{align}
+where~${\bm k}$ is the wave vector.
+(Note that the convention here is opposite to the one employed in the
+solid-state physics and instead follows the one employed in the literature
+on the Wiener-Hopf method.)
+This was achieved by extending the dynamics into the
+lower semispace~$y < 0$ so that the particles only decay there but
+not rescattered. The equation then takes the form
+\begin{align}
+  (\gamma - i {\bm k} \cdot {\bm v}) f_{\bm k} =
+  J_{\bm k}(\alpha) + \gamma \fplus{\rho}_{\bm k}
+  + 2\gamma' \fplus{\bm j}_{\bm k}
+  \cdot {\bm v}\ , 
+\end{align}
+where~$\fplus{\rho}_{\bm k}$ indicates the Fourier image of
+the number density restricted to~$y > 0$, the same convention
+applies to other quantities. 
+Then, the kinetic equation is solved in the form
+\begin{align}
+  f_{\bm k} = \frac{J_{\bm k}(\alpha) + \gamma \fplus{\rho}_{\bm k}
+   2\gamma' \fplus{{\bm j}}_{\bm k}}{\gamma - i {\bm k} \cdot {\bm v}}\ . 
+\end{align}
+It was also convenient to rewrite the current in terms of
+its divergence~$D_{\bm k} = {\bm k} \cdot {\bm j}_{\bm k}$
+and vorticity~$\Omega_{\bm k} = {\bm k} \times {\bm j}_{\bm k}$.
+This brings the distribution function to the following form:
+\begin{align}
+  f_{\bm k} = \frac{2i\gamma'}{\bm k^2} +
+  \frac{1}{\gamma - i {\bm k} \cdot {\bm v}}
+  \left[J_{\bm k}(\alpha) + \gamma \fplus{\rho}_{\bm k}
+  + \frac{2i\gamma' \gamma}{{\bm k}^2} \fplus{D}_{\bm k} 
+  + \frac{2\gamma'}{\bm k^2} \fplus{\Omega}_{\bm k} {\bm k} \times {\bm v}
+  \right]\ . 
+\end{align}
+Then, the self-consistent equations for the quantities
+$\rho_{\bm k}$, $D_{\bm k}$, and $\Omega_{\bm k}$  are
+derived by  weighting~$1$, ${\bm k} \cdot{\bm v}$ and ${\bm k}\times{\bm v}$
+respectively with this distribution function. This yields
+\begin{align}
+K_\rho({\bm k}) \fplus{\rho}_{\bm k}
++ \fminus{\rho}_{\bm k} &= \rho_\mathrm{direct}({\bm k})
++ \frac{2 i \gamma' \fplus{D}_{\bm k}}{k^2} K_\rho({\bm k}) \ , \\
+\fplus{D}_{\bm k} + \fminus{D}_{\bm k}
+&= -i \gamma \fminus{\rho}_{\bm k} + i \left\langle J_{\bm k}(\alpha)
+  \right\rangle \ , \\
+K_\Omega({\bm k}) \fplus{\Omega}_{\bm k}  + \fminus{\Omega}_{\bm k}
+= \Omega_\mathrm{direct}({\bm k})\ , 
+\end{align}
+where the terms~$ \rho_\mathrm{direct}({\bm k})$
+and~$\Omega_\mathrm{direct}({\bm k})$ represent the external
+sources, while the kernels~$K_\rho({\bm k})$ and~$K_\Omega({\bm k})$
+are given by
+\begin{align}
+  K_\rho({\bm k}) = 1 - \frac{\gamma}{\sqrt{\bm k}^2 + \gamma^2}\ ,
+  \qquad
+  K_\Omega({\bm k}) = 1 - \frac{2\gamma'}{{\bm k}^2}
+  \left(\sqrt{{\bm k}^2 + \gamma^2} - \gamma\right)\ . 
+\end{align}
+The source terms are given by
+\begin{align}
+  \rho_\mathrm{direct}({\bm k})
+  = \left\langle \frac{J_{\bm k}(\alpha)}{\gamma -i {\bm k}\cdot{\bm v}} \right\rangle
+  \ ,
+  \qquad
+  \Omega_\mathrm{direct}({\bm k}) =
+  \left\langle \frac{{\bm k}\times{\bm v} J_{\bm k}(\alpha)}{
+       \gamma -i {\bm k}\cdot{\bm v}} \right\rangle \ . 
+\end{align}
+Although the singular integral equations formally decouple the density
+from vorticity, they are implicitly related via the
+consistency condition:
+\begin{align}
+  D_{\bm k}(q = i_|k|) = i \sgn k \Omega_{\bm k}(q = i |k|)\ , 
+\end{align}
+where~$k$ and~$q$ are the components of~${\bm k} = (k, q)$. 
+
+Let us now develop the first-order perturbation theory in the field.
+To this end, we move the magnetic field term to the right-hand
+side, and replace the distribution function~$f$ by the first-order
+contribution:
+\begin{align}
+  (\gamma - i {\bm k} \cdot {\bm v})\delta f =
+  \gamma \delta \rho_{\bm k} + 2 \gamma' \delta{\bm j}_{\bm k}
+  \cdot {\bm v} + \omega_c \frac{\partial f}{\partial \alpha}\ ,
+\end{align}
+where the symbol~$\delta$ indicates the first-order correction
+to the respective quantities. One may formally treat the
+term proportional to~$\omega_c$ as an extra source and evaluate
+the respective contributions to~$\delta \rho_\mathrm{direct}$,
+and~$\delta \Omega_\mathrm{direct}$:
+\begin{align}
+  \delta \rho_\mathrm{direct}({\bm k})
+  = \omega_c \left\langle \frac{1}{\gamma  - i {\bm k}\cdot{\bm v}}
+     \frac{\partial f_{\bm k}}{\partial\alpha}
+  \right\rangle
+  \ ,
+  \qquad
+  \delta \Omega_\mathrm{direct}({\bm k})
+  = \omega_c \left\langle \frac{{\bm k}\times{\bm v}}{
+          \gamma  - i {\bm k}\cdot{\bm v}}
+     \frac{\partial f_{\bm k}}{\partial\alpha}
+  \right\rangle  \ .
+\end{align}
+By recalling that the averaging is performed by integrating over
+all propagation angles~$\alpha$, one may shift the derivative
+via integration by parts:
+\begin{align}
+  \delta \rho_\mathrm{direct}({\bm k})
+  = - \omega_c \left\langle f_{\bm k}(\alpha)
+  \frac{\partial}{\partial\alpha} \frac{1}{\gamma
+      - i {\bm k}\cdot{\bm \alpha}}
+  \right\rangle\ ,
+  \qquad
+  \delta \Omega_\mathrm{direct}({\bm k})
+  = - \omega_c \left\langle f_{\bm k}(\alpha)
+  \frac{\partial}{\partial\alpha} \frac{{\bm k}\times{\bm v}}{\gamma
+      - i {\bm k}\cdot{\bm \alpha}}
+  \right\rangle\ .
+\end{align}
+Since~$\partial_\alpha({\bm k}\cdot{\bm v}) = - {\bm k}\times{\bm v}$,
+and~$\partial_\alpha({\bm k}\times{\bm v}) =  {\bm k}\cdot{\bm v}$,
+we rewrite the extra sources in the form
+\begin{align}
+  \delta \rho_\mathrm{direct}({\bm k}) &= i \omega_c
+  \left\langle f_{\bm k} \frac{{\bm k}\times{\bm v}}{
+  (\gamma  - i {\bm k}\cdot{\bm v})^2} \right\rangle \ ,
+  \\
+  \delta \Omega_\mathrm{direct}({\bm k})
+  &= i \omega_c \left\langle f_{\bm k} \left(
+  \frac{\gamma^2 + {\bm k}^2}{(\gamma - i {\bm k}\cdot{\bm v})^2}
+  - \frac{\gamma}{\gamma - i {\bm k} \cdot{\bm v}}
+  \right)\right\rangle
+\end{align}
+We can now use the zeroth-order solution for~$f_{\bm k}$ given above.
+This results in several terms: those that involve unperturbed
+values of~$\rho_{\bm k}$, $D_{\bm k}$ and~$\Omega_{\bm k}$,
+and those that involve external sources. Let us begin with the
+intrinsic contributions.
+
+In performing the averages, one may use the following relations:
+\begin{align}
+  \left\langle
+  \frac{({\bm k}\times{\bm v})^2}{(\gamma - i {\bm k}\cdot{\bm v})^3}
+  \right\rangle =
+  \frac{{\bm k}^2}{2\left({\bm k}^2 + \gamma^2\right)^{3/2}}\
+  \ , 
+  \qquad
+  \left\langle                                                                
+  \frac{1}{(\gamma - i {\bm k}\cdot{\bm v})^3}    
+  \right\rangle = \frac{2\gamma^2 - {\bm k}^2}{
+  2 \left({\bm k}^2 + \gamma^2\right)^{5/2}} \\
+  \left\langle                                                                
+  \frac{1}{(\gamma - i {\bm k}\cdot{\bm v})^2}    
+  \right\rangle = \frac{\gamma}{
+   \left({\bm k}^2 + \gamma^2\right)^{3/2}} \ . 
+\end{align}
+These relations can be obtained by repeated differentiation
+of the integrals
+\begin{align}
+  \left\langle \frac{1}{\gamma - i {\bm k}\cdot{\bm v}} \right\rangle
+  = \frac{1}{\sqrt{\gamma^2 + {\bm k}^2}}\ ,
+  \left\langle \frac{({\bm k}\times{\bm v})^2}{
+  \gamma - i {\bm k}\cdot{\bm v}} \right\rangle
+  = \sqrt{\gamma^2 + {\bm k}^2} - \gamma \ .  
+\end{align}
+
+
+It is clear that~$\rho_{\bm k}$
+and~$D_{\bm k}$ do not contribute to~$ \delta \rho_\mathrm{direct}({\bm k})$.
+The contribution of the vorticity is given by
+\begin{align}
+  \delta \rho_{\mathrm{direct},\Omega}
+  = \frac{2i\gamma' \omega_c\fplus{\Omega}_{\bm k}}{{\bm k}^2} \left\langle
+  \frac{({\bm k}\times{\bm v})^2}{(\gamma - i {\bm k}\cdot{\bm v})^3}
+  \right\rangle
+  = \frac{i\omega_c \gamma'\fplus{\Omega}_{\bm k}}{
+       \left({\bm k}^2 + \gamma^2\right)^{3/2}} \ , 
+\end{align}
+Similarly, the contribution to the vorticity is given by
+\begin{align}
+  \delta\Omega_{\mathrm{direct}, \rho} =
+  \frac{-i \omega_c {\bm k}^2}{\left(\gamma^2 + {\bm k}^2\right)^{3/2}}
+  \left( - \frac{2i\gamma' \fplus{D}_{\bm k}}{{\bm k}^2}
+     + \gamma \fplus{\rho}_{\bm k}\right)\ . 
+\end{align}
+(One may also incorporate the isotropic part of the source,
+$\langle J_{\bm k}(\alpha) \rangle$ into the bracket on the
+right-hand side.)
+
+The contribution of the external sources,
+\begin{align}
+  \delta \rho_{\mathrm{direct},J}({\bm k}) &=
+  \left\langle \frac{J_{\bm k}(\alpha) ({\bm k}\times{\bm v})}{
+     (\gamma - i {\bm k}\cdot{\bm v})^3}\right\rangle\ , \\  
+  \delta \Omega_{\mathrm{direct},J}({\bm k}) &=
+    \left\langle J_{\bm k}(\alpha) \left[
+    \frac{\gamma^2 + {\bm k}^2}{(\gamma - i {\bm k}\cdot{\bm v})^3}
+   - \frac{\gamma}{\left(\gamma - i {\bm k} \cdot{\bm v}\right)^2}
+     \right]                                          
+     \right\rangle\ , 
+\end{align}
+is harder to evaluate, as it depends upon the distribution of
+the particles over angles.  We shall perform the analysis
+for the diffuse scattering contribution for which
+the source term is proportional to~$\sin\alpha$
+for~$0 < \alpha < \pi$. It is convenient to employ
+the master integral here:
+\begin{align}
+  F_m(k, q) = \int\limits_{0}^{\pi} \frac{1}{\gamma - i {\bm k} \cdot{\bm v}}
+  \frac{d\alpha}{2\pi}
+  = \frac{1}{\sqrt{k^2 + q^2 + \gamma^2}}
+  \left[1 + \frac{2i}{\pi} \log\frac{q + \sqrt{q^2 + k^2 + \gamma^2}}{
+      \sqrt{k^2 + \gamma^2}}\right]\ . 
+\end{align}
+(The master integral can be calculated e.g. via the substitution
+$u = \tan \alpha/2$.)
+For the contribution to the density, we write
+\begin{align}
+  F_{s, \rho}(k, q)
+  =  \int\limits_{0}^{\pi} \frac{\sin\alpha ({\bm k}\times{\bm v})}{
+  \left(\gamma - i {\bm k} \cdot {\bm v}\right)^3} \frac{d\alpha}{2\pi} \ . 
+\end{align}
+One may notice that the expression here can be integrated by parts,
+which brings it to the form
+\begin{align}
+  F_{s, \rho}(k, q) = \frac{i}{2} \int\frac{\cos\alpha}{
+                    \left(\gamma - i {\bm k} \cdot {\bm v}\right)^2}
+  \frac{d\alpha}{2\pi} \ , 
+\end{align}
+which can be expressed as a derivative of the master integral
+with respect to~$k$:
+\begin{align}
+  F_{s, \rho}(k, q) = -\frac{1}{2} \frac{\partial F_m}{\partial k}
+  = \frac{k}{4\sqrt{k^2 + q^2 + \gamma^2}}
+  \left[1 + \frac{2i}{\pi} \log(\ldots)
+   + \frac{2i}{\pi} \frac{q \sqrt{k^2 + q^2 + \gamma^2}}{k^2 + \gamma^2}
+  \right]\ . 
+\end{align}
+Similarly, we find that
+\begin{align}
+  F_{s, \omega} = \int\limits_{0}^{\pi}
+  \sin\alpha \left( \frac{\gamma^2 + {\bm k}^2}{
+          \left(\gamma - i {\bm k}\cdot{\bm v}\right)^3}
+  - \frac{\gamma}{ \left(\gamma - i {\bm k}\cdot{\bm v}\right)^2}
+  \right) \frac{d\alpha}{2\pi}
+  = \frac{i(\gamma^2 + k^2 + q^2)}{2}
+  \frac{\partial^2 F_m}{\partial\gamma \partial q}
+  + i \gamma \frac{\partial F_m}{\partial q}\ . 
+\end{align}
+An explicit calculation then yields
+\begin{align}
+  F_{s, \omega} =
+ \frac{i \gamma q}{(k^2 + q^2 + \gamma^2)^{3/2}}
+  \left[1 + \frac{2i}{\pi} \log \frac{q + \sqrt{k^2 + q^2 + \gamma^2}}{
+                          \sqrt{k^2 + \gamma^2}}
+  + \frac{2i}{\pi} \frac{q\sqrt{k^2 + q^2 + \gamma^2}}{k^2 + \gamma^2}
+  \right]\ . 
+\end{align}
+
+An isotropic injector is treated similarly.
+Its contribution to the density is given by
+\begin{align}
+  F_{I, \rho}(k, q) = \int\limits_{0}^{\pi} \frac{({\bm k}\times{\bm v})}{
+     \left(\gamma - i {\bm k} \cdot{\bm v}\right)^3} \frac{d\alpha}{2\pi}\ , 
+\end{align}
+where the integrand is in fact proportional to the derivative
+of~$(\gamma - i {\bm k}\cdot{\bm v})^{-2}$. Thus one finds
+a $q$-independent contribution:
+\begin{align}
+  F_{I, \rho}(k, q) = \frac{k\gamma}{\pi (k^2 + \gamma^2)^2}\ . 
+\end{align}
+The contribution to the vorticity,
+\begin{align}
+  F_{I, \omega} = \int\limits_{0}^{\pi} \left(
+  \frac{\gamma^2 + k^2 + q^2}{\left(\gamma - i {\bm k}\cdot{\bm v}\right)^3}
+  - \frac{\gamma}{\left(\gamma - i {\bm k}\cdot{\bm v}\right)^2}
+  \right)
+  \frac{d\alpha}{2\pi}\ , 
+\end{align}
+can again be expressed in terms of the derivatives of the master integral:
+\begin{align}
+  F_{I, \omega} = \frac{\gamma^2 + k^2 + q^2}{2}
+  \frac{\partial^2 F_m}{\partial \gamma^2}
+  + \gamma \frac{\partial F_m}{\partial\gamma}\ . 
+\end{align}
+Again, a straightforward calculation yields
+\begin{align}
+  F_{I, \omega} = -\frac{1}{4 \left(k^2 + q^2 + \gamma^2\right)}
+  \left[
+  \frac{k^2 + q^2}{\sqrt{k^2 + q^2 + \gamma^2}}
+  \left(
+  1 + \frac{2i}{\pi} \log\frac{q + \sqrt{k^2 + q^2 + \gamma^2}}{
+                           \sqrt{k^2 + \gamma^2}}
+  \right) \right. \\ \nonumber
+  - \left.\frac{2iq}{\pi} \frac{(q^2 + k^2)(\gamma^2 - k^2) + 2 \gamma^4}{
+  (k^2 + \gamma^2)^2}
+  \right]\ . 
+\end{align}
+These equations may look rather cumbersome, but they all share the same
+property: they define functions that are complex-analytic in the upper
+half-plane. (Indeed, all the poles in the denominator are at~$\Im q > 0$.)
+In fact, these expressions may be viewed as a solution of the
+Riemann-Hilbert problem for the respective integrals
+extended to the whole circle:
+\begin{align}
+  F_{I, \omega}(k, q) &= \left[\frac{-k^2 - q^2}{
+  \left(k^2 + q^2 + \gamma^2\right)^{3/2}}\right]^{+}\ , \\
+  F_{s, \rho}(k, q)
+  = \left[\frac{ik}{2\sqrt{k^2 + q^2 + \gamma^2}}\right]^{+}\ , 
+  \qquad
+  F_{s, \omega}(k, q) &= \left[\frac{q\gamma}{
+          \left(k^2 + q^2 + \gamma^2\right)^{3/2}}\right]^{+}\ . 
+\end{align}
+
+\textbf{Coefficient not checked!}
+
+\begin{thebibliography}{99}
+\bibitem{bib:momentum-relaxation} Ref to collision integral
+\bibitem{bib:wiener-hopf} Wiener-Hopf (Noble?)
+\bibitem{bib:Reuter-Sondheimer} Reuter-Sondheimer
+\bibitem{bib:Shytov-et-al} Shytov et al
+\bibitem{bib:Levitov-Falkovich} Levitov-Falkovich
+\bibitem{bib:Ilani} Scanning gate measurements: Ilani?
+\bibitem{bib:Bandurin} Vicinity resistance measurements.
+\bibitem{bib:Ensslin} Ensslin, scanning gate measurements
+\bibitem{bib:Measuring-Psi} Measuring psi: Levitov-Falkovich theorem,
+  Ilani's measurements
+\bibitem{bib:Gradstein} Gradstein and Ryzhik, the integral $log(x)/(x^2 + a^2)$
+\end{thebibliography}
+
+
+\end{document}
