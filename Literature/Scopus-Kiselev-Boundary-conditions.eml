@@ -1,0 +1,1703 @@
+Delivered-To: avshytov@gmail.com
+Received: by 2002:a05:7110:2021:b029:ec:a6b2:ec1f with SMTP id x1csp1455581gea;
+        Sat, 7 Aug 2021 18:53:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZgoGHhatX4LA85fOfRXQdIH2s3rEdjbq3Mm2trRHFP88riKggz6FxKAn8+vXhGzFSiU9i
+X-Received: by 2002:a37:6247:: with SMTP id w68mr17091062qkb.8.1628387628567;
+        Sat, 07 Aug 2021 18:53:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1628387628; cv=none;
+        d=google.com; s=arc-20160816;
+        b=CRrHdd1dWXpIo9lMK5yRnShOI6KN1PLqnFHMv3cV6AZPthCeAK8NPawm6TrLGkiJp2
+         LF8wY8GQsjtY2khMp7iLTuYnyE7p5vproEWnTVpsUm9VlXZKU7jplYxwESTj4LmEcdPa
+         FZWAEGWhkbn+tDMMpv8qOvPJ6LtEivW8ddlasVqTvCYUNvvlhRCfJd0Ew/jYTJMmKQPd
+         QFvMIC2Jl7EGvX6bKXtrmraiuTm2SvG8OugyyFHtyuL8KGtrA+/D21ZLNHykBPOBWQQr
+         qSk8o1ncX+skH5OmXbv0joP6dKx53Q6zRO1s+Io9T4Fm9sU7IxxqyqKIz7hNyiT77VQP
+         AsQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:content-transfer-encoding:mime-version:subject
+         :message-id:to:from:date:dkim-signature;
+        bh=VF0F1J4VrgH90tNpwrpR+aJlSaURe7T+E/AjCkMfD0k=;
+        b=xW0LgPylncpFwGQRrfri9iOPfr4wDdgHz1CzcA+7QtMHU6aKMWYpXGCyesRas2j7oT
+         LnjMgBjalU2/3qlr8GxyTNzx7wavmNadM2K7C7ySHgmlPLLJ0+fQfsGg7WRh4gO50dy4
+         kZhItgOpKC3PDMl27t0Ts9i9CZycGU39a22vsUFiuhE52pISsp1aMLDw6poYNqEvsSGR
+         zDAm3xcMZVFEH7QIQe+MYIcFx0AViiMhJoxMW+YpA/9MFm2Mc5qRNB3xpTUU+XQxNeg+
+         JXhdF1fB67SkcBh6d9W9asXS4ucSGt6TVaiufmrz28IUYSDOp1tM8yw0FAx8+gxpzBdl
+         kmjg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@amazonses.com header.s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug header.b=YorqjtDF;
+       spf=pass (google.com: domain of 0100017b23775391-f3270f1e-723f-4bfd-a64e-374b221f10a5-000000@amazonses.com designates 54.240.9.40 as permitted sender) smtp.mailfrom=0100017b23775391-f3270f1e-723f-4bfd-a64e-374b221f10a5-000000@amazonses.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=scopus.com
+Return-Path: <0100017b23775391-f3270f1e-723f-4bfd-a64e-374b221f10a5-000000@amazonses.com>
+Received: from a9-40.smtp-out.amazonses.com (a9-40.smtp-out.amazonses.com. [54.240.9.40])
+        by mx.google.com with ESMTPS id n19si1513001qtk.28.2021.08.07.18.53.48
+        for <avshytov@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Sat, 07 Aug 2021 18:53:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 0100017b23775391-f3270f1e-723f-4bfd-a64e-374b221f10a5-000000@amazonses.com designates 54.240.9.40 as permitted sender) client-ip=54.240.9.40;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@amazonses.com header.s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug header.b=YorqjtDF;
+       spf=pass (google.com: domain of 0100017b23775391-f3270f1e-723f-4bfd-a64e-374b221f10a5-000000@amazonses.com designates 54.240.9.40 as permitted sender) smtp.mailfrom=0100017b23775391-f3270f1e-723f-4bfd-a64e-374b221f10a5-000000@amazonses.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=scopus.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1628387628;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=qe4K87K2O9daCJybzDjUVL7rqaLOKLUjkgKMJjtOPfM=;
+	b=YorqjtDFJ+MlOieina7yp1uocW0e0QlDxeHmNFy4GFW5vFuQQOTDLlrTSEM+gIiN
+	UpVv625emfJLJoxrVuO1DuU8YnytczfHUhEJjMIcsTQyzMfaTbS8nIze5SLskra6QiS
+	Evz9gEv/0SR6WgN5I/FeAMuII+Uf+qDHCSgGZDZw=
+Date: Sun, 8 Aug 2021 01:53:47 +0000
+From: noreply@scopus.com
+To: avshytov@gmail.com
+Message-ID: <0100017b23775391-f3270f1e-723f-4bfd-a64e-374b221f10a5-000000@email.amazonses.com>
+Subject: Scopus: Kiselev Boundary conditions
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_102_864381283.1628387627868"
+Content-Transfer-Encoding: base64
+Feedback-ID: 1.us-east-1.vQAQHnqzTguZrBitp8/jJaEt/jSVhYkzPja/QyTq9mY=:AmazonSES
+X-SES-Outgoing: 2021.08.08-54.240.9.40
+
+------=_Part_102_864381283.1628387627868
+Content-Type: text/html;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+<style type=3D"text/css">
+=09=09=09body {font-family:Arial, verdana, helvetica, sans-serif; font-size=
+:75%; margin:0;}=20
+=09=09=09a:link{color:#0156aa;text-decoration:none;}
+            a:visited{color:#0156aa;}
+            a:hover{color:#0156aa;text-decoration:underline;}
+            a:focus{color:#0156aa;text-decoration:underline;}
+            a:active{color:#333333;text-decoration:underline;}    =20
+      =09=09.Bold {font-weight: bold}=20
+      =09=09.txtSmallest {font-size: .84em;}
+            .txtSmaller {font-size: .92em;}
+            .txtLarge {font-size: 1.09em;}
+            .txtLarger {font-size: 1.17em;}
+            .txtLargest {font-size: 1.35em;}
+            .txtRequired {font-size: 1.5em;}
+            .txtTitle {font-size: 1.75em;}
+=09=09=09.bg3 {background-color: #e8e8e8 !important;}
+=09=09=09.tableMbGr-T {border-top-width: 1px;border-right-width: 1px;=09bor=
+der-bottom-width: 1px;=09border-left-width: 1px;=09border-top-style: solid;=
+=09border-right-style: none;=09border-bottom-style: none;=09border-left-sty=
+le: none;=09border-top-color: #9b9b9b;}
+=09=09=09.tableMbWh-T {border-top-width: 1px;border-right-width: 1px;=09bor=
+der-bottom-width: 1px;=09border-left-width: 1px;=09border-top-style: solid;=
+=09border-right-style: none;=09border-bottom-style: none;=09border-left-sty=
+le: none;=09border-top-color: #d9d9d9;}
+=09=09=09.margin0 {margin:0px;}
+=09=09=09.txtRed {COLOR: #FF0000}
+      =09=09</style>
+</head>
+<body>
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0">
+<tr>
+<td valign=3D"top"><a href=3D"https://www.scopus.com/" target=3D"_blank"><i=
+mg src=3D"https://www.scopus.com/static/mail/images_R5/scopusLogoOrange.png=
+" class=3D"" border=3D"0" alt=3D"Select to go to the Scopus main search pag=
+e" title=3D"Select to go to the Scopus main search page"></a></td>
+</tr>
+</table>
+<h2 class=3D"txtTitle margin0">Recommended Documents on Scopus</h2>
+<p>Sent to you by:<a href=3D" mailto:A.Shytov@exeter.ac.uk">A.Shytov@exeter=
+.ac.uk</a>
+</p>
+<p>I thought you would find these documents on Scopus useful.</p>
+<span class=3D"txtLarger Bold">Documents<br>
+</span>
+<div style=3D"margin: 7px 0px 7px 0px">
+<div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div>
+<BR>
+<BR><!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://w=
+ww.w3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">1)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Valentinis, D.<sup>a</sup>  <sup>b</sup> , Zaanen,=
+ J.<sup>c</sup> , van der Marel, D.<sup>a</sup> </span><BR /><BR /><a href=
+=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-85103585213&amp;=
+origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record page"><=
+span class=3D"txtBold">Propagation of shear stress in strongly interacting =
+metallic Fermi liquids enhances transmission of terahertz radiation</span><=
+BR /></a><span class=3D"txt">(2021)&nbsp;<em>Scientific Reports</em>,&nbsp;=
+11&nbsp;(1),&nbsp;art. no.&nbsp;7105,&nbsp;.&nbsp;<BR /></span><BR /><span =
+class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1038/s41598-021-8=
+6356-2</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"><span clas=
+s=3D"txt"><BR /><sup>a</sup>&nbsp;Department of Quantum Matter Physics, Uni=
+versity of Geneva, 24 Quai Ernest-Ansermet, Geneva 4, 1211, Switzerland<BR =
+/><sup>b</sup>&nbsp;Institute for Theoretical Condensed Matter Physics, Kar=
+lsruhe Institute of Technology, Wolfgang-Gaede Stra&szlig;e 1, Karlsruhe, 7=
+6131, Germany<BR /><sup>c</sup>&nbsp;Institute-Lorentz for Theoretical Phys=
+ics, Leiden University, PO Box 9506, Leiden, 2300 RA, Netherlands<BR /></sp=
+an></div><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><B=
+R />Abstract<BR /></span><span class=3D"txt">A highlight of Fermi-liquid ph=
+enomenology, as explored in neutral 3He, is the observation that in the col=
+lisionless regime shear stress propagates as if one is dealing with the tra=
+nsverse phonon of a solid. The existence of this &ldquo;transverse zero sou=
+nd&rdquo; requires that the quasiparticle mass enhancement exceeds a critic=
+al value. Could such a propagating shear stress also exist in strongly corr=
+elated electron systems? Despite some noticeable differences with the neutr=
+al case in the Galilean continuum, we arrive at the verdict that transverse=
+ zero sound should be generic for mass enhancement higher than 3. We presen=
+t an experimental setup that should be exquisitely sensitive in this regard=
+: the transmission of terahertz radiation through a thin slab of heavy-ferm=
+ion material will be strongly enhanced at low temperature and accompanied b=
+y giant oscillations, which reflect the interference between light itself a=
+nd the &ldquo;material photon&rdquo; being the actual manifestation of tran=
+sverse zero sound in the charged Fermi liquid. &copy; 2021, The Author(s).<=
+/span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=
+=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords<=
+/span><BR /><span class=3D"txt">article,&nbsp;critical value,&nbsp;fermion,=
+&nbsp;low temperature,&nbsp;male,&nbsp;oscillation,&nbsp;phenomenology,&nbs=
+p;phonon,&nbsp;photon,&nbsp;shear stress,&nbsp;sound,&nbsp;terahertz radiat=
+ion</span><BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div cl=
+ass=3D"margin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px=
+ 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtB=
+old">Publisher:</span>&nbsp;<span class=3D"txt">Nature Research</span><BR /=
+></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">=
+20452322</span><BR /><span class=3D"txtBold">PubMed ID:&nbsp;</span><span c=
+lass=3D"txt">33782440</span><BR /><span class=3D"txtBold">Language of Origi=
+nal Document:&nbsp;</span><span class=3D"txt">English</span><BR /><span cla=
+ss=3D"txtBold">Abbreviated Source Title: </span><span class=3D"txt">Sci. Re=
+p.</span><BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span cla=
+ss=3D"txt">Article</span><BR /><span class=3D"txtBold">Publication Stage:&n=
+bsp;</span>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span cla=
+ss=3D"txt">Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">2)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Jaoui, A.<sup>a</sup>  <sup>b</sup> , Fauqu&eacute=
+;, B.<sup>a</sup> , Behnia, K.<sup>b</sup> </span><BR /><BR /><a href=3D"ht=
+tps://www.scopus.com/record/display.uri?eid=3D2-s2.0-85098932436&amp;origin=
+=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record page"><span c=
+lass=3D"txtBold">Thermal resistivity and hydrodynamics of the degenerate el=
+ectron fluid in antimony</span><BR /></a><span class=3D"txt">(2021)&nbsp;<e=
+m>Nature Communications</em>,&nbsp;12&nbsp;(1),&nbsp;art. no.&nbsp;195,&nbs=
+p;.&nbsp;<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span =
+class=3D"txt">10.1038/s41467-020-20420-9</span><BR /></div><div class=3D"ma=
+rgin: 0px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;JEIP, U=
+SR 3573 CNRS, Coll&egrave;ge de France, PSL Research University, 11, Place =
+Marcelin Berthelot, Paris Cedex 05, 75231, France<BR /><sup>b</sup>&nbsp;La=
+boratoire de Physique et Etude des Mat&eacute;riaux (CNRS/UPMC), Ecole Sup&=
+eacute;rieure de Physique et de Chimie Industrielles, 10 Rue Vauquelin, Par=
+is, 75005, France<BR /></span></div><div class=3D"margin: 0px 0px 13px 0px"=
+><span class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"txt">Det=
+ecting hydrodynamic fingerprints in the flow of electrons in solids constit=
+utes a dynamic field of investigation in contemporary condensed matter phys=
+ics. Most attention has been focused on the regime near the degeneracy temp=
+erature when the thermal velocity can present a spatially modulated profile=
+. Here, we report on the observation of a hydrodynamic feature in the flow =
+of quasi-ballistic degenerate electrons in bulk antimony. By scrutinizing t=
+he temperature dependence of thermal and electric resistivities, we detect =
+a size-dependent departure from the Wiedemann-Franz law, unexpected in the =
+momentum-relaxing picture of transport. This observation finds a natural ex=
+planation in the hydrodynamic picture, where upon warming, momentum-conserv=
+ing collisions reduce quadratically in temperature both viscosity and therm=
+al diffusivity. This effect has been established theoretically and experime=
+ntally in normal-state liquid 3He. The comparison of electrons in antimony =
+and fermions in 3He paves the way to a quantification of momentum-conservin=
+g fermion-fermion collision rate in different Fermi liquids. &copy; 2021, T=
+he Author(s).</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"></d=
+iv><div class=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">In=
+dex Keywords</span><BR /><span class=3D"txt">antimony; antimony,&nbsp;elect=
+rical resistivity,&nbsp;electron density,&nbsp;hydrodynamics,&nbsp;momentum=
+,&nbsp;spatial analysis; Article,&nbsp;chemical structure,&nbsp;comparative=
+ study,&nbsp;electric conductivity,&nbsp;electric current,&nbsp;electron,&n=
+bsp;fermion,&nbsp;heat tolerance,&nbsp;hydrodynamics,&nbsp;limit of quantit=
+ation,&nbsp;liquid,&nbsp;low temperature,&nbsp;surface property,&nbsp;tempe=
+rature dependence,&nbsp;thermal conductivity,&nbsp;thermal diffusivity,&nbs=
+p;viscosity</span><BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div=
+><div class=3D"margin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: =
+13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"><span class=
+=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"txt">Nature Research</sp=
+an><BR /></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=
+=3D"txt">20411723</span><BR /><span class=3D"txtBold">PubMed ID:&nbsp;</spa=
+n><span class=3D"txt">33420029</span><BR /><span class=3D"txtBold">Language=
+ of Original Document:&nbsp;</span><span class=3D"txt">English</span><BR />=
+<span class=3D"txtBold">Abbreviated Source Title: </span><span class=3D"txt=
+">Nat. Commun.</span><BR /><span class=3D"txtBold">Document Type:&nbsp;</sp=
+an><span class=3D"txt">Article</span><BR /><span class=3D"txtBold">Publicat=
+ion Stage:&nbsp;</span>Final<BR /><span class=3D"txtBold">Source:&nbsp;</sp=
+an><span class=3D"txt">Scopus</span><BR /><span class=3D"txt"></span><BR />=
+</td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">3)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Zakharov, V.A.<sup>a</sup> , Burmistrov, I.S.<sup>=
+b</sup>  <sup>c</sup> </span><BR /><BR /><a href=3D"https://www.scopus.com/=
+record/display.uri?eid=3D2-s2.0-85108029594&amp;origin=3Dresultslist" class=
+=3D"txtLarge Bold" title=3D"go to record page"><span class=3D"txtBold">Resi=
+dual bulk viscosity of a disordered two-dimensional electron gas</span><BR =
+/></a><span class=3D"txt">(2021)&nbsp;<em>Physical Review B</em>,&nbsp;103&=
+nbsp;(23),&nbsp;art. no.&nbsp;235305,&nbsp;.&nbsp;<BR /></span><BR /><span =
+class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1103/PhysRevB.103=
+.235305</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"><span cla=
+ss=3D"txt"><BR /><sup>a</sup>&nbsp;Skolkovo Institute of Science and Techno=
+logy, Moscow, 121205, Russian Federation<BR /><sup>b</sup>&nbsp;L. D. Landa=
+u Institute for Theoretical Physics, Acad. Semenova av. 1-a, Chernogolovka,=
+ 142432, Russian Federation<BR /><sup>c</sup>&nbsp;Laboratory for Condensed=
+ Matter Physics, Hse University, Moscow, 101000, Russian Federation<BR /></=
+span></div><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold">=
+<BR />Abstract<BR /></span><span class=3D"txt">Nonzero bulk viscosity signa=
+ls breaking of the scale invariance. We demonstrate that disorder in a two-=
+dimensional noninteracting electron gas in a perpendicular magnetic field r=
+esults in nonzero disorder-averaged bulk viscosity. We derive an analytic e=
+xpression for the bulk viscosity within the self-consistent Born approximat=
+ion. This residual bulk viscosity provides the lower bound for the bulk vis=
+cosity of 2D interacting electrons at low enough temperatures. &copy; 2021 =
+American Physical Society.</span><BR /></div><div class=3D"margin: 0px 0px =
+13px 0px"></div><div class=3D"margin: 0px 0px 13px 0px"><BR /><span class=
+=3D"txtBold">Index Keywords</span><BR /><span class=3D"txt">Viscosity; Anal=
+ytic expressions,&nbsp;Bulk viscosity,&nbsp;Interacting electrons,&nbsp;Low=
+er bounds,&nbsp;Noninteracting electrons,&nbsp;Perpendicular magnetic field=
+s,&nbsp;Scale invariance,&nbsp;Self-consistent Born approximation; Two dime=
+nsional electron gas</span><BR /></div><div class=3D"margin: 13px 0px 0px 0=
+px"></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR /><div class=3D=
+"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"><s=
+pan class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"txt">American P=
+hysical Society</span><BR /></div><BR /><span class=3D"txtBold">ISSN:&nbsp;=
+</span><span class=3D"txt">24699950</span><BR /><span class=3D"txtBold">Lan=
+guage of Original Document:&nbsp;</span><span class=3D"txt">English</span><=
+BR /><span class=3D"txtBold">Abbreviated Source Title: </span><span class=
+=3D"txt">Phys. Rev. B</span><BR /><span class=3D"txtBold">Document Type:&nb=
+sp;</span><span class=3D"txt">Article</span><BR /><span class=3D"txtBold">P=
+ublication Stage:&nbsp;</span>Final<BR /><span class=3D"txtBold">Source:&nb=
+sp;</span><span class=3D"txt">Scopus</span><BR /><span class=3D"txt"></span=
+><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">4)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Bazzanini, L.<sup>a</sup>  <sup>b</sup> , Gabbana,=
+ A.<sup>a</sup>  <sup>b</sup>  <sup>c</sup> , Simeoni, D.<sup>a</sup>  <sup=
+>b</sup>  <sup>d</sup>  <sup>e</sup> , Succi, S.<sup>f</sup>  <sup>g</sup> =
+, Tripiccione, R.<sup>a</sup>  <sup>b</sup> </span><BR /><BR /><a href=3D"h=
+ttps://www.scopus.com/record/display.uri?eid=3D2-s2.0-85100808175&amp;origi=
+n=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record page"><span =
+class=3D"txtBold">A Lattice Boltzmann Method for relativistic rarefied flow=
+s in (2+1) dimensions</span><BR /></a><span class=3D"txt">(2021)&nbsp;<em>J=
+ournal of Computational Science</em>,&nbsp;51,&nbsp;art. no.&nbsp;101320,&n=
+bsp;.&nbsp;<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><spa=
+n class=3D"txt">10.1016/j.jocs.2021.101320</span><BR /></div><div class=3D"=
+margin: 0px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Unive=
+rsit&agrave; di Ferrara, Ferrara, I-44122, Italy<BR /><sup>b</sup>&nbsp;INF=
+N-Ferrara, Italy<BR /><sup>c</sup>&nbsp;Eindhoven University of Technology,=
+ Eindhoven, 5600 MB, Netherlands<BR /><sup>d</sup>&nbsp;Bergische Universit=
+&auml;t Wuppertal, Wuppertal, D-42119, Germany<BR /><sup>e</sup>&nbsp;Unive=
+rsity of Cyprus, Nicosia, CY-1678, Cyprus<BR /><sup>f</sup>&nbsp;Center for=
+ Life Nano Science @ La Sapienza, Italian Institute of Technology, Viale Re=
+gina Elena 295, Roma, I-00161, Italy<BR /><sup>g</sup>&nbsp;Istituto Applic=
+azioni del Calcolo, National Research Council of Italy, Via dei Taurini 19,=
+ Roma, I-00185, Italy<BR /></span></div><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"txt"=
+>We propose an extension to recently developed Relativistic Lattice Boltzma=
+nn solvers (RLBM), which allows the simulation of flows close to the free s=
+treaming limit. Following previous works Ambru=C5=9F and Blaga (2018), we u=
+se product quadrature rules and select weights and nodes by separately disc=
+retizing the radial and the angular components. This procedure facilitates =
+the development of quadrature-based RLBM with increased isotropy levels, th=
+us improving the accuracy of the method for the simulation of flows beyond =
+the hydrodynamic regime. In order to quantify the improvement of this discr=
+etization procedure over existing methods, we perform numerical tests of sh=
+ock waves in one and two spatial dimensions in various kinetic regimes acro=
+ss the hydrodynamic and the free-streaming limits. &copy; 2021</span><BR />=
+</div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margin: 0=
+px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span><BR /><=
+span class=3D"txt">Hydrodynamics,&nbsp;Shock waves; Discretizations,&nbsp;H=
+ydrodynamic regime,&nbsp;Kinetic regime,&nbsp;Lattice boltzmann,&nbsp;Latti=
+ce Boltzmann method,&nbsp;Numerical tests,&nbsp;Quadrature rules,&nbsp;Spat=
+ial dimension; Numerical methods</span><BR /></div><div class=3D"margin: 13=
+px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR /><=
+div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px=
+ 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"txt=
+">Elsevier B.V.</span><BR /></div><BR /><span class=3D"txtBold">ISSN:&nbsp;=
+</span><span class=3D"txt">18777503</span><BR /><span class=3D"txtBold">Lan=
+guage of Original Document:&nbsp;</span><span class=3D"txt">English</span><=
+BR /><span class=3D"txtBold">Abbreviated Source Title: </span><span class=
+=3D"txt">J. Comput. Sci.</span><BR /><span class=3D"txtBold">Document Type:=
+&nbsp;</span><span class=3D"txt">Article</span><BR /><span class=3D"txtBold=
+">Publication Stage:&nbsp;</span>Final<BR /><span class=3D"txtBold">Source:=
+&nbsp;</span><span class=3D"txt">Scopus</span><BR /><span class=3D"txt"></s=
+pan><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">5)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Gusev, G.M.<sup>a</sup> , Jaroshevich, A.S.<sup>b<=
+/sup> , Levin, A.D.<sup>a</sup> , Kvon, Z.D.<sup>b</sup>  <sup>c</sup> , Ba=
+karov, A.K.<sup>b</sup>  <sup>c</sup> </span><BR /><BR /><a href=3D"https:/=
+/www.scopus.com/record/display.uri?eid=3D2-s2.0-85100669154&amp;origin=3Dre=
+sultslist" class=3D"txtLarge Bold" title=3D"go to record page"><span class=
+=3D"txtBold">Viscous magnetotransport and Gurzhi effect in bilayer electron=
+ system</span><BR /></a><span class=3D"txt">(2021)&nbsp;<em>Physical Review=
+ B</em>,&nbsp;103&nbsp;(7),&nbsp;art. no.&nbsp;075303,&nbsp;.&nbsp;<BR /></=
+span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.=
+1103/PhysRevB.103.075303</span><BR /></div><div class=3D"margin: 0px 0px 13=
+px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Instituto de F&iacute;s=
+ica da Universidade de S&atilde;o Paulo, S&atilde;o Paulo, S&atilde;o Paulo=
+, 135960-170, Brazil<BR /><sup>b</sup>&nbsp;Institute of Semiconductor Phys=
+ics, Novosibirsk, 630090, Russian Federation<BR /><sup>c</sup>&nbsp;Novosib=
+irsk State University, Novosibirsk, 630090, Russian Federation<BR /></span>=
+</div><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR /=
+>Abstract<BR /></span><span class=3D"txt">We observe a large negative magne=
+toresistance and a decrease of resistivity with increasing temperature, kno=
+wn as the Gurzhi effect, in a bilayer (BL) electron system formed by a wide=
+ GaAs quantum well. A hydrodynamic model for the single fluid transport par=
+ameters in narrow channels is employed and successfully describes our exper=
+imental findings. We find that the electron-electron scattering in the bila=
+yer is more intensive in comparison with a single-band well (SW). The hydro=
+dynamic assumption implies a strong dependence on boundary conditions, whic=
+h can be characterized by slip length, describing the behavior of a liquid =
+near the edge. Our results reveal that slip length in a BL is shorter than =
+in a SW, and that the BL system goes deeper into the hydrodynamic regime. T=
+his is in agreement with the model proposed where the slip length is of the=
+ order of the electron-electron mean free path. &copy; 2021 American Physic=
+al Society.</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"></div=
+><div class=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">Inde=
+x Keywords</span><BR /><span class=3D"txt">Electron scattering,&nbsp;Galliu=
+m arsenide,&nbsp;Hydrodynamics,&nbsp;III-V semiconductors,&nbsp;Semiconduct=
+or quantum wells; Electron mean free path,&nbsp;Electron-electron scatterin=
+g,&nbsp;GaAs quantum wells,&nbsp;Hydrodynamic model,&nbsp;Hydrodynamic regi=
+me,&nbsp;Increasing temperatures,&nbsp;Large negative magnetoresistance,&nb=
+sp;Strong dependences; Electrons</span><BR /></div><div class=3D"margin: 13=
+px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR /><=
+div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px=
+ 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"txt=
+">American Physical Society</span><BR /></div><BR /><span class=3D"txtBold"=
+>ISSN:&nbsp;</span><span class=3D"txt">24699950</span><BR /><span class=3D"=
+txtBold">Language of Original Document:&nbsp;</span><span class=3D"txt">Eng=
+lish</span><BR /><span class=3D"txtBold">Abbreviated Source Title: </span><=
+span class=3D"txt">Phys. Rev. B</span><BR /><span class=3D"txtBold">Documen=
+t Type:&nbsp;</span><span class=3D"txt">Article</span><BR /><span class=3D"=
+txtBold">Publication Stage:&nbsp;</span>Final<BR /><span class=3D"txtBold">=
+Source:&nbsp;</span><span class=3D"txt">Scopus</span><BR /><span class=3D"t=
+xt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">6)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Gorbar, E.V.<sup>a</sup> , Miransky, V.A.<sup>b</s=
+up> , Shovkovy, I.A.<sup>c</sup> , Sukhachov, P.O.<sup>b</sup>  <sup>d</sup=
+> </span><BR /><BR /><a href=3D"https://www.scopus.com/record/display.uri?e=
+id=3D2-s2.0-85101951946&amp;origin=3Dresultslist" class=3D"txtLarge Bold" t=
+itle=3D"go to record page"><span class=3D"txtBold">Electronic properties of=
+ dirac and weyl semimetals</span><BR /></a><span class=3D"txt">(2021)&nbsp;=
+<em>Electronic Properties of Dirac and Weyl Semimetals</em>,&nbsp;pp.&nbsp;=
+1-518.&nbsp;Cited 1 time.<BR /></span><BR /></div><div class=3D"margin: 0px=
+ 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Taras Shevchenko=
+ National Kiev University, Bogolyubov Institute for Theoretical Physics, Uk=
+raine<BR /><sup>b</sup>&nbsp;Western University, Canada<BR /><sup>c</sup>&n=
+bsp;Arizona State University, United States<BR /><sup>d</sup>&nbsp;Nordic I=
+nstitute for Theoretical Physics, Sweden<BR /></span></div><div class=3D"ma=
+rgin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<BR /></span>=
+<span class=3D"txt">The monograph reviews various aspects of electronic pro=
+perties of Dirac and Weyl semimetals. After a brief discussion of 2D Dirac =
+semimetals, a comprehensive review of 3D materials is given. The descriptio=
+n starts from an overview of the topological properties and symmetries of D=
+irac and Weyl semimetals. In addition, several low-energy models of Dirac a=
+nd Weyl quasiparticles are presented. The key ab initio approaches and mate=
+rial realizations are given. The monograph includes detailed discussions of=
+ the surface Fermi arcs, anomalous transport properties, and collective mod=
+es of Dirac and Weyl semimetals. Superconductivity in these materials is br=
+iefly addressed. &copy; 2021 by World Scientific Publishing Co. Pte. Ltd.</=
+span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=
+=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"=
+></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR /><div class=3D"ma=
+rgin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"><span=
+ class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"txt">World Scienti=
+fic Publishing Co.</span><BR /></div><BR /><BR /><span class=3D"txtBold">IS=
+BN:&nbsp;</span><span class=3D"txt">9789811207358</span><BR /><span class=
+=3D"txtBold">Language of Original Document:&nbsp;</span><span class=3D"txt"=
+>English</span><BR /><span class=3D"txtBold">Abbreviated Source Title: </sp=
+an><span class=3D"txt">Electronic Properties of Dirac and Weyl Semimetals</=
+span><BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span class=
+=3D"txt">Book</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;<=
+/span>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D=
+"txt">Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">7)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Kiselev, E.I.<sup>a</sup> , Schmalian, J.<sup>a</s=
+up>  <sup>b</sup> </span><BR /><BR /><a href=3D"https://www.scopus.com/reco=
+rd/display.uri?eid=3D2-s2.0-85099157308&amp;origin=3Dresultslist" class=3D"=
+txtLarge Bold" title=3D"go to record page"><span class=3D"txtBold">Nonlocal=
+ hydrodynamic transport and collective excitations in Dirac fluids</span><B=
+R /></a><span class=3D"txt">(2020)&nbsp;<em>Physical Review B</em>,&nbsp;10=
+2&nbsp;(24),&nbsp;art. no.&nbsp;245434,&nbsp;.&nbsp;Cited 2 times.<BR /></s=
+pan><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1=
+103/PhysRevB.102.245434</span><BR /></div><div class=3D"margin: 0px 0px 13p=
+x 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Institut f&uuml;r Theori=
+e der Kondensierten Materie, Karlsruher Institut f&uuml;r Technologie, Karl=
+sruhe, 76131, Germany<BR /><sup>b</sup>&nbsp;Institut f&uuml;r Quantenmater=
+ialien und Technologien, Karlsruher Institut f&uuml;r Technologie, Karlsruh=
+e, 76131, Germany<BR /></span></div><div class=3D"margin: 0px 0px 13px 0px"=
+><span class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"txt">We =
+study the response of a Dirac fluid to electric fields and thermal gradient=
+s at finite wave numbers and frequencies in the hydrodynamic regime. We fin=
+d that nonlocal transport in the hydrodynamic regime is governed by an infi=
+nite set of kinetic modes that describe noncollinear scattering events in d=
+ifferent angular harmonic channels. The scattering rates of these modes =CF=
+=84m-1 increase as m, where m labels the angular harmonics. In an earlier p=
+ublication, we pointed out that this dependence leads to anomalous, L&eacut=
+e;vy-flight-like phase space diffusion [Kiselev and Schmalian, Phys. Rev. L=
+ett. 123, 195302 (2019)10.1103/PhysRevLett.123.195302]. Here, we show how t=
+his surprisingly simple, nonanalytic dependence allows us to obtain exact e=
+xpressions for the nonlocal charge and electronic thermal conductivities. T=
+he peculiar dependence of the scattering rates on m also leads to a nontriv=
+ial structure of collective excitations: Besides the well-known plasmon, se=
+cond-sound, and diffusive modes, we find nondegenerate damped modes corresp=
+onding to excitations of higher angular harmonics. We use these results to =
+investigate the transport of a Dirac fluid through Poiseuille-type geometri=
+es of different widths and to study the response to surface acoustic waves =
+in graphene-piezoelectric devices. &copy; 2020 American Physical Society.</=
+span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=
+=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords<=
+/span><BR /><span class=3D"txt">Acoustic waves,&nbsp;Diffusion in liquids,&=
+nbsp;Electric fields,&nbsp;Electromagnetic wave scattering,&nbsp;Harmonic a=
+nalysis,&nbsp;Hydrodynamics,&nbsp;Phase space methods,&nbsp;Thermal conduct=
+ivity; Collective excitations,&nbsp;Electronic thermal conductivity,&nbsp;H=
+ydrodynamic regime,&nbsp;Hydrodynamic transport,&nbsp;Nonlocal transport,&n=
+bsp;Nontrivial structure,&nbsp;Scattering events,&nbsp;Surface acoustic wav=
+es; Acoustic wave scattering</span><BR /></div><div class=3D"margin: 13px 0=
+px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR /><div =
+class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px=
+ 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"txt">Am=
+erican Physical Society</span><BR /></div><BR /><span class=3D"txtBold">ISS=
+N:&nbsp;</span><span class=3D"txt">24699950</span><BR /><span class=3D"txtB=
+old">Language of Original Document:&nbsp;</span><span class=3D"txt">English=
+</span><BR /><span class=3D"txtBold">Abbreviated Source Title: </span><span=
+ class=3D"txt">Phys. Rev. B</span><BR /><span class=3D"txtBold">Document Ty=
+pe:&nbsp;</span><span class=3D"txt">Article</span><BR /><span class=3D"txtB=
+old">Publication Stage:&nbsp;</span>Final<BR /><span class=3D"txtBold">Sour=
+ce:&nbsp;</span><span class=3D"txt">Scopus</span><BR /><span class=3D"txt">=
+</span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">8)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Gusev, G.M.<sup>a</sup> , Jaroshevich, A.S.<sup>b<=
+/sup> , Levin, A.D.<sup>a</sup> , Kvon, Z.D.<sup>b</sup>  <sup>c</sup> , Ba=
+karov, A.K.<sup>b</sup> </span><BR /><BR /><a href=3D"https://www.scopus.co=
+m/record/display.uri?eid=3D2-s2.0-85084521362&amp;origin=3Dresultslist" cla=
+ss=3D"txtLarge Bold" title=3D"go to record page"><span class=3D"txtBold">St=
+okes flow around an obstacle in viscous two-dimensional electron liquid</sp=
+an><BR /></a><span class=3D"txt">(2020)&nbsp;<em>Scientific Reports</em>,&n=
+bsp;10&nbsp;(1),&nbsp;art. no.&nbsp;7860,&nbsp;.&nbsp;Cited 1 time.<BR /></=
+span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.=
+1038/s41598-020-64807-6</span><BR /></div><div class=3D"margin: 0px 0px 13p=
+x 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Instituto de F&iacute;si=
+ca da Universidade de S&atilde;o Paulo, S&atilde;o Paulo, SP  135960-170, B=
+razil<BR /><sup>b</sup>&nbsp;Institute of Semiconductor Physics, Novosibirs=
+k, 630090, Russian Federation<BR /><sup>c</sup>&nbsp;Novosibirsk State Univ=
+ersity, Novosibirsk, 630090, Russian Federation<BR /></span></div><div clas=
+s=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<BR />=
+</span><span class=3D"txt">The electronic analog of the Poiseuille flow is =
+the transport in a narrow channel with disordered edges that scatter electr=
+ons in a diffuse way. In the hydrodynamic regime, the resistivity decreases=
+ with temperature, referred to as the Gurzhi effect, distinct from conventi=
+onal Ohmic behaviour. We studied experimentally an electronic analog of the=
+ Stokes flow around a disc immersed in a two-dimensional viscous liquid. Th=
+e circle obstacle results in an additive contribution to resistivity. If sp=
+ecular boundary conditions apply, it is no longer possible to detect Poiseu=
+ille type flow and the Gurzhi effect. However, in flow through a channel wi=
+th a circular obstacle, the resistivity decreases with temperature. By tuni=
+ng the temperature, we observed the transport signatures of the ballistic a=
+nd hydrodynamic regimes on the length scale of disc size. Our experimental =
+results confirm theoretical predictions. &copy; 2020, The Author(s).</span>=
+<BR /></div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"mar=
+gin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span><=
+BR /><span class=3D"txt">article,&nbsp;hydrodynamics,&nbsp;prediction</span=
+><BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"ma=
+rgin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"=
+></div><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publ=
+isher:</span>&nbsp;<span class=3D"txt">Nature Research</span><BR /></div><B=
+R /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">20452322<=
+/span><BR /><span class=3D"txtBold">PubMed ID:&nbsp;</span><span class=3D"t=
+xt">32398774</span><BR /><span class=3D"txtBold">Language of Original Docum=
+ent:&nbsp;</span><span class=3D"txt">English</span><BR /><span class=3D"txt=
+Bold">Abbreviated Source Title: </span><span class=3D"txt">Sci. Rep.</span>=
+<BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt=
+">Article</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</spa=
+n>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt=
+">Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">9)&nbsp;</td><td align=3D"le=
+ft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px =
+0px"><span class=3D"txt">Pershoguba, S.S.<sup>a</sup>  <sup>b</sup> , Young=
+, A.F.<sup>c</sup> , Glazman, L.I.<sup>a</sup> </span><BR /><BR /><a href=
+=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-85092896787&amp;=
+origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record page"><=
+span class=3D"txtBold">Current distribution in a slit connecting two graphe=
+ne half planes</span><BR /></a><span class=3D"txt">(2020)&nbsp;<em>Physical=
+ Review B</em>,&nbsp;102&nbsp;(12),&nbsp;art. no.&nbsp;125404,&nbsp;.&nbsp;=
+<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"=
+txt">10.1103/PhysRevB.102.125404</span><BR /></div><div class=3D"margin: 0p=
+x 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Department of P=
+hysics, Yale University, New Haven, CT  06520, United States<BR /><sup>b</s=
+up>&nbsp;Department of Physics and Astronomy, University of New Hampshire, =
+Durham, NH  03824, United States<BR /><sup>c</sup>&nbsp;Department of Physi=
+cs, University of California, Santa Barbara, CA  93106, United States<BR />=
+</span></div><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold=
+"><BR />Abstract<BR /></span><span class=3D"txt">We investigate the joint e=
+ffect of viscous and Ohmic dissipation on electric current flow through a s=
+lit in a barrier dividing a graphene sheet in two. In the case of the no-sl=
+ip boundary condition, we find that the competition between the viscous and=
+ Ohmic types of the charge flow results in the evolution of the current den=
+sity profile from a concave to convex shape. We provide a detailed analysis=
+ of the evolution and identify favorable conditions to observe it in experi=
+ment. In contrast, in the case of the no-stress boundary condition, there i=
+s no qualitative difference between the current profiles in the Ohmic and v=
+iscous limits. The dichotomy between the behavior corresponding to distinct=
+ boundary conditions could be tested experimentally. &copy; 2020 American P=
+hysical Society.</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px">=
+</div><div class=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold"=
+>Index Keywords</span><BR /><span class=3D"txt">Boundary conditions,&nbsp;E=
+lectric currents; Current density profiles,&nbsp;Current distribution,&nbsp=
+;Electric current flow,&nbsp;Favorable conditions,&nbsp;No-slip boundary co=
+nditions,&nbsp;Qualitative differences,&nbsp;Stress boundary conditions,&nb=
+sp;Viscous and ohmic dissipations; Graphene</span><BR /></div><div class=3D=
+"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"></=
+div><BR /><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margi=
+n: 13px 0px 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<span c=
+lass=3D"txt">American Physical Society</span><BR /></div><BR /><span class=
+=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">24699950</span><BR /><sp=
+an class=3D"txtBold">Language of Original Document:&nbsp;</span><span class=
+=3D"txt">English</span><BR /><span class=3D"txtBold">Abbreviated Source Tit=
+le: </span><span class=3D"txt">Phys. Rev. B</span><BR /><span class=3D"txtB=
+old">Document Type:&nbsp;</span><span class=3D"txt">Article</span><BR /><sp=
+an class=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR /><span class=
+=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scopus</span><BR /><sp=
+an class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">10)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Danz, S.<sup>a</sup> , Titov, M.<sup>b</sup>  <su=
+p>c</sup> , Narozhny, B.N.<sup>a</sup>  <sup>d</sup> </span><BR /><BR /><a =
+href=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-85091982266&=
+amp;origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record pag=
+e"><span class=3D"txtBold">Giant nonlocality in nearly compensated two-dime=
+nsional semimetals</span><BR /></a><span class=3D"txt">(2020)&nbsp;<em>Phys=
+ical Review B</em>,&nbsp;102&nbsp;(8),&nbsp;art. no.&nbsp;081114,&nbsp;.&nb=
+sp;Cited 1 time.<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span=
+><span class=3D"txt">10.1103/PhysRevB.102.081114</span><BR /></div><div cla=
+ss=3D"margin: 0px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp=
+;Institut f&uuml;r Theorie der Kondensierten Materie, Karlsruhe Institute o=
+f Technology, Karlsruhe, 76128, Germany<BR /><sup>b</sup>&nbsp;Radboud Univ=
+ersity Nijmegen, Institute for Molecules and Materials, Nijmegen, NL-6525 A=
+J, Netherlands<BR /><sup>c</sup>&nbsp;Itmo University, St. Petersburg, 1971=
+01, Russian Federation<BR /><sup>d</sup>&nbsp;National Research Nuclear Uni=
+versity, MEPhI (Moscow Engineering Physics Institute), Moscow, 115409, Russ=
+ian Federation<BR /></span></div><div class=3D"margin: 0px 0px 13px 0px"><s=
+pan class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"txt">In com=
+pensated two-component systems in confined, two-dimensional geometries, non=
+local response may appear due to an external magnetic field. Within a pheno=
+menological two-fluid framework, we demonstrate the evolution of charge flo=
+w profiles and the emergence of a giant nonlocal pattern dominating charge =
+transport in a magnetic field. Applying our approach to the specific case o=
+f intrinsic graphene, we suggest a simple physical explanation for the expe=
+rimental observation of giant nonlocality. Our results provide an intuitive=
+ way to predict the outcome of future experiments exploring the rich physic=
+s of many-body electron systems in confined geometries as well as to design=
+ possible applications. &copy; 2020 American Physical Society.</span><BR />=
+</div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margin: 0=
+px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span><BR /><=
+span class=3D"txt">Charge flow,&nbsp;Confined geometries,&nbsp;Electron sys=
+tems,&nbsp;External magnetic field,&nbsp;Nonlocal response,&nbsp;Nonlocalit=
+ies,&nbsp;Two component systems,&nbsp;Two-dimensional geometry; Magnetic fi=
+elds</span><BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div c=
+lass=3D"margin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0p=
+x 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txt=
+Bold">Publisher:</span>&nbsp;<span class=3D"txt">American Physical Society<=
+/span><BR /></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span cla=
+ss=3D"txt">24699950</span><BR /><span class=3D"txtBold">Language of Origina=
+l Document:&nbsp;</span><span class=3D"txt">English</span><BR /><span class=
+=3D"txtBold">Abbreviated Source Title: </span><span class=3D"txt">Phys. Rev=
+. B</span><BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span cl=
+ass=3D"txt">Article</span><BR /><span class=3D"txtBold">Publication Stage:&=
+nbsp;</span>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span cl=
+ass=3D"txt">Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">11)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Levchenko, A.<sup>a</sup> , Schmalian, J.<sup>b</=
+sup>  <sup>c</sup> </span><BR /><BR /><a href=3D"https://www.scopus.com/rec=
+ord/display.uri?eid=3D2-s2.0-85086362545&amp;origin=3Dresultslist" class=3D=
+"txtLarge Bold" title=3D"go to record page"><span class=3D"txtBold">Transpo=
+rt properties of strongly coupled electron=E2=80=93phonon liquids</span><BR=
+ /></a><span class=3D"txt">(2020)&nbsp;<em>Annals of Physics</em>,&nbsp;419=
+,&nbsp;art. no.&nbsp;168218,&nbsp;.&nbsp;Cited 4 times.<BR /></span><BR /><=
+span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1016/j.aop.2=
+020.168218</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"><span =
+class=3D"txt"><BR /><sup>a</sup>&nbsp;Department of Physics, University of =
+Wisconsin&ndash;Madison, Madison, WI  53706, United States<BR /><sup>b</sup=
+>&nbsp;Institut f&uuml;r Theorie der Kondensierten Materie, Karlsruher Inst=
+itut f&uuml;r Technologie, Karlsruhe, D-76131, Germany<BR /><sup>c</sup>&nb=
+sp;Institut f&uuml;r Quantenmaterialien und Technologien, Karlsruher Instit=
+ut f&uuml;r Technologie, Karlsruhe, D-76021, Germany<BR /></span></div><div=
+ class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<=
+BR /></span><span class=3D"txt">In this work we consider the hydrodynamic b=
+ehavior of a coupled electron&ndash;phonon fluid, focusing on electronic tr=
+ansport under the conditions of strong phonon drag. This regime occurs when=
+ the rate of phonon equilibration due to e.g. umklapp scattering is much sl=
+ower than the rate of normal electron&ndash;phonon collisions. Then phonons=
+ and electrons form a coupled out-of-equilibrium state where the total quas=
+i-momentum of the electron&ndash;phonon fluid is conserved. A joint flow-ve=
+locity emerges as a collective hydrodynamic variable. We derive the equatio=
+n of motion for this fluid from the underlying microscopic kinetic theory a=
+nd elucidate its effective viscosity and thermal conductivity. In particula=
+r, we derive decay times of arbitrary harmonics of the distribution functio=
+n and reveal its corresponding super-diffusive relaxation on the Fermi surf=
+ace. We further consider several applications of this theory to magneto-tra=
+nsport properties in the Hall-bar and Corbino-disk geometries, relevant to =
+experiments. In our analysis we allow for general boundary conditions that =
+cover the crossover from no-slip to no-stress flows. Our approach also cove=
+rs a crossover from the Stokes to the Ohmic regime under the conditions of =
+the Gurzhi effect. In addition, we consider the frequency dependence of the=
+ surface impedance and non-equilibrium noise. For the latter, we notice tha=
+t in the diffusive regime, a Fokker&ndash;Planck approximation, applied to =
+the electron&ndash;phonon collision integral in the Eliashberg form, reduce=
+s it to a differential operator with Burgers type nonlinearity. As a result=
+, the non-equilibrium distribution function has a shock-wave structure in t=
+he energy domain. The consequence of this behavior for the Fano factor of t=
+he noise is investigated. In conclusion we discuss connections and limitati=
+ons of our results in the context of recent electron&ndash;phonon drag meas=
+urements in Dirac and Weyl semimetals, and layout directions for further ex=
+tensions and developments. &copy; 2020 Elsevier Inc.</span><BR /></div><div=
+ class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Author Ke=
+ywords<BR /></span><span class=3D"txt">Drag viscosity; &nbsp;Electron&ndash=
+;phonon scattering; &nbsp;Magnetotransport; &nbsp;Noise; &nbsp;Superdiffusi=
+on<BR /></span></div><div class=3D"margin: 0px 0px 13px 0px"></div><div cla=
+ss=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0p=
+x"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"=
+margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<s=
+pan class=3D"txt">Academic Press Inc.</span><BR /></div><BR /><span class=
+=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">00034916</span><BR /><sp=
+an class=3D"txtBold">CODEN:&nbsp;</span><span class=3D"txt">APNYA</span><BR=
+ /><span class=3D"txtBold">Language of Original Document:&nbsp;</span><span=
+ class=3D"txt">English</span><BR /><span class=3D"txtBold">Abbreviated Sour=
+ce Title: </span><span class=3D"txt">Ann. Phys.</span><BR /><span class=3D"=
+txtBold">Document Type:&nbsp;</span><span class=3D"txt">Article</span><BR /=
+><span class=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR /><span cl=
+ass=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scopus</span><BR />=
+<span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">12)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Ku, M.J.H.<sup>a</sup>  <sup>b</sup>  <sup>c</sup=
+>  <sup>n</sup> , Zhou, T.X.<sup>a</sup>  <sup>d</sup> , Li, Q.<sup>a</sup>=
+ , Shin, Y.J.<sup>a</sup>  <sup>e</sup> , Shi, J.K.<sup>a</sup> , Burch, C.=
+<sup>f</sup> , Anderson, L.E.<sup>a</sup> , Pierce, A.T.<sup>a</sup> , Xie,=
+ Y.<sup>a</sup>  <sup>g</sup> , Hamo, A.<sup>a</sup> , Vool, U.<sup>a</sup>=
+  <sup>h</sup> , Zhang, H.<sup>a</sup>  <sup>c</sup> , Casola, F.<sup>a</su=
+p>  <sup>c</sup> , Taniguchi, T.<sup>i</sup> , Watanabe, K.<sup>i</sup> , F=
+ogler, M.M.<sup>j</sup> , Kim, P.<sup>a</sup>  <sup>d</sup> , Yacoby, A.<su=
+p>a</sup>  <sup>d</sup> , Walsworth, R.L.<sup>a</sup>  <sup>b</sup>  <sup>c=
+</sup>  <sup>k</sup>  <sup>l</sup>  <sup>m</sup> </span><BR /><BR /><a href=
+=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-85088359259&amp;=
+origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record page"><=
+span class=3D"txtBold">Imaging viscous flow of the Dirac fluid in graphene<=
+/span><BR /></a><span class=3D"txt">(2020)&nbsp;<em>Nature</em>,&nbsp;583&n=
+bsp;(7817),&nbsp;pp.&nbsp;537-541.&nbsp;Cited 28 times.<BR /></span><BR /><=
+span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1038/s41586-=
+020-2507-2</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"><span =
+class=3D"txt"><BR /><sup>a</sup>&nbsp;Department of Physics, Harvard Univer=
+sity, Cambridge, MA, United States<BR /><sup>b</sup>&nbsp;Quantum Technolog=
+y Center, University of Maryland, College Park, MD, United States<BR /><sup=
+>c</sup>&nbsp;Harvard-Smithsonian Center for Astrophysics, Cambridge, MA, U=
+nited States<BR /><sup>d</sup>&nbsp;John A. Paulson School of Engineering a=
+nd Applied Sciences, Harvard University, Cambridge, MA, United States<BR />=
+<sup>e</sup>&nbsp;Center for Functional Nanomaterials, Brookhaven National =
+Laboratory, Upton, NY, United States<BR /><sup>f</sup>&nbsp;Harvard College=
+, Harvard University, Cambridge, MA, United States<BR /><sup>g</sup>&nbsp;D=
+epartment of Physics, Massachusetts Institute of Technology, Cambridge, MA,=
+ United States<BR /><sup>h</sup>&nbsp;John Harvard Distinguished Science Fe=
+llows Program, Harvard University, Cambridge, MA, United States<BR /><sup>i=
+</sup>&nbsp;National Institute for Materials Science, Tsukuba, Japan<BR /><=
+sup>j</sup>&nbsp;Department of Physics, University of California, San Diego=
+, La Jolla, CA, United States<BR /><sup>k</sup>&nbsp;Center for Brain Scien=
+ce, Harvard University, Cambridge, MA, United States<BR /><sup>l</sup>&nbsp=
+;Department of Physics, University of Maryland, College Park, MD, United St=
+ates<BR /><sup>m</sup>&nbsp;Department of Electrical and Computer Engineeri=
+ng, University of Maryland, College Park, MD, United States<BR /><sup>n</su=
+p>&nbsp;Department of Physics and Astronomy, University of Delaware, Newark=
+, DE, United States<BR /></span></div><div class=3D"margin: 0px 0px 13px 0p=
+x"><span class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"txt">T=
+he electron&ndash;hole plasma in charge-neutral graphene is predicted to re=
+alize a quantum critical system in which electrical transport features a un=
+iversal hydrodynamic description, even at room temperature1,2. This quantum=
+ critical &lsquo;Dirac fluid&rsquo; is expected to have a shear viscosity c=
+lose to a minimum bound3,4, with an interparticle scattering rate saturatin=
+g1 at the Planckian time,&nbsp;the shortest possible timescale for particle=
+s to relax. Although electrical transport measurements at finite carrier de=
+nsity are consistent with hydrodynamic electron flow in graphene5&ndash;8, =
+a clear demonstration of viscous flow at the charge-neutrality point remain=
+s elusive. Here we directly image viscous Dirac fluid flow in graphene at r=
+oom temperature by measuring the associated stray magnetic field. Nanoscale=
+ magnetic imaging is performed using quantum spin magnetometers realized wi=
+th nitrogen vacancy centres in diamond. Scanning single-spin and wide-field=
+ magnetometry reveal a parabolic Poiseuille profile for electron flow in a =
+high-mobility graphene channel near the charge-neutrality point, establishi=
+ng the viscous transport of the Dirac fluid. This measurement is in contras=
+t to the conventional uniform flow profile imaged in a metallic conductor a=
+nd also in a low-mobility graphene channel. Via combined imaging and transp=
+ort measurements, we obtain viscosity and scattering rates, and observe tha=
+t these quantities are comparable to the universal values expected at quant=
+um criticality. This finding establishes a nearly ideal electron fluid in c=
+harge-neutral, high-mobility graphene at room temperature4. Our results wil=
+l enable the study of hydrodynamic transport in quantum critical fluids rel=
+evant to strongly correlated electrons in high-temperature superconductors9=
+. This work also highlights the capability of quantum spin magnetometers to=
+ probe correlated electronic phenomena at the nanoscale. &copy; 2020, The A=
+uthor(s), under exclusive licence to Springer Nature Limited.</span><BR /><=
+/div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margin: 0p=
+x 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span><BR /><s=
+pan class=3D"txt">diamond,&nbsp;graphene,&nbsp;nitrogen,&nbsp;polycaprolact=
+one,&nbsp;silicon dioxide; hydrodynamics,&nbsp;imaging method,&nbsp;magneti=
+c field,&nbsp;magnetometer,&nbsp;scattering,&nbsp;temperature effect,&nbsp;=
+viscous flow; Article,&nbsp;atomic force microscopy,&nbsp;electron transpor=
+t,&nbsp;fluid flow,&nbsp;Fourier transform,&nbsp;frequency modulation,&nbsp=
+;hydrodynamics,&nbsp;magnetic field,&nbsp;magnetometry,&nbsp;nanofabricatio=
+n,&nbsp;nuclear magnetic resonance spectroscopy,&nbsp;photoluminescence,&nb=
+sp;priority journal,&nbsp;viscosity</span><BR /></div><div class=3D"margin:=
+ 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR =
+/><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px =
+0px 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"=
+txt">Nature Research</span><BR /></div><BR /><span class=3D"txtBold">ISSN:&=
+nbsp;</span><span class=3D"txt">00280836</span><BR /><span class=3D"txtBold=
+">CODEN:&nbsp;</span><span class=3D"txt">NATUA</span><BR /><span class=3D"t=
+xtBold">PubMed ID:&nbsp;</span><span class=3D"txt">32699401</span><BR /><sp=
+an class=3D"txtBold">Language of Original Document:&nbsp;</span><span class=
+=3D"txt">English</span><BR /><span class=3D"txtBold">Abbreviated Source Tit=
+le: </span><span class=3D"txt">Nature</span><BR /><span class=3D"txtBold">D=
+ocument Type:&nbsp;</span><span class=3D"txt">Article</span><BR /><span cla=
+ss=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR /><span class=3D"txt=
+Bold">Source:&nbsp;</span><span class=3D"txt">Scopus</span><BR /><span clas=
+s=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">13)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Danz, S.<sup>a</sup> , Narozhny, B.N.<sup>a</sup>=
+  <sup>b</sup> </span><BR /><BR /><a href=3D"https://www.scopus.com/record/=
+display.uri?eid=3D2-s2.0-85085269482&amp;origin=3Dresultslist" class=3D"txt=
+Large Bold" title=3D"go to record page"><span class=3D"txtBold">Vorticity o=
+f viscous electronic flow in graphene</span><BR /></a><span class=3D"txt">(=
+2020)&nbsp;<em>2D Materials</em>,&nbsp;7&nbsp;(3),&nbsp;art. no.&nbsp;03500=
+1,&nbsp;.&nbsp;Cited 6 times.<BR /></span><BR /><span class=3D"txtBold">DOI=
+:&nbsp;</span><span class=3D"txt">10.1088/2053-1583/ab7bfa</span><BR /></di=
+v><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a<=
+/sup>&nbsp;Institut f&uuml;r Theorie der Kondensierten Materie, Karlsruhe I=
+nstitute of Technology, Karlsruhe, 76128, Germany<BR /><sup>b</sup>&nbsp;Na=
+tional Research Nuclear University MEPhI (Moscow Engineering Physics Instit=
+ute), Moscow, 115409, Russian Federation<BR /></span></div><div class=3D"ma=
+rgin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<BR /></span>=
+<span class=3D"txt">In ultra-pure materials electrons may exhibit a collect=
+ive motion similar to the hydrodynamic flow of a viscous fluid, the phenome=
+non with far reaching consequences in a wide range of many body systems fro=
+m black holes to high-temperature superconductivity. Yet the definitive det=
+ection of this intriguing behavior remains elusive. Until recently, experim=
+ental techniques for observing hydrodynamic behavior in solids were based o=
+n measuring macroscopic transport properties, such as the 'nonlocal' (or 'v=
+icinity') resistance, which may allow alternative interpretation. Earlier t=
+his year two breakthrough experiments demonstrated two distinct imaging tec=
+hniques making it possible to 'observe' the electronic flow directly. We de=
+monstrate that a hydrodynamic flow in a long Hall bar (in the absence of ma=
+gnetic field) exhibits a nontrivial vortex structure accompanied by a sign-=
+alternating nonlocal resistance. An experimental observation of such unique=
+ flow pattern could serve a definitive proof of electronic hydrodynamics. &=
+copy; 2020 IOP Publishing Ltd.</span><BR /></div><div class=3D"margin: 0px =
+0px 13px 0px"><span class=3D"txtBold"><BR />Author Keywords<BR /></span><sp=
+an class=3D"txt">electronic hydordynamics; &nbsp;graphene; &nbsp;nonlocal r=
+esistance; &nbsp;viscosity; &nbsp;vorticity; &nbsp;whirlpools<BR /></span><=
+/div><div class=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">=
+Index Keywords</span><BR /><span class=3D"txt">Flow patterns,&nbsp;Hydrodyn=
+amics,&nbsp;Imaging techniques,&nbsp;Magnetic fields; Breakthrough experime=
+nt,&nbsp;Collective motions,&nbsp;Experimental techniques,&nbsp;High-temper=
+ature superconductivity,&nbsp;Hydrodynamic behavior,&nbsp;Hydrodynamic flow=
+s,&nbsp;Macroscopic transport,&nbsp;Ultrapure materials; Graphene</span><BR=
+ /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin=
+: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"></d=
+iv><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publishe=
+r:</span>&nbsp;<span class=3D"txt">IOP Publishing Ltd</span><BR /></div><BR=
+ /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">20531583</=
+span><BR /><span class=3D"txtBold">Language of Original Document:&nbsp;</sp=
+an><span class=3D"txt">English</span><BR /><span class=3D"txtBold">Abbrevia=
+ted Source Title: </span><span class=3D"txt">2D Materials</span><BR /><span=
+ class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt">Article</=
+span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR =
+/><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scopus</s=
+pan><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">14)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Hui, A.<sup>a</sup> , Lederer, S.<sup>b</sup> , O=
+ganesyan, V.<sup>c</sup>  <sup>d</sup> , Kim, E.-A.<sup>b</sup> </span><BR =
+/><BR /><a href=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-8=
+5083232568&amp;origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to=
+ record page"><span class=3D"txtBold">Quantum aspects of hydrodynamic trans=
+port from weak electron-impurity scattering</span><BR /></a><span class=3D"=
+txt">(2020)&nbsp;<em>Physical Review B</em>,&nbsp;101&nbsp;(12),&nbsp;art. =
+no.&nbsp;121107,&nbsp;.&nbsp;Cited 1 time.<BR /></span><BR /><span class=3D=
+"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1103/PhysRevB.101.121107<=
+/span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"tx=
+t"><BR /><sup>a</sup>&nbsp;School of Applied and Engineering Physics, Corne=
+ll University, Ithaca, NY  14853, United States<BR /><sup>b</sup>&nbsp;Depa=
+rtment of Physics, Cornell University, Ithaca, NY  14853, United States<BR =
+/><sup>c</sup>&nbsp;Department of Physics and Astronomy, College of Staten =
+Island, CUNY, Staten Island, NY  10314, United States<BR /><sup>d</sup>&nbs=
+p;Physics Program and Initiative for the Theoretical Sciences, Graduate Cen=
+ter, CUNY, New York, NY  10016, United States<BR /></span></div><div class=
+=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<BR /><=
+/span><span class=3D"txt">Recent experimental observations of apparently hy=
+drodynamic electronic transport have generated much excitement. However, th=
+e understanding of the observed nonlocal transport (whirlpool) effects and =
+parabolic (Poiseuille-like) current profiles has largely been motivated by =
+a phenomenological analogy to classical fluids. This is due to difficulty i=
+n incorporating strong correlations in quantum mechanical calculation of tr=
+ansport, which has been the primary angle for interpreting the apparently h=
+ydrodynamic transport. Here we demonstrate that even free-fermion systems, =
+in the presence of (inevitable) disorder, exhibit nonlocal conductivity eff=
+ects such as those observed in experiments because of the fermionic system'=
+s long-range entangled nature. On the basis of explicit calculations of the=
+ conductivity at finite wave vector, =CF=83(q), for selected weakly disorde=
+red free-fermion systems, we propose experimental strategies for demonstrat=
+ing distinctive quantum effects in nonlocal transport at odds with the expe=
+ctations of classical kinetic theory. Our results imply that the observatio=
+n of whirlpools or other "hydrodynamic" effects does not guarantee the domi=
+nance of electron-electron scattering over electron-impurity scattering. &c=
+opy; 2020 American Physical Society.</span><BR /></div><div class=3D"margin=
+: 0px 0px 13px 0px"></div><div class=3D"margin: 0px 0px 13px 0px"><BR /><sp=
+an class=3D"txtBold">Index Keywords</span><BR /><span class=3D"txt">Berylli=
+um minerals,&nbsp;Electron scattering,&nbsp;Electrons,&nbsp;Hydrodynamics,&=
+nbsp;Quantum chemistry,&nbsp;Quantum theory; Electron-electron scattering,&=
+nbsp;Electronic transport,&nbsp;Experimental strategy,&nbsp;Fermionic syste=
+ms,&nbsp;Hydrodynamic transport,&nbsp;Nonlocal transport,&nbsp;Quantum-mech=
+anical calculation,&nbsp;Strong correlation; Transport properties</span><BR=
+ /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin=
+: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"></d=
+iv><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publishe=
+r:</span>&nbsp;<span class=3D"txt">American Physical Society</span><BR /></=
+div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">246=
+99950</span><BR /><span class=3D"txtBold">Language of Original Document:&nb=
+sp;</span><span class=3D"txt">English</span><BR /><span class=3D"txtBold">A=
+bbreviated Source Title: </span><span class=3D"txt">Phys. Rev. B</span><BR =
+/><span class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt">Ar=
+ticle</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span>Fi=
+nal<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Sc=
+opus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">15)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Zarembo, K.<sup>a</sup>  <sup>b</sup>  <sup>c</su=
+p> </span><BR /><BR /><a href=3D"https://www.scopus.com/record/display.uri?=
+eid=3D2-s2.0-85078471038&amp;origin=3Dresultslist" class=3D"txtLarge Bold" =
+title=3D"go to record page"><span class=3D"txtBold">Joule=E2=80=94Thomson C=
+ooling in Graphene</span><BR /></a><span class=3D"txt">(2020)&nbsp;<em>JETP=
+ Letters</em>,&nbsp;111&nbsp;(3),&nbsp;pp.&nbsp;157-161.&nbsp;Cited 1 time.=
+<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"=
+txt">10.1134/S0021364020030030</span><BR /></div><div class=3D"margin: 0px =
+0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Nordita, Kungliga=
+ Tekniska H&ouml;gskolan Royal Institute of Technology and Stockholm Univer=
+sity, Stockholm, SE-106 91, Sweden<BR /><sup>b</sup>&nbsp;Niels Bohr Instit=
+ute, Copenhagen University, Copenhagen, 2100, Denmark<BR /><sup>c</sup>&nbs=
+p;Institute for Theoretical and Experimental Physics, National Research Cen=
+ter Kurchatov Institute, Moscow, 117218, Russian Federation<BR /></span></d=
+iv><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Ab=
+stract<BR /></span><span class=3D"txt">Electrons in graphene exhibit hydrod=
+ynamic behavior in a certain range of temperatures. We indicate that in thi=
+s regime electric current can result in cooling of electron fluid due to th=
+e Joule&mdash;Thomson effect. Cooling occurs in the Fermi-liquid regime, wh=
+ile for the Dirac fluid the effect results in heating. &copy; 2020, Pleiade=
+s Publishing, Inc.</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px=
+"></div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margin:=
+ 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR =
+/><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px =
+0px 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"=
+txt">Pleiades Publishing</span><BR /></div><BR /><span class=3D"txtBold">IS=
+SN:&nbsp;</span><span class=3D"txt">00213640</span><BR /><span class=3D"txt=
+Bold">Language of Original Document:&nbsp;</span><span class=3D"txt">Englis=
+h</span><BR /><span class=3D"txtBold">Abbreviated Source Title: </span><spa=
+n class=3D"txt">JETP Lett.</span><BR /><span class=3D"txtBold">Document Typ=
+e:&nbsp;</span><span class=3D"txt">Article</span><BR /><span class=3D"txtBo=
+ld">Publication Stage:&nbsp;</span>Final<BR /><span class=3D"txtBold">Sourc=
+e:&nbsp;</span><span class=3D"txt">Scopus</span><BR /><span class=3D"txt"><=
+/span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">16)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Matthaiakakis, I., Rodr&iacute;guez Fern&aacute;n=
+dez, D., Tutschku, C., Hankiewicz, E.M., Erdmenger, J., Meyer, R.</span><BR=
+ /><BR /><a href=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-=
+85078456343&amp;origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go t=
+o record page"><span class=3D"txtBold">Functional dependence of Hall viscos=
+ity induced transverse voltage in two-dimensional Fermi liquids</span><BR /=
+></a><span class=3D"txt">(2020)&nbsp;<em>Physical Review B</em>,&nbsp;101&n=
+bsp;(4),&nbsp;art. no.&nbsp;045423,&nbsp;.&nbsp;Cited 4 times.<BR /></span>=
+<BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1103/=
+PhysRevB.101.045423</span><BR /></div><div class=3D"margin: 0px 0px 13px 0p=
+x"><span class=3D"txt"><BR />Institute for Theoretical Physics and Astrophy=
+sics, W&uuml;rzburg-Dresden Cluster of Excellence Ct.qmat, Julius-Maximilia=
+ns-Universit&auml;t W&uuml;rzburg, W&uuml;rzburg, 97074, Germany<BR /></spa=
+n></div><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR=
+ />Abstract<BR /></span><span class=3D"txt">The breaking of parity and time=
+-reversal symmetry in two-dimensional Fermi liquids gives rise to nondissip=
+ative transport features characterized by the Hall viscosity. In magnetic f=
+ields, the Hall viscous force directly competes with the Lorentz force, sin=
+ce both mechanisms contribute to the Hall voltage. In this paper, we presen=
+t a channel geometry that allows us to uniquely distinguish these two contr=
+ibutions and derive their functional dependency on all external parameters.=
+ We show that the ratio of the Hall viscous to the Lorentz force contributi=
+on is negative and that its modulus decreases with increasing width, slip l=
+ength, and carrier density, while it increases with the electron-electron m=
+ean free path of our channel. In typical materials such as GaAs the Hall vi=
+scous contribution can dominate the Lorentz signal up to a few tens of mill=
+itesla until the total Hall voltage vanishes and subsequently is overcome b=
+y the Lorentz contribution. Moreover, we prove that the total Hall electric=
+ field is parabolic due to Lorentz effects, whereas the offset of this para=
+bola is characterized by the Hall viscosity. Hence, our results pave the wa=
+y to measure and identify the Hall viscosity via both global and local volt=
+age measurements. &copy; 2020 American Physical Society.</span><BR /></div>=
+<div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margin: 0px 0px=
+ 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span><BR /><span c=
+lass=3D"txt">Electric fields,&nbsp;Fermi liquids,&nbsp;Fermions,&nbsp;Galli=
+um arsenide,&nbsp;III-V semiconductors,&nbsp;Lorentz force; Channel geometr=
+y,&nbsp;Electron mean free path,&nbsp;Functional dependence,&nbsp;Functiona=
+l dependency,&nbsp;Hall electric field,&nbsp;Time reversal symmetries,&nbsp=
+;Two-dimensional fermi liquids,&nbsp;Viscous contributions; Viscosity</span=
+><BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"ma=
+rgin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"=
+></div><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publ=
+isher:</span>&nbsp;<span class=3D"txt">American Physical Society</span><BR =
+/></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt"=
+>24699950</span><BR /><span class=3D"txtBold">Language of Original Document=
+:&nbsp;</span><span class=3D"txt">English</span><BR /><span class=3D"txtBol=
+d">Abbreviated Source Title: </span><span class=3D"txt">Phys. Rev. B</span>=
+<BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt=
+">Article</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</spa=
+n>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt=
+">Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">17)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Holder, T.<sup>a</sup> , Queiroz, R.<sup>a</sup> =
+, Scaffidi, T.<sup>b</sup> , Silberstein, N.<sup>a</sup> , Rozen, A.<sup>a<=
+/sup> , Sulpizio, J.A.<sup>a</sup> , Ella, L.<sup>a</sup> , Ilani, S.<sup>a=
+</sup> , Stern, A.<sup>a</sup> </span><BR /><BR /><a href=3D"https://www.sc=
+opus.com/record/display.uri?eid=3D2-s2.0-85077497386&amp;origin=3Dresultsli=
+st" class=3D"txtLarge Bold" title=3D"go to record page"><span class=3D"txtB=
+old">Ballistic and hydrodynamic magnetotransport in narrow channels</span><=
+BR /></a><span class=3D"txt">(2019)&nbsp;<em>Physical Review B</em>,&nbsp;1=
+0&nbsp;(24),&nbsp;art. no.&nbsp;245305,&nbsp;.&nbsp;Cited 10 times.<BR /></=
+span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.=
+1103/PhysRevB.100.245305</span><BR /></div><div class=3D"margin: 0px 0px 13=
+px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Department of Condensed=
+ Matter Physics, Weizmann Institute of Science, Rehovot, 7610001, Israel<BR=
+ /><sup>b</sup>&nbsp;Department of Physics, University of California, Berke=
+ley, CA  94720, United States<BR /></span></div><div class=3D"margin: 0px 0=
+px 13px 0px"><span class=3D"txtBold"><BR />Abstract<BR /></span><span class=
+=3D"txt">An increasing number of low carrier density materials exhibit a su=
+rprisingly large transport mean-free path due to inefficient momentum relax=
+ation. Consequently, charge transport in these systems is markedly non-Ohmi=
+c but rather ballistic or hydrodynamic, features which can be explored by d=
+riving current through narrow channels. Using a kinetic equation approach, =
+we theoretically investigate how a nonquantizing magnetic field discerns ba=
+llistic and hydrodynamic transport, in particular in the spatial dependence=
+ of the transverse electric field Ey: we find that Ey is locally enhanced w=
+hen the flow exhibits a sharp directional anisotropy in the nonequilibrium =
+density. As a consequence, at weak magnetic fields, the curvature of Ey has=
+ opposite signs in the ballistic and hydrodynamic regimes. Moreover, we fin=
+d a robust signature of the onset of nonlocal correlations in the form of d=
+istinctive peaks of the transverse field, which are accessible by local mea=
+surements. Our results demonstrate that a purely hydrodynamic approach is i=
+nsufficient in the Gurzhi regime once a magnetic field is introduced. &copy=
+; 2019 American Physical Society.</span><BR /></div><div class=3D"margin: 0=
+px 0px 13px 0px"></div><div class=3D"margin: 0px 0px 13px 0px"><BR /><span =
+class=3D"txtBold">Index Keywords</span><BR /><span class=3D"txt">Ballistics=
+,&nbsp;Electric fields,&nbsp;Integral equations,&nbsp;Magnetic fields; Hydr=
+odynamic regime,&nbsp;Hydrodynamic transport,&nbsp;Low carrier density,&nbs=
+p;Momentum relaxation,&nbsp;Nonlocal correlations,&nbsp;Transport mean free=
+ path,&nbsp;Transverse electric field,&nbsp;Weak magnetic fields; Hydrodyna=
+mics</span><BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div c=
+lass=3D"margin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0p=
+x 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txt=
+Bold">Publisher:</span>&nbsp;<span class=3D"txt">American Physical Society<=
+/span><BR /></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span cla=
+ss=3D"txt">24699950</span><BR /><span class=3D"txtBold">Language of Origina=
+l Document:&nbsp;</span><span class=3D"txt">English</span><BR /><span class=
+=3D"txtBold">Abbreviated Source Title: </span><span class=3D"txt">Phys. Rev=
+. B</span><BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span cl=
+ass=3D"txt">Article</span><BR /><span class=3D"txtBold">Publication Stage:&=
+nbsp;</span>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span cl=
+ass=3D"txt">Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">18)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Sulpizio, J.A.<sup>a</sup> , Ella, L.<sup>a</sup>=
+ , Rozen, A.<sup>a</sup> , Birkbeck, J.<sup>b</sup>  <sup>c</sup> , Perello=
+, D.J.<sup>b</sup>  <sup>c</sup> , Dutta, D.<sup>a</sup> , Ben-Shalom, M.<s=
+up>b</sup>  <sup>c</sup>  <sup>d</sup> , Taniguchi, T.<sup>e</sup> , Watana=
+be, K.<sup>e</sup> , Holder, T.<sup>a</sup> , Queiroz, R.<sup>a</sup> , Pri=
+ncipi, A.<sup>b</sup> , Stern, A.<sup>a</sup> , Scaffidi, T.<sup>f</sup>  <=
+sup>g</sup> , Geim, A.K.<sup>b</sup>  <sup>c</sup> , Ilani, S.<sup>a</sup> =
+</span><BR /><BR /><a href=3D"https://www.scopus.com/record/display.uri?eid=
+=3D2-s2.0-85076045902&amp;origin=3Dresultslist" class=3D"txtLarge Bold" tit=
+le=3D"go to record page"><span class=3D"txtBold">Visualizing Poiseuille flo=
+w of hydrodynamic electrons</span><BR /></a><span class=3D"txt">(2019)&nbsp=
+;<em>Nature</em>,&nbsp;576&nbsp;(7785),&nbsp;pp.&nbsp;75-79.&nbsp;Cited 34 =
+times.<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span cla=
+ss=3D"txt">10.1038/s41586-019-1788-9</span><BR /></div><div class=3D"margin=
+: 0px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Department =
+of Condensed Matter Physics, Weizmann Institute of Science, Rehovot, Israel=
+<BR /><sup>b</sup>&nbsp;School of Physics and Astronomy, University of Manc=
+hester, Manchester, United Kingdom<BR /><sup>c</sup>&nbsp;National Graphene=
+ Institute, University of Manchester, Manchester, United Kingdom<BR /><sup>=
+d</sup>&nbsp;Department of Physics and Astronomy, Tel-Aviv University, Tel =
+Aviv, Israel<BR /><sup>e</sup>&nbsp;National Institute for Materials Scienc=
+e, Tsukuba, Japan<BR /><sup>f</sup>&nbsp;Department of Physics, University =
+of California, Berkeley, CA, United States<BR /><sup>g</sup>&nbsp;Departmen=
+t of Physics, University of Toronto, Toronto, ON, Canada<BR /></span></div>=
+<div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstr=
+act<BR /></span><span class=3D"txt">Hydrodynamics, which generally describe=
+s the flow of a fluid, is expected to hold even for fundamental particles s=
+uch as electrons when inter-particle interactions dominate1. Although vario=
+us aspects of electron hydrodynamics have been revealed in recent experimen=
+ts2&ndash;11, the fundamental spatial structure of hydrodynamic electrons&m=
+dash;the Poiseuille flow profile&mdash;has remained elusive. Here we provid=
+e direct imaging of the&nbsp;Poiseuille flow of an electronic fluid, as wel=
+l as a visualization of its evolution from ballistic flow. Using a scanning=
+ carbon&nbsp;nanotube single-electron transistor12, we image the Hall volta=
+ge of electronic flow through channels of high-mobility graphene. We find t=
+hat the profile of the Hall field across the channel is a key physical quan=
+tity for distinguishing ballistic from hydrodynamic flow. We image the tran=
+sition from flat, ballistic field profiles at low temperatures into parabol=
+ic field profiles at elevated temperatures, which is the hallmark of Poiseu=
+ille flow. The curvature of the imaged profiles is qualitatively reproduced=
+ by Boltzmann calculations, which allow us to create a &lsquo;phase diagram=
+&rsquo; that characterizes the electron flow regimes. Our results provide d=
+irect confirmation of Poiseuille flow in the solid state, and enable explor=
+ation of the rich physics of interacting electrons in real space. &copy; 20=
+19, The Author(s), under exclusive licence to Springer Nature Limited.</spa=
+n><BR /></div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"m=
+argin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span=
+><BR /><span class=3D"txt">carbon nanotube,&nbsp;graphene; ballast water,&n=
+bsp;curvature,&nbsp;electron,&nbsp;experimental study,&nbsp;hydrodynamics,&=
+nbsp;visualization; Article,&nbsp;conductance,&nbsp;electron transport,&nbs=
+p;flow rate,&nbsp;hydrodynamics,&nbsp;image analysis,&nbsp;low temperature =
+procedures,&nbsp;magnetic field,&nbsp;neutron scattering,&nbsp;physical che=
+mistry,&nbsp;physical parameters,&nbsp;Poiseuille electronic flow,&nbsp;pri=
+ority journal,&nbsp;quantitative analysis,&nbsp;solid state</span><BR /></d=
+iv><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px=
+ 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"></div><di=
+v class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publisher:</sp=
+an>&nbsp;<span class=3D"txt">Nature Research</span><BR /></div><BR /><span =
+class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">00280836</span><BR =
+/><span class=3D"txtBold">CODEN:&nbsp;</span><span class=3D"txt">NATUA</spa=
+n><BR /><span class=3D"txtBold">PubMed ID:&nbsp;</span><span class=3D"txt">=
+31802019</span><BR /><span class=3D"txtBold">Language of Original Document:=
+&nbsp;</span><span class=3D"txt">English</span><BR /><span class=3D"txtBold=
+">Abbreviated Source Title: </span><span class=3D"txt">Nature</span><BR /><=
+span class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt">Artic=
+le</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span>Final=
+<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scopu=
+s</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">19)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Narozhny, B.N.<sup>a</sup>  <sup>b</sup> </span><=
+BR /><BR /><a href=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.=
+0-85074167086&amp;origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go=
+ to record page"><span class=3D"txtBold">Electronic hydrodynamics in graphe=
+ne</span><BR /></a><span class=3D"txt">(2019)&nbsp;<em>Annals of Physics</e=
+m>,&nbsp;411,&nbsp;art. no.&nbsp;167979,&nbsp;.&nbsp;Cited 10 times.<BR /><=
+/span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10=
+.1016/j.aop.2019.167979</span><BR /></div><div class=3D"margin: 0px 0px 13p=
+x 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Institut f&uuml;r Theori=
+e der Kondensierten Materie, Karlsruher Institut f&uuml;r Technologie, Karl=
+sruhe, 76131, Germany<BR /><sup>b</sup>&nbsp;National Research Nuclear Univ=
+ersity MEPhI (Moscow Engineering Physics Institute), Moscow, 115409, Russia=
+n Federation<BR /></span></div><div class=3D"margin: 0px 0px 13px 0px"><spa=
+n class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"txt">In this =
+paper I report a pedagogical derivation of the unconventional electronic hy=
+drodynamics in graphene on the basis of the kinetic theory. While formally =
+valid in the weak coupling limit, this approach allows one to derive the un=
+conventional hydrodynamics in the system which is neither Galilean- nor Lor=
+entz-invariant, such that hydrodynamic equations cannot be inferred from sy=
+mmetry arguments. I generalize earlier work to include external magnetic fi=
+elds and give explicit expressions for dissipative coefficients, the shear =
+viscosity and electrical conductivity. I also compare the resulting theory =
+with relativistic hydrodynamics. &copy; 2019 Elsevier Inc.</span><BR /></di=
+v><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Aut=
+hor Keywords<BR /></span><span class=3D"txt">Electronic hydrodynamics; &nbs=
+p;Graphene; &nbsp;Kinetic theory; &nbsp;Quantum conductivity; &nbsp;Viscosi=
+ty<BR /></span></div><div class=3D"margin: 0px 0px 13px 0px"></div><div cla=
+ss=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0p=
+x"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"=
+margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<s=
+pan class=3D"txt">Academic Press Inc.</span><BR /></div><BR /><span class=
+=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">00034916</span><BR /><sp=
+an class=3D"txtBold">CODEN:&nbsp;</span><span class=3D"txt">APNYA</span><BR=
+ /><span class=3D"txtBold">Language of Original Document:&nbsp;</span><span=
+ class=3D"txt">English</span><BR /><span class=3D"txtBold">Abbreviated Sour=
+ce Title: </span><span class=3D"txt">Ann. Phys.</span><BR /><span class=3D"=
+txtBold">Document Type:&nbsp;</span><span class=3D"txt">Article</span><BR /=
+><span class=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR /><span cl=
+ass=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scopus</span><BR />=
+<span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">20)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Kiselev, E.I.<sup>a</sup> , Schmalian, J.<sup>a</=
+sup>  <sup>b</sup> </span><BR /><BR /><a href=3D"https://www.scopus.com/rec=
+ord/display.uri?eid=3D2-s2.0-85074878147&amp;origin=3Dresultslist" class=3D=
+"txtLarge Bold" title=3D"go to record page"><span class=3D"txtBold">L=C3=A9=
+vy Flights and Hydrodynamic Superdiffusion on the Dirac Cone of Graphene</s=
+pan><BR /></a><span class=3D"txt">(2019)&nbsp;<em>Physical Review Letters</=
+em>,&nbsp;123&nbsp;(19),&nbsp;art. no.&nbsp;195302,&nbsp;.&nbsp;Cited 5 tim=
+es.<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=
+=3D"txt">10.1103/PhysRevLett.123.195302</span><BR /></div><div class=3D"mar=
+gin: 0px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Institut=
+ f&uuml;r Theorie der Kondensierten Materie, Karlsruher Institut f&uuml;r T=
+echnologie, Karlsruhe, 76131, Germany<BR /><sup>b</sup>&nbsp;Institut f&uum=
+l;r Festk&ouml;rperphysik, Karlsruher Institut f&uuml;r Technologie, Karlsr=
+uhe, 76131, Germany<BR /></span></div><div class=3D"margin: 0px 0px 13px 0p=
+x"><span class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"txt">W=
+e show that the hydrodynamic collision processes of graphene electrons at t=
+he neutrality point can be described in terms of a Fokker-Planck equation w=
+ith a fractional derivative, corresponding to a L&eacute;vy flight in momen=
+tum space. Thus, electron-electron collisions give rise to frequent small-a=
+ngle scattering processes that are interrupted by rare large-angle events. =
+The latter give rise to superdiffusive dynamics of collective excitations. =
+We argue that such superdiffusive dynamics is of more general importance to=
+ the out-of-equilibrium dynamics of quantum-critical systems. &copy; 2019 A=
+merican Physical Society.</span><BR /></div><div class=3D"margin: 0px 0px 1=
+3px 0px"></div><div class=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D=
+"txtBold">Index Keywords</span><BR /><span class=3D"txt">Fokker Planck equa=
+tion,&nbsp;Hydrodynamics; Collective excitations,&nbsp;Electron-electron co=
+llisions,&nbsp;Fractional derivatives,&nbsp;Neutrality point,&nbsp;Out-of-e=
+quilibrium dynamics,&nbsp;Quantum critical,&nbsp;Small angle scattering,&nb=
+sp;Superdiffusive dynamics; Graphene</span><BR /></div><div class=3D"margin=
+: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"></div><BR=
+ /><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px=
+ 0px 0px 0px"><span class=3D"txtBold">Publisher:</span>&nbsp;<span class=3D=
+"txt">American Physical Society</span><BR /></div><BR /><span class=3D"txtB=
+old">ISSN:&nbsp;</span><span class=3D"txt">00319007</span><BR /><span class=
+=3D"txtBold">CODEN:&nbsp;</span><span class=3D"txt">PRLTA</span><BR /><span=
+ class=3D"txtBold">PubMed ID:&nbsp;</span><span class=3D"txt">31765178</spa=
+n><BR /><span class=3D"txtBold">Language of Original Document:&nbsp;</span>=
+<span class=3D"txt">English</span><BR /><span class=3D"txtBold">Abbreviated=
+ Source Title: </span><span class=3D"txt">Phys Rev Lett</span><BR /><span c=
+lass=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt">Article</sp=
+an><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR />=
+<span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scopus</spa=
+n><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">21)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Moessner, R.<sup>a</sup> , Morales-Dur&aacute;n, =
+N.<sup>b</sup> , Sur&oacute;wka, P.<sup>a</sup> , Witkowski, P.<sup>a</sup>=
+ </span><BR /><BR /><a href=3D"https://www.scopus.com/record/display.uri?ei=
+d=3D2-s2.0-85073420117&amp;origin=3Dresultslist" class=3D"txtLarge Bold" ti=
+tle=3D"go to record page"><span class=3D"txtBold">Boundary-condition and ge=
+ometry engineering in electronic hydrodynamics</span><BR /></a><span class=
+=3D"txt">(2019)&nbsp;<em>Physical Review B</em>,&nbsp;100&nbsp;(15),&nbsp;a=
+rt. no.&nbsp;155115,&nbsp;.&nbsp;Cited 6 times.<BR /></span><BR /><span cla=
+ss=3D"txtBold">DOI:&nbsp;</span><span class=3D"txt">10.1103/PhysRevB.100.15=
+5115</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"><span class=
+=3D"txt"><BR /><sup>a</sup>&nbsp;Max-Planck-Institut f&uuml;r Physik Komple=
+xer Systeme, N&ouml;thnitzer Strasse 38, Dresden, 01187, Germany<BR /><sup>=
+b</sup>&nbsp;Department of Physics, University of Texas at Austin, Austin, =
+TX  78712, United States<BR /></span></div><div class=3D"margin: 0px 0px 13=
+px 0px"><span class=3D"txtBold"><BR />Abstract<BR /></span><span class=3D"t=
+xt">We analyze the role of boundary geometry in viscous electronic hydrodyn=
+amics. We address the twin questions of how boundary geometry impacts flow =
+profiles, and how one can engineer boundary conditions - in particular the =
+effective slip parameter - to manipulate the flow in a controlled way. We f=
+irst propose a micropatterned geometry involving finned barriers, for which=
+ we show by an explicit solution that one can obtain effectively no-slip bo=
+undary conditions regardless of the detailed microscopic nature of the chan=
+nel surface. Next we analyze the role of mesoscopic boundary curvature on t=
+he effective slip length, in particular its impact on the Gurzhi effect. Fi=
+nally we investigate a hydrodynamic flow through a circular junction, provi=
+ding a solution which suggests an experimental setup for determining the sl=
+ip parameter. We find that its transport properties differ qualitatively fr=
+om the case of ballistic conduction, and thus presents a promising setting =
+for distinguishing the two. &copy; 2019 American Physical Society.</span><B=
+R /></div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margi=
+n: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span><BR=
+ /><span class=3D"txt">Boundary conditions,&nbsp;Hydrodynamics; Ballistic c=
+onductions,&nbsp;Boundary curvature,&nbsp;Boundary geometry,&nbsp;Circular =
+junctions,&nbsp;Effective slip lengths,&nbsp;Explicit solutions,&nbsp;Hydro=
+dynamic flows,&nbsp;No-slip boundary conditions; Geometry</span><BR /></div=
+><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0=
+px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"></div><div =
+class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publisher:</span=
+>&nbsp;<span class=3D"txt">American Physical Society</span><BR /></div><BR =
+/><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">24699950</s=
+pan><BR /><span class=3D"txtBold">Language of Original Document:&nbsp;</spa=
+n><span class=3D"txt">English</span><BR /><span class=3D"txtBold">Abbreviat=
+ed Source Title: </span><span class=3D"txt">Phys. Rev. B</span><BR /><span =
+class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt">Article</s=
+pan><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR /=
+><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scopus</sp=
+an><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">22)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Alekseev, P.S., Semina, M.A.</span><BR /><BR /><a=
+ href=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-85072804627=
+&amp;origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record pa=
+ge"><span class=3D"txtBold">Hall effect in a ballistic flow of two-dimensio=
+nal interacting particles</span><BR /></a><span class=3D"txt">(2019)&nbsp;<=
+em>Physical Review B</em>,&nbsp;100&nbsp;(12),&nbsp;art. no.&nbsp;125419,&n=
+bsp;.&nbsp;Cited 6 times.<BR /></span><BR /><span class=3D"txtBold">DOI:&nb=
+sp;</span><span class=3D"txt">10.1103/PhysRevB.100.125419</span><BR /></div=
+><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txt"><BR />Ioffe In=
+stitute, St. Petersburg, 194021, Russian Federation<BR /></span></div><div =
+class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<B=
+R /></span><span class=3D"txt">In high-quality conductors, the hydrodynamic=
+ or the ballistic regimes of heat and charge transport can be realized at l=
+ow temperatures. We study the Hall effect in a system of interacting two-di=
+mensional charged particles in a narrow ballistic sample in a weak magnetic=
+ field. In such a system, the Hall electric field is mainly caused by redis=
+tribution of the particles moving between the longitudinal sample edges alo=
+ng the ballistic collisionless trajectories. Our consideration is based on =
+solving the classical kinetic equation in the ballistic regime with taking =
+into account the interparticle scattering and the magnetic force by the per=
+turbation theory. In a one-component (electron or hole) system, the Hall co=
+efficient turns out to be one-half of the Hall coefficient of conventional =
+wide Ohmic samples. We argue that this result is apparently consistent with=
+ the recent measurements of the Hall resistance in ultra-high-mobility GaAs=
+ quantum wells. In a two-component electron-hole system, the Hall coefficie=
+nt depends linearly on the difference n0e-n0h between the electron and the =
+hole equilibrium densities n0e and n0h near the charge neutrality point (n0=
+e=3Dn0h) and saturates to the Hall coefficient of a one-component system fa=
+r from the charge neutrality point. We also studied the corrections from th=
+e interparticle scattering to magnetoresistance and the Hall effect, being =
+the precursors of forming the viscous or the Ohmic flows. &copy; 2019 Ameri=
+can Physical Society.</span><BR /></div><div class=3D"margin: 0px 0px 13px =
+0px"></div><div class=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txt=
+Bold">Index Keywords</span><BR /><span class=3D"txt">Ballistics,&nbsp;Charg=
+ed particles,&nbsp;Electric fields,&nbsp;Electromagnetic wave scattering,&n=
+bsp;Explosives,&nbsp;Gallium arsenide,&nbsp;Hall mobility,&nbsp;III-V semic=
+onductors,&nbsp;Integral equations,&nbsp;Perturbation techniques; Electron =
+hole system,&nbsp;Equilibrium density,&nbsp;GaAs quantum wells,&nbsp;Hall e=
+lectric field,&nbsp;Interacting particles,&nbsp;One-component systems,&nbsp=
+;Perturbation theory,&nbsp;Weak magnetic fields; Hall effect devices</span>=
+<BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"mar=
+gin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px">=
+</div><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publi=
+sher:</span>&nbsp;<span class=3D"txt">American Physical Society</span><BR /=
+></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">=
+24699950</span><BR /><span class=3D"txtBold">Language of Original Document:=
+&nbsp;</span><span class=3D"txt">English</span><BR /><span class=3D"txtBold=
+">Abbreviated Source Title: </span><span class=3D"txt">Phys. Rev. B</span><=
+BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt"=
+>Article</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span=
+>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt"=
+>Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">23)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Narozhny, B.N.<sup>a</sup>  <sup>b</sup> , Sch&uu=
+ml;tt, M.<sup>c</sup>  <sup>d</sup>  <sup>e</sup> </span><BR /><BR /><a hre=
+f=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-85071643938&amp=
+;origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record page">=
+<span class=3D"txtBold">Magnetohydrodynamics in graphene: Shear and Hall vi=
+scosities</span><BR /></a><span class=3D"txt">(2019)&nbsp;<em>Physical Revi=
+ew B</em>,&nbsp;100&nbsp;(3),&nbsp;art. no.&nbsp;035125,&nbsp;.&nbsp;Cited =
+16 times.<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span =
+class=3D"txt">10.1103/PhysRevB.100.035125</span><BR /></div><div class=3D"m=
+argin: 0px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;Instit=
+ut f&uuml;r Theorie der Kondensierten Materie, Karlsruhe Institute of Techn=
+ology, Karlsruhe, 76128, Germany<BR /><sup>b</sup>&nbsp;National Research N=
+uclear University, MEPhI (Moscow Engineering Physics Institute), Moscow, 11=
+5409, Russian Federation<BR /><sup>c</sup>&nbsp;Condensed Matter Theory Gro=
+up, Paul Scherrer Institute, Villigen PSI, 5232, Switzerland<BR /><sup>d</s=
+up>&nbsp;Department of Theoretical Physics, University of Geneva, Geneva, 1=
+211, Switzerland<BR /><sup>e</sup>&nbsp;Institute for Theoretical Physics, =
+ETH Zurich, Zurich, 8093, Switzerland<BR /></span></div><div class=3D"margi=
+n: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<BR /></span><sp=
+an class=3D"txt">Viscous phenomena are the hallmark of the hydrodynamic flo=
+w exhibited by Dirac fermions in clean graphene at high enough temperatures=
+. We report a quantitative calculation of the electronic shear and Hall vis=
+cosities in graphene based on the kinetic theory combined with the renormal=
+ization group providing a unified description at arbitrary doping levels an=
+d nonquantizing magnetic fields. At charge neutrality, the Hall viscosity v=
+anishes, while the field-dependent shear viscosity decays from its zero-fie=
+ld value saturating to a nonzero value in classically strong fields. Away f=
+rom charge neutrality, the field-dependent viscosity coefficients tend to a=
+gree with the semiclassical expectation. &copy; 2019 American Physical Soci=
+ety.</span><BR /></div><div class=3D"margin: 0px 0px 13px 0px"></div><div c=
+lass=3D"margin: 0px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywo=
+rds</span><BR /><span class=3D"txt">Magnetohydrodynamics,&nbsp;Statistical =
+mechanics; Charge neutrality,&nbsp;Dirac fermions,&nbsp;Hydrodynamic flows,=
+&nbsp;Nonzero values,&nbsp;Quantitative calculation,&nbsp;Renormalization g=
+roup,&nbsp;Unified description,&nbsp;Viscosity coefficient; Graphene</span>=
+<BR /></div><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"mar=
+gin: 13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px">=
+</div><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publi=
+sher:</span>&nbsp;<span class=3D"txt">American Physical Society</span><BR /=
+></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">=
+24699950</span><BR /><span class=3D"txtBold">Language of Original Document:=
+&nbsp;</span><span class=3D"txt">English</span><BR /><span class=3D"txtBold=
+">Abbreviated Source Title: </span><span class=3D"txt">Phys. Rev. B</span><=
+BR /><span class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt"=
+>Article</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span=
+>Final<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt"=
+>Scopus</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">24)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Burmistrov, I.S.<sup>a</sup>  <sup>b</sup> , Gold=
+stein, M.<sup>c</sup> , Kot, M.<sup>c</sup> , Kurilovich, V.D.<sup>d</sup> =
+, Kurilovich, P.D.<sup>d</sup> </span><BR /><BR /><a href=3D"https://www.sc=
+opus.com/record/display.uri?eid=3D2-s2.0-85069895048&amp;origin=3Dresultsli=
+st" class=3D"txtLarge Bold" title=3D"go to record page"><span class=3D"txtB=
+old">Dissipative and Hall Viscosity of a Disordered 2D Electron Gas</span><=
+BR /></a><span class=3D"txt">(2019)&nbsp;<em>Physical Review Letters</em>,&=
+nbsp;123&nbsp;(2),&nbsp;art. no.&nbsp;026804,&nbsp;.&nbsp;Cited 14 times.<B=
+R /></span><BR /><span class=3D"txtBold">DOI:&nbsp;</span><span class=3D"tx=
+t">10.1103/PhysRevLett.123.026804</span><BR /></div><div class=3D"margin: 0=
+px 0px 13px 0px"><span class=3D"txt"><BR /><sup>a</sup>&nbsp;L. D. Landau I=
+nstitute for Theoretical Physics, acad. Semenova av. 1-a, Chernogolovka, 14=
+2432, Russian Federation<BR /><sup>b</sup>&nbsp;Laboratory for Condensed Ma=
+tter Physics, National Research University, Higher School of Economics, Mos=
+cow, 101000, Russian Federation<BR /><sup>c</sup>&nbsp;Raymond and Beverly =
+Sackler School of Physics and Astronomy, Tel Aviv University, Tel Aviv, 699=
+7801, Israel<BR /><sup>d</sup>&nbsp;Department of Physics, Yale University,=
+ New Haven, CT  06520, United States<BR /></span></div><div class=3D"margin=
+: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Abstract<BR /></span><spa=
+n class=3D"txt">Hydrodynamic charge transport is at the center of recent re=
+search efforts. Of particular interest is the nondissipative Hall viscosity=
+, which conveys topological information in clean gapped systems. The preval=
+ence of disorder in the real world calls for a study of its effect on visco=
+sity. Here we address this question, both analytically and numerically, in =
+the context of disordered noninteracting 2D electrons. Analytically, we emp=
+loy the self-consistent Born approximation, explicitly taking into account =
+the modification of the single-particle density of states and the elastic t=
+ransport time due to the Landau quantization. The reported results interpol=
+ate smoothly between the limiting cases of a weak (strong) magnetic field a=
+nd strong (weak) disorder. In the regime of a weak magnetic field our resul=
+ts describe the quantum (Shubnikov-de Haas type) oscillations of the dissip=
+ative and Hall viscosity. For strong magnetic fields we characterize the ef=
+fects of the disorder-induced broadening of the Landau levels on the viscos=
+ity coefficients. This is supplemented by numerical calculations for a few =
+filled Landau levels. Our results show that the Hall viscosity is surprisin=
+gly robust to disorder. &copy; 2019 American Physical Society.</span><BR />=
+</div><div class=3D"margin: 0px 0px 13px 0px"></div><div class=3D"margin: 0=
+px 0px 13px 0px"><BR /><span class=3D"txtBold">Index Keywords</span><BR /><=
+span class=3D"txt">Electron gas,&nbsp;Magnetic fields; Landau quantization,=
+&nbsp;Numerical calculation,&nbsp;Self-consistent Born approximation,&nbsp;=
+Shubnikov-de Haas,&nbsp;Strong magnetic fields,&nbsp;Topological informatio=
+n,&nbsp;Viscosity coefficient,&nbsp;Weak magnetic fields; Viscosity; articl=
+e,&nbsp;calculation,&nbsp;electron,&nbsp;magnetic field,&nbsp;oscillation,&=
+nbsp;viscosity</span><BR /></div><div class=3D"margin: 13px 0px 0px 0px"></=
+div><div class=3D"margin: 13px 0px 0px 0px"></div><BR /><div class=3D"margi=
+n: 13px 0px 0px 0px"></div><div class=3D"margin: 13px 0px 0px 0px"><span cl=
+ass=3D"txtBold">Publisher:</span>&nbsp;<span class=3D"txt">American Physica=
+l Society</span><BR /></div><BR /><span class=3D"txtBold">ISSN:&nbsp;</span=
+><span class=3D"txt">00319007</span><BR /><span class=3D"txtBold">CODEN:&nb=
+sp;</span><span class=3D"txt">PRLTA</span><BR /><span class=3D"txtBold">Pub=
+Med ID:&nbsp;</span><span class=3D"txt">31386525</span><BR /><span class=3D=
+"txtBold">Language of Original Document:&nbsp;</span><span class=3D"txt">En=
+glish</span><BR /><span class=3D"txtBold">Abbreviated Source Title: </span>=
+<span class=3D"txt">Phys Rev Lett</span><BR /><span class=3D"txtBold">Docum=
+ent Type:&nbsp;</span><span class=3D"txt">Article</span><BR /><span class=
+=3D"txtBold">Publication Stage:&nbsp;</span>Final<BR /><span class=3D"txtBo=
+ld">Source:&nbsp;</span><span class=3D"txt">Scopus</span><BR /><span class=
+=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w=
+3.org/TR/html4/loose.dtd">
+<div style=3D"margin: 0px 0px 12px 0px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"2%">25)&nbsp;</td><td align=3D"l=
+eft" valign=3D"top" style=3D"width:98%;"><div class=3D"margin: 0px 0px 13px=
+ 0px"><span class=3D"txt">Zdyrski, T., McGreevy, J.</span><BR /><BR /><a hr=
+ef=3D"https://www.scopus.com/record/display.uri?eid=3D2-s2.0-85068596367&am=
+p;origin=3Dresultslist" class=3D"txtLarge Bold" title=3D"go to record page"=
+><span class=3D"txtBold">Effects of dissipation on solitons in the hydrodyn=
+amic regime of graphene</span><BR /></a><span class=3D"txt">(2019)&nbsp;<em=
+>Physical Review B</em>,&nbsp;99&nbsp;(23),&nbsp;art. no.&nbsp;235435,&nbsp=
+;.&nbsp;Cited 3 times.<BR /></span><BR /><span class=3D"txtBold">DOI:&nbsp;=
+</span><span class=3D"txt">10.1103/PhysRevB.99.235435</span><BR /></div><di=
+v class=3D"margin: 0px 0px 13px 0px"><span class=3D"txt"><BR />University o=
+f California San Diego, San Diego, CA  92093, United States<BR /></span></d=
+iv><div class=3D"margin: 0px 0px 13px 0px"><span class=3D"txtBold"><BR />Ab=
+stract<BR /></span><span class=3D"txt">We use hydrodynamic techniques to an=
+alyze the one-dimensional propagation of solitons in gated graphene on an a=
+rbitrary uniform background current. Results are derived for both the Fermi=
+ liquid and Dirac fluid regimes. We find that these solutions satisfy the K=
+orteweg-de Vries-Burgers equation. Viscous dissipation and Ohmic heating ar=
+e included, causing the solitons to decay. Experiments are proposed to meas=
+ure this decay and thereby quantify the shear viscosity in graphene. &copy;=
+ 2019 American Physical Society.</span><BR /></div><div class=3D"margin: 0p=
+x 0px 13px 0px"></div><div class=3D"margin: 0px 0px 13px 0px"><BR /><span c=
+lass=3D"txtBold">Index Keywords</span><BR /><span class=3D"txt">Fermi liqui=
+ds,&nbsp;Graphene,&nbsp;Hydrodynamics,&nbsp;Korteweg-de Vries equation; Bac=
+kground current,&nbsp;Fluid regime,&nbsp;Hydrodynamic regime,&nbsp;Korteweg=
+-de Vries-Burgers equations,&nbsp;Viscous dissipation; Solitons</span><BR /=
+></div><div class=3D"margin: 13px 0px 0px 0px"></div><div class=3D"margin: =
+13px 0px 0px 0px"></div><BR /><div class=3D"margin: 13px 0px 0px 0px"></div=
+><div class=3D"margin: 13px 0px 0px 0px"><span class=3D"txtBold">Publisher:=
+</span>&nbsp;<span class=3D"txt">American Physical Society</span><BR /></di=
+v><BR /><span class=3D"txtBold">ISSN:&nbsp;</span><span class=3D"txt">24699=
+950</span><BR /><span class=3D"txtBold">Language of Original Document:&nbsp=
+;</span><span class=3D"txt">English</span><BR /><span class=3D"txtBold">Abb=
+reviated Source Title: </span><span class=3D"txt">Phys. Rev. B</span><BR />=
+<span class=3D"txtBold">Document Type:&nbsp;</span><span class=3D"txt">Arti=
+cle</span><BR /><span class=3D"txtBold">Publication Stage:&nbsp;</span>Fina=
+l<BR /><span class=3D"txtBold">Source:&nbsp;</span><span class=3D"txt">Scop=
+us</span><BR /><span class=3D"txt"></span><BR /></td>
+</tr>
+</table>
+<div style=3D"clear:both"></div>
+</div><div style=3D"border-bottom:1px solid #e8e8e8;">&nbsp;</div><BR />
+</div>
+<style>
+=09=09=09=09=09.txtSmaller {font-size: 12px;color: #5C5C5C;}
+=09=09=09=09=09.emailFooter{background-color: #f1f2f2; border: 1px solid
+=09=09=09=09=09#b7b7b7;padding:15px 17px 12px;}
+=09=09=09=09=09a,a:link,a:visited,a:hover,a:focus{text-decoration:none;colo=
+r:
+=09=09=09=09=09#007398;font-size: 12px;}
+=09=09=09=09=09.mailLink:hover{color: #E9711C;font-size: 12px;text-decorati=
+on:
+=09=09=09=09=09underline;}
+
+=09=09=09=09</style>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tr>
+<td align=3D"left" valign=3D"top">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" styl=
+e=3D"border-top: 1px solid #b7b7b7;padding:15px 17px 12px;font-size: 12px;c=
+olor: #5C5C5C;">
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"padding-bottom:8px; padding-left=
+: 17px;"><span><a target=3D"_blank" href=3D"https://www.elsevier.com/legal/=
+elsevier-website-terms-and-conditions" class=3D"mailLink" title=3D"View the=
+ terms and conditions of Elsevier (Opens in new window)">Terms and Conditio=
+ns</a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;<span><a target=3D"_blank" href=3D"https://www.elsevier.com/locat=
+e/privacypolicy" class=3D"mailLink" title=3D"View the privacy policy of Els=
+evier (opens in a new window)" >Privacy Policy</a></span></td>
+</tr>
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"padding-top:0px; padding-bottom:=
+8px; padding-left: 17px;">Copyright =C2=A9 2021&nbsp;&nbsp;<span><a target=
+=3D"_blank" href=3D"https://www.elsevier.com" class=3D"mailLink" title=3D"G=
+o to Elsevier site (opens in a new window)">Elsevier B.V.</a></span>&nbsp;&=
+nbsp;<span class=3D"coppyrightExtend">, Radarweg 29, 1043 NX Amsterdam, The=
+ Netherlands.</span></td>
+</tr>
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"padding-top:0px; padding-left: 1=
+7px;padding-bottom:27px;">Reg. no. 33156677. VAT no. NL 005033019B01.</td>
+</tr>
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"padding-top:0px; padding-left: 1=
+7px;padding-bottom:8px;">This email has been sent by <a href=3D"mailto:A.Sh=
+ytov@exeter.ac.uk" class=3D"mailLink" >A.Shytov@exeter.ac.uk</a>.</td>
+</tr>
+<tr>
+<td align=3D"left" valign=3D"top" style=3D"padding-top:0px; padding-left:17=
+px;font-size: 12px;color: #5C5C5C;"></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
+
+------=_Part_102_864381283.1628387627868--
