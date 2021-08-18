@@ -805,20 +805,44 @@ static struct PyMethodDef module_methods[] = {
     {NULL, NULL, 0, NULL},
 };
 
+
 extern "C" {
+  static struct PyModuleDef makequad_def = {
+	    PyModuleDef_HEAD_INIT,
+	    "_makequad",     // name
+	    "",              // doc
+	    -1,              // size of per-interpreter state
+	    module_methods
+  };
+  PyMODINIT_FUNC
+  PyInit__makequad(void){
+    PyObject *module, *module_dict;
+    PyMethodDef *method_def; 
+    module  =  PyModule_Create(&makequad_def); 
+    error_obj = PyErr_NewException("_makequad.error", NULL, NULL);
+    Py_XINCREF(error_obj);
+    if (PyModule_AddObject(module, "error", error_obj) < 0) {
+      Py_XDECREF(error_obj);
+      Py_CLEAR(error_obj);
+      Py_DECREF(module);
+      return NULL; 
+    }
+    import_array(); 
+    return module; 
+  }
   void init_makequad() {
      PyObject *module, *module_dict;
      PyMethodDef *method_def;
      //fprintf(stderr,  "enter module init\n");
      //fprintf (stderr, "enter init\n");
-     module = Py_InitModule("_makequad", module_methods);
-     module_dict = PyModule_GetDict(module);
+     //module = Py_InitModule("_makequad", module_methods);
+     //module_dict = PyModule_GetDict(module);
      //fprintf (stderr, "get dict\n");
-     error_obj = Py_BuildValue("s", "_makequad.error");
+     //error_obj = Py_BuildValue("s", "_makequad.error");
      //fprintf (stderr, "has err occurred?\n");
-     if (PyErr_Occurred()) {
-        Py_FatalError ("cannot initialize the module _makequad");
-     }
-     import_array();
+     //if (PyErr_Occurred()) {
+     //   Py_FatalError ("cannot initialize the module _makequad");
+     //}
+     //import_array();
   }
 }

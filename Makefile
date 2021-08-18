@@ -1,8 +1,8 @@
-PYTH_INC = -I/usr/include/python2.7   
-NUMPY_INC = -I /usr/lib64/python2.7/site-packages/numpy/core/include/
-NUMPY_INC += -I /usr/lib64/python2.7/site-packages/numpy/core/include/numpy 
+PYTH_INC = -I/usr/include/python3.8   
+NUMPY_INC = -I /usr/lib/python3.8/site-packages/numpy/core/include/
+NUMPY_INC += -I /usr/lib/python3.8/site-packages/numpy/core/include/numpy 
 INC = $(NUMPY_INC) $(PYTH_INC)
-LIB = -lm -lpython2.7
+LIB = -lm -lpython3.8
 
 CC = gcc -g -O2 -fPIC
 CXX = $(CC)
