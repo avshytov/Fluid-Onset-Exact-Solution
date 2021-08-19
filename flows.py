@@ -220,7 +220,9 @@ class CombinedFlow(Flow):
     def wall_flux(self):
         flux = 0.0 + 0.0j
         for flow, weight in self.flows:
+            #print ("flux was:", flux, "add", flow.wall_flux())
             flux += flow.wall_flux() * weight
+        #print ("flux now:", flux)
         return flux
 
     def rho_direct(self, q):

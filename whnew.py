@@ -7,12 +7,13 @@ from stokeslet import Stokeslet
 from bulk import InjectedFlow
 from edge import EdgeInjectedFlow
 from flows import CombinedFlow
+import time
 
 def make_arc(k, kappa):
     abs_k = np.abs(k)
     a = np.sqrt(abs_k * kappa)
     b = kappa - abs_k / 2.0
-    coarse = True
+    coarse = False
     if not coarse:
        path_vert = path.StraightPath(100.0j*kappa   - 0.1*a,
                                          1j * kappa -     a, 4000)
@@ -118,6 +119,8 @@ def make_contours_and_kernels(k, gamma, gamma1):
     print ("tabulate kernels up")
     import time; now = time.time()
     K_ul = xkernel.tabulate_kernel(K, k, path_ul.points())
+    print ("tabulation done, ", time.time() - now)
+    #import sys; sys.exit(0)
     #K_ul = xkernel.load_kernel(K, k, path_ul.points(), "ul", False)
     # get upper-right segment
     path_ru, K_ru = conjugate_left_right(path_ul, K_ul) # backward
@@ -267,7 +270,7 @@ yvals = np.linspace(-1.0, 10.0, 1101)
 
 gamma  = 1.0
 gamma1 = 1.0
-ver = "01"
+ver = "01a"
 
 for h in [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]:
     fname = "whnew-data-ver%s-h=%g-gamma1=%g" % (ver, h, gamma1)

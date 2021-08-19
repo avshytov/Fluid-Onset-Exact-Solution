@@ -4,33 +4,38 @@ import numpy as np
 from scipy import integrate, linalg
 import scipy
 
+#
+# Helper function:
+# The square root with properly defined branches
+#
+def sqrt_z_old(gamma, k, q):
+    kappa = np.sqrt(k * k + gamma * gamma)
+    sq = np.sqrt(abs( kappa * kappa + q * q)) + 0.0j
+    sq *= np.exp(0.5j * (np.angle(kappa - 1j * q)
+                         + np.angle(kappa + 1j * q)))
+    return sq
+
+def sqrt_z(gamma, k, q):
+    kappa = np.sqrt(k * k + gamma * gamma)
+    return np.sqrt((kappa - 1j * q) * (kappa + 1j * q))
+
+
 class WHKernel:
     def __init__ (self, gamma, a):
         self.gamma = gamma
         self.a = a
         print ("kernel: ", gamma, a)
 
-    #
-    # Helper function:
-    # The square root with properly defined branches
-    #
-    def sqrt_z(self, k, q):
-        gamma = self.gamma
-        sq = np.abs(np.sqrt((gamma**2 + k**2 + q**2))) + 0.0j
-        kappa = np.sqrt(k**2 + gamma**2)
-        sq *= np.exp(0.5j * (np.angle(kappa - 1j * q)
-                             + np.angle(kappa + 1j * q)))
-        return sq 
 
     #
     # The kernel itself. It has a zero at
     # q = +-i kappa_a , with kappa_a = sqrt(k^2 + gamma^2 - a^2)
     #
     def __call__(self, k, q):
-        return 1.0 - self.a  / self.sqrt_z(k, q)
+        return 1.0 - self.a  / sqrt_z(self.gamma, k, q)
 
     def log_prime(self, k, q):
-        sq = self.sqrt_z(k, q)
+        sq = sqrt_z(self.gamma, k, q)
         return self.a * q * (a + sq) / (sq**2 * (sq**2 - self.a**2)) 
 
     #
@@ -367,8 +372,8 @@ if __name__ == '__main__':
     for k in kvals:
         im_q = 0.01j 
         print("make tabulated K")
-        K_kq = TabulatedKernels(K, k, q + im_q)
-        K_ks = TabulatedKernels(K, k, 1j * s)
+        K_kq = tabulate_kernel(K, k, q + im_q)#TabulatedKernels(K, k, q + im_q)
+        K_ks = tabulate_kernel(K, k, 1j * s)  #TabulatedKernels(K, k, 1j * s)
         print ("tabulate old K: rho")
         Xrho_plus_old_q = np.vectorize(lambda z: Xrho_plus_z(k, z))(-q - im_q)
         Krho_plus_new_q = K_kq.rho_plus()

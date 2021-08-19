@@ -401,6 +401,7 @@ def show_kernels(K_up, K_dn, path_up, path_dn):
     pl.legend()
 
 def test_Dstar(flow, label, path_up, path_dn):
+    print ("testing flow", flow, type(flow))
     D_plus = flow.D_plus_up()
     omega_plus = flow.Omega_plus_up()
     D_minus = flow.D_minus_up()
@@ -556,7 +557,7 @@ def test_wh(h, k, gamma, gamma1, yv):
         full_flow.add(flow_diff, f_s)
 
         full_label = "combined-%s" % label
-        test_Dstar(flow, full_label, path_up, path_dn)
+        test_Dstar(full_flow, full_label, path_up, path_dn)
         test_rho_y_new(full_flow, full_label, yv)
         test_j_y(full_flow, full_label, yv)
         print ("done", time.time() - now)

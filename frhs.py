@@ -2,7 +2,13 @@ import numpy as np
 import scipy
 from scipy import integrate
 
-def sqrt_z(gamma, k, q):
+def sqrt_z_new(gamma, k, q):
+    kappa = np.sqrt(k * k + gamma * gamma)
+    #return np.sqrt((kappa  + 1j * q))* np.sqrt((kappa - 1j * q))
+    return np.sqrt((kappa  + 1j * q) * (kappa - 1j * q))
+
+
+def sqrt_z_old(gamma, k, q):
     #sq = np.sqrt((gamma**2 + k**2 + q**2))
     kappa = np.sqrt(k**2 + gamma**2)
     sq_1 = np.abs(kappa - 1j * q)
@@ -12,6 +18,8 @@ def sqrt_z(gamma, k, q):
     a2 = np.angle(kappa + 1j * q)
     sq *= np.exp(0.5j * (a1 + a2))
     return sq
+
+sqrt_z = sqrt_z_new
 
 def K(gamma, k, q):
     return 1.0 - gamma / sqrt_z(gamma, k, q)
