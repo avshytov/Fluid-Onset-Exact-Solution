@@ -153,7 +153,7 @@ class WHKernels:
     
     def omega_minus(self, k, q):
         kappa = np.sqrt(self.gamma**2 + k**2)
-        Krho_minus = self.Krho.plus(k, q)
+        Krho_minus = self.Krho.minus(k, q)
         Ko_minus = self.Ko.minus(k, q)
         fact = (q - 1j * np.abs(k)) / (q - 1j * np.abs(kappa))
         return Krho_minus * Ko_minus / fact
@@ -296,7 +296,7 @@ def tabulate_kernel(K, k, q, tabulate_omega = False):
        Komega_p = np.vectorize( lambda z: K.omega_plus(k, z))(q)
     else: # economize on the relation between Krho and Komega otherwise
        print ("skip tabulation of Komega_plus")
-       kappa = np.sqrt(k**2 + q**2 + K.gamma**2)
+       kappa = np.sqrt(k**2 + K.gamma**2)
        abs_k = np.abs(k)
        q_fact = (q + 1j * abs_k) / (q + 1j * kappa)
        Komega_p = Krho_p**2 * q_fact
