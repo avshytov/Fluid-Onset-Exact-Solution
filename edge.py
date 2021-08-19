@@ -57,9 +57,7 @@ class EdgeInjectedFlow(Flow):
         return 1j + 0.0 * q
     
     def _Omega_plus(self, q, Ko_p, psi_p):
-        sgn_k = 1.0
-        if self.k < 0:
-            sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         return Ko_p / self.Komega_star * sgn_k
     
     def _Omega_minus(self, q, Ko_m, psi_m):

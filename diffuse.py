@@ -24,8 +24,7 @@ class DiffuseFlow(Flow):
         Krho_star   = self.Krho_star
         Komega_star = self.Komega_star
         abs_k = np.abs(self.k)
-        sgn_k = 1.0
-        if self.k < 0: sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         
         flux = 1.0 / np.pi
         flux += -0.25 * gamma / abs_k / Krho_star**2

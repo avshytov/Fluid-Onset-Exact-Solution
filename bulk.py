@@ -220,16 +220,12 @@ class InjectedFlow(Flow):
     def _Omega_plus(self, q, Ko_p, psi_p):
         #Ko_p = self.Komega_p
         #Ko_p = self.K_up.omega_plus()
-        sgn_k = 1.0
-        if self.k < 0:
-            sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         return Ko_p / self.Komega_star * sgn_k * self.exp_kh
     
     def _Omega_minus(self, q, Ko_m, psi_m):
         #Ko_m = self.K_up.omega_minus()
-        sgn_k = 1.0
-        if self.k < 0:
-            sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         return - Ko_m / self.Komega_star * sgn_k * self.exp_kh
 
     #
@@ -322,8 +318,7 @@ class InjectedFlow(Flow):
         y_neg = y[ y <  0 ]
         yh = y_pos - self.h
         abs_yh = np.abs(yh)
-        sgn_yh = 1.0 + 0.0 * yh
-        sgn_yh[ yh < 0 ] = -1
+        sgn_yh = np.sign(yh)
 
         res[ y < 0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
         jx_pos = self._fourier(self.path_dn, self._jx_reg(), y_pos)
@@ -340,8 +335,9 @@ class InjectedFlow(Flow):
         y_neg = y[ y <  0 ]
         yh = y_pos - self.h
         abs_yh = np.abs(yh)
-        sgn_yh = 1.0 + 0.0 * yh
-        sgn_yh[ yh < 0 ] = -1
+        sgn_yh = np.sign(yh)
+        #sgn_yh = 1.0 + 0.0 * yh
+        #sgn_yh[ yh < 0 ] = -1
 
         res[ y < 0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
         #jx_pos = self._fourier(self.path_dn, self._jx_reg(), y_pos)

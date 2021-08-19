@@ -12,6 +12,12 @@ class Path:
     def update(self):
         self.find_arc_lengths()
 
+    def begins_at(self):
+        return self.z[0]
+    
+    def ends_at(self):
+        return self.z[-1]
+
     def arc_lengths(self): return self.arc_len
 
     def find_arc_lengths(self):

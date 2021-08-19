@@ -8,6 +8,7 @@ from bulk import InjectedFlow
 from edge import EdgeInjectedFlow
 from flows import CombinedFlow
 import time
+import util
 
 def make_arc(k, kappa):
     abs_k = np.abs(k)
@@ -15,28 +16,22 @@ def make_arc(k, kappa):
     b = kappa - abs_k / 2.0
     coarse = False
     if not coarse:
-       path_vert = path.StraightPath(100.0j*kappa   - 0.1*a,
-                                         1j * kappa -     a, 4000)
+        N_arc  = 101
+        N_vert = 500
     else:
-       path_vert = path.StraightPath(100.0j*kappa   - 0.1*a,
-                                         1j * kappa -     a, 400)
-    #path_vert = path.StraightPath(100.0j*kappa - 0.1*a, -a + 1j * kappa, 40)
-    def scaling_func(t):
-        return t * (2.0 - t)
-        #xi  = 2 * t - 1.0      # (0, 1) -> (-1, 1)
-        #eta = xi * np.abs(xi)  # more points near the middle
-        #return (eta + 1.0) / 2.0 # (-1, 1) -> (0, 1)
-    if not coarse:
-       path_arc  = path.ArcPath(1j * kappa, a, b, np.pi, 1.5*np.pi, 251,
-                                scaling_func)
-    else:
-       path_arc  = path.ArcPath(1j * kappa, a, b, np.pi, 1.5*np.pi, 25,
-                               scaling_func)
+        N_arc = 25
+        N_vert = 300
+    # Use quadractic scaling to add more points near the real axis,
+    # i.e. near 3/2 pi
+    path_arc  = path.ArcPath(1j * kappa, a, b, 1.5*np.pi, np.pi, N_arc,
+                             lambda t: t * t)
+    z_inf = 100.0j * kappa - 0.1 * a # the "infinity" point
+
+    # Use t * sqrt(t) scaling to add more points at smaller q
+    path_vert = path.StraightPath(path_arc.ends_at(), z_inf, N_vert,
+                               lambda t: t*np.sqrt(np.abs(t)))
     path_up_left  = path.append_paths(path_vert, path_arc)
-    #path_up_right = path.transform(path.reverse(path_up_left),
-    #                               lambda z: complex(-z.real, z.imag))
-    #path_dn_left  = path.transform(path_up_left, lambda z: z.conj())
-    #path_dn_right = path.transform(path_up_right, lambda z: z.conj())
+    path_up_left.reverse()
     return path_up_left
 
 def append_paths_and_kernels(path_a, K_a, path_b, K_b):
@@ -111,10 +106,6 @@ def make_contours_and_kernels(k, gamma, gamma1):
     path_ul = make_arc(abs(k), kappa)
     # upper left segment, used to construct the rest 
     
-
-    #show_paths(path_up, path_dn, q_m)
-    #import pylab as pl; pl.show()
-    
     K = xkernel.WHKernels(gamma, gamma1)
     print ("tabulate kernels up")
     import time; now = time.time()
@@ -129,6 +120,9 @@ def make_contours_and_kernels(k, gamma, gamma1):
     path_up, K_up = append_paths_and_kernels(path_ul, K_ul, path_ur, K_ur)
     path_dn, K_dn = conjugate_up_down(path_up, K_up)
 
+    util.show_paths(path_up, path_dn,
+               0.5*(path_up.points() + path_dn.points()))
+    import pylab as pl; pl.show()
     return path_up, K_up, path_dn, K_dn
 
 class WHSolver:

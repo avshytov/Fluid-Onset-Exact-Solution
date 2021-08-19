@@ -57,8 +57,7 @@ def Frho_star(gamma, k):
                   - abs(k)/gamma**2 * (0.5 - taninv))
 
 def Fomega_star(gamma, k):
-    sgn_k = 1.0
-    if k < 0: sgn_k = -1.0
+    sgn_k = np.sign(k)
     taninv = 1.0 / np.pi * np.arctan(np.abs(k)/gamma)
     return 0.25 * abs(k) /gamma * (1.0 - 2.0 * taninv) \
         + 0.5 *sgn_k * (1/np.pi - gamma/np.abs(k)*taninv)

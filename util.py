@@ -38,3 +38,14 @@ def display_complex(Z, F, scale=1.0):
     pl.figure()
     pl.imshow(colorize(scale*F), origin='lower',
               extent=(re_min, re_max, im_min, im_max))
+
+def show_paths(path_up, path_dn, q_m):
+    import pylab as pl
+    pl.figure()
+    pl.plot(path_up.points().real, path_up.points().imag, '-o',
+            ms=1.0, label='up')
+    pl.plot(path_dn.points().real, path_dn.points().imag, '-o',
+            ms=1.0, label='dn')
+    pl.plot(q_m.real, q_m.imag, label='mid')
+    pl.gca().set_aspect('equal', 'box')
+    pl.legend()

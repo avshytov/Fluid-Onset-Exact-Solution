@@ -68,8 +68,7 @@ class Stokeslet(Flow):
         return self.path_dn.integrate_array(f_psi) / 2.0 / np.pi / 1j
 
     def psi_star(self):
-        sgn_k = 1.0
-        if self.k < 0: sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         abs_k = np.abs(self.k)
         kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
         C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
@@ -82,8 +81,7 @@ class Stokeslet(Flow):
         gamma1 = self.gamma1
         exp_kh =  self.exp_kh
         abs_k = np.abs(k)
-        sgn_k = 1.0
-        if k < 0: sgn_k = -1.0
+        sgn_k = np.sign(k)
         Fk = 1j * self.Fx * sgn_k - self.Fy
         flux  = gamma / 2.0 / abs_k * Fk / self.Krho_star**2 * exp_kh
         flux -= 1.0/self.Komega_star * self.psi_star() * sgn_k
@@ -118,8 +116,7 @@ class Stokeslet(Flow):
         #exp_qh = np.exp(1j * q * self.h)
         abs_k = np.abs(self.k)
         Krho_star = self.Krho_star
-        sgn_k = 1.0
-        if k < 0: sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         #F_kq   = self.k * self.Fx + q * self.Fy
         F_sgnk = 1j * sgn_k * self.Fx - self.Fy
         #rho = 2j * F_kq / k2 * exp_qh
@@ -140,8 +137,7 @@ class Stokeslet(Flow):
         Krho_star = self.Krho_star
         exp_kh = self.exp_kh
         abs_k = np.abs(k)
-        sgn_k = 1.0                                                            
-        if k < 0: sgn_k = -1.0
+        sgn_k = np.sign(k)
         F_sgnk = 1j * sgn_k * self.Fx - self.Fy
         rho = F_sgnk / (abs_k + 1j * q) * Krho_m / Krho_star * exp_kh
         return rho
@@ -163,8 +159,7 @@ class Stokeslet(Flow):
     
     def _Omega_plus_reg(self, q, Ko_p, psi_m):
         Ko_star = self.Komega_star
-        sgn_k = 1.0
-        if self.k < 0: sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         abs_k = np.abs(self.k)
         kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
         C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
@@ -181,9 +176,7 @@ class Stokeslet(Flow):
         
     def _Omega_plus(self, q, Ko_p, psi_p):
         #return self._Omega_plus_old(q, Ko_p, psi_p)
-        sgn_k = 1.0
-        if self.k < 0:
-            sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         #kF = (self.k * self.Fy - q * self.Fx) / self.gamma
         exp_qh = np.exp(1j * q * self.h)
         Ko = self.K_dn.omega(q)
@@ -196,16 +189,13 @@ class Stokeslet(Flow):
         return omega
 
     def _Omega_plus_old(self, q, Ko_p, psi_p):
-        sgn_k = 1.0
-        if self.k < 0:
-            sgn_k = -1.0
+        sgn_k = np.sign(self.k)
         kF = (self.k * self.Fy - q * self.Fx) / self.gamma
         exp_qh = np.exp(1j * q * self.h)
         return Ko_p * psi_p + kF * exp_qh * (Ko_p - 1.0)
     
-    def _Omega_minus(self, q, Ko_m, psi_m):        
-        sgn_k = 1.0
-        if self.k < 0: sgn_k = -1.0
+    def _Omega_minus(self, q, Ko_m, psi_m):
+        sgn_k = np.sign(self.k)
         abs_k = np.abs(self.k)
         # Offsets the constant in psi_plus_reg
         kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
@@ -231,8 +221,7 @@ class Stokeslet(Flow):
         #if y < 0:
         #    return self._fourier(self.path_up, self.rho_minus(), y)
         yh = np.abs(y_pos - self.h) # even/odd integrand
-        sgn_yh = 1.0 + 0.0 * yh
-        sgn_yh[y_pos < self.h] = -1.0
+        sgn_yh = np.sign(yh)
         rho_sing_x = self._fourier(self.path_dn, self._rho_sing_x_dn(),
                                    yh)
         rho_sing_y = self._fourier(self.path_dn, self._rho_sing_y_dn(),
@@ -268,10 +257,7 @@ class Stokeslet(Flow):
         res[ y < 0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
         yh = y_pos - self.h
         abs_yh = np.abs(yh)
-        sgn_yh = 0.0 + 0.0 * yh
-        sgn_yh[ y_pos > self.h ] =  1
-        sgn_yh[ y_pos < self.h ] = -1
-
+        sgn_yh = np.sign(yh)
 
         jx_reg    = self.jx_q( 0.0 * self.q_dn, self._omega_reg(), self.q_dn)
         jx_sing_x = self.jx_q( 0.0 * self.q_dn, self._omega_sing_x(),
@@ -292,9 +278,7 @@ class Stokeslet(Flow):
         res[ y < 0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
         yh = y_pos - self.h
         abs_yh = np.abs(yh)
-        sgn_yh = 0.0 + 0.0 * yh
-        sgn_yh[ y_pos > self.h ] =  1
-        sgn_yh[ y_pos < self.h ] = -1
+        sgn_yh = np.sign(yh)
 
         jy_reg    = self.jy_q( 0.0 * self.q_dn, self._omega_reg(), self.q_dn)
         jy_sing_x = self.jy_q( 0.0 * self.q_dn, self._omega_sing_x(),
