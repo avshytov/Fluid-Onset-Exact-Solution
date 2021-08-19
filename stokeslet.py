@@ -54,7 +54,8 @@ class Stokeslet(Flow):
         abs_kz1 = np.outer(1.0 + 0.0 * z, 1j * abs_k - z1)
         f_psi = self.psi_up() * (1.0/z_z1 - 1.0/abs_kz1)
         #f_psi = self.psi_up() * (1.0/(z - z1) - 1.0/(1j * abs_k - z1))
-        return self.path_up.integrate_array(f_psi) / 2.0 / np.pi / 1j    
+        psi_m = self.path_up.integrate_array(f_psi) / 2.0 / np.pi / 1j
+        return psi_m - self.psi_inf()
 
     def psi_plus(self, z):
         z1 = self.path_dn.points()
@@ -65,16 +66,80 @@ class Stokeslet(Flow):
         #       type(z_z1), type)
         f_psi = - self.psi_dn() * (1.0/z_z1 - 1.0/abs_kz1)
         #f_psi = - self.psi_dn() * (1.0/(z - z1) - 1.0/(1j * abs_k - z1))
-        return self.path_dn.integrate_array(f_psi) / 2.0 / np.pi / 1j
-
-    def psi_star(self):
+        psi_p =  self.path_dn.integrate_array(f_psi) / 2.0 / np.pi / 1j
+        psi_p += self.psi_inf()
+        return psi_p
+    
+    def psi_inf (self):
         sgn_k = np.sign(self.k)
         abs_k = np.abs(self.k)
         kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
         C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
-        psi_m = self.psi_minus(-1j * np.abs(self.k))
-        return psi_m - C * self.exp_kh
+        return C * self.exp_kh
     
+    def psi_star(self):
+        psi_m = self.psi_minus(-1j * np.abs(self.k))
+        return psi_m #- self.psi_inf()
+    
+    def psi_star1(self):
+        z1 = self.path_up.points()
+        abs_k = np.abs(self.k)
+        z_z1 = -1j * abs_k - z1
+        #z_z1 = np.outer(z, 1.0 + 0.0*z1) - np.outer(1.0 + 0.0*z, z1)
+        #abs_kz1 = np.outer(1.0 + 0.0 * z, 1j * abs_k - z1)
+        abs_kz1 = 1j * abs_k - z1
+        #print ("shapes:", np.shape(z_z1), np.shape(abs_kz1),
+        #       type(z_z1), type)
+        f_psi =  self.psi_up() * (1.0/z_z1 - 1.0/abs_kz1)
+        if False:
+            I = self.path_up.integrate_array(f_psi)
+            print ("integral: ", I)
+            import pylab as pl
+            pl.figure()
+            #cs = np.cumsum(f_psi)
+            x_arc = self.path_up.arc_lengths()
+            x_arc -= x_arc[-1]/2.0
+            f_mid = (f_psi[1:] + f_psi[:-1])/2.0
+            z_p = self.path_up.points()
+            dz = z_p[1:] - z_p[:-1]
+            fdz = f_mid * dz / np.abs(dz)
+            cs = np.cumsum(fdz * np.abs(dz)) 
+            x_mid = (x_arc[1:] + x_arc[:-1])/2
+            pl.plot(x_mid, fdz.real, label='Re F dz')
+            pl.plot(x_mid, fdz.imag, label='Im F dz')
+            pl.plot(x_mid, cs.real, label='Re CS')
+            pl.plot(x_mid, cs.imag, label='Im CS')
+            pl.plot(x_arc, 0*x_arc + I.real, 'k--')
+            pl.xlim(-1.5, 1.5)
+            pl.ylim(-1.0, 6.2)
+            pl.legend()
+            pl.figure()
+            pl.plot(x_arc, self.path_up.points().real, label='Re z(s)')
+            pl.xlim(-1.5, 1.5)
+            pl.ylim(-0.8, 0.8)
+            pl.figure()
+            pl.plot(x_arc, self.path_up.points().imag, label='Im z(s)')
+            pl.xlim(-1.5, 1.5)
+            pl.ylim(0, 1.5)
+            pl.legend()
+            pl.figure()
+            Komega_p = self.K_up.Komega_p
+            def Ko_func(q):
+                return self.K_up.K.omega_plus(self.k, q)
+            Komega_p2 = np.vectorize(Ko_func) (self.path_up.points())
+            pl.plot(x_arc, Komega_p.real, label='Re K')
+            pl.plot(x_arc, Komega_p.imag, label='Im K')
+            pl.plot(x_arc, Komega_p2.real, label='Re K2')
+            pl.plot(x_arc, Komega_p2.imag, label='Im K2')
+            pl.ylim(-1.0, 1.0)
+            pl.legend()
+            pl.xlim(-1.5, 1.5)
+            pl.show()
+        #f_psi = - self.psi_dn() * (1.0/(z - z1) - 1.0/(1j * abs_k - z1))
+        psi_m =  self.path_up.integrate_array(f_psi) / 2.0 / np.pi / 1j
+        psi_m -= self.psi_inf()
+        return psi_m
+   
     def wall_flux(self):
         k = self.k
         gamma = self.gamma
@@ -84,7 +149,13 @@ class Stokeslet(Flow):
         sgn_k = np.sign(k)
         Fk = 1j * self.Fx * sgn_k - self.Fy
         flux  = gamma / 2.0 / abs_k * Fk / self.Krho_star**2 * exp_kh
-        flux -= 1.0/self.Komega_star * self.psi_star() * sgn_k
+        #print ("first term in flux:", flux)
+        #flux += 1.0/self.Komega_star * self.psi_inf() 
+        #print ("first two terms in flux", flux)
+        flux += - 1.0/self.Komega_star * self.psi_star()
+        #print ("correction: ", self.psi_star() / self.Komega_star)
+        #print ("correction: ", self.psi_star1() / self.Komega_star)
+        #print ("total: ", flux)
         #self.psi_minus(-1j * abs_k)
         #flux  = - gamma * gamma1 / 2.0 / k**2 / self.Krho_star**2 * exp_kh
         #flux += exp_kh / self.Komega_star**2 
@@ -162,9 +233,9 @@ class Stokeslet(Flow):
         sgn_k = np.sign(self.k)
         abs_k = np.abs(self.k)
         kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
-        C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
+        #C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
         # the constant is needed to make O* = 0
-        return - Ko_p * psi_m  + C * Ko_p * self.exp_kh
+        return - Ko_p * psi_m  #+ #self.psi_inf() * Ko_p * self.exp_kh
         
     def _Omega_plus_sing_x(self, q, Ko):
         kF = (self.k * self.Fy * 0 - q * self.Fx) 
@@ -198,9 +269,10 @@ class Stokeslet(Flow):
         sgn_k = np.sign(self.k)
         abs_k = np.abs(self.k)
         # Offsets the constant in psi_plus_reg
-        kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
-        C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
-        return Ko_m * psi_m - C * Ko_m * self.exp_kh
+        #kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
+        #C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
+        return Ko_m * psi_m
+        #- self.psi_inf() * Ko_m * self.exp_kh
 
     def _rho_sing_x_dn(self):
         return self._rho_plus_sing_x(self.q_dn, self.K_dn.rho_plus())
