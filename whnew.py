@@ -17,10 +17,13 @@ def make_arc(k, kappa):
     coarse = False
     if not coarse:
         N_arc  = 101
+        #N_arc = 201
         N_vert = 500
     else:
         N_arc = 25
         N_vert = 300
+    #N_arc = 51
+    #N_vert = 401
     # Use quadractic scaling to add more points near the real axis,
     # i.e. near 3/2 pi
     path_arc  = path.ArcPath(1j * kappa, a, b, 1.5*np.pi, np.pi, N_arc,
@@ -30,7 +33,7 @@ def make_arc(k, kappa):
     # Use t * sqrt(t) scaling to add more points at smaller q
     path_vert = path.StraightPath(path_arc.ends_at(), z_inf, N_vert,
                                lambda t: t*np.sqrt(np.abs(t)))
-    path_up_left  = path.append_paths(path_vert, path_arc)
+    path_up_left  = path.append_paths(path_arc, path_vert)
     path_up_left.reverse()
     return path_up_left
 
@@ -120,9 +123,9 @@ def make_contours_and_kernels(k, gamma, gamma1):
     path_up, K_up = append_paths_and_kernels(path_ul, K_ul, path_ur, K_ur)
     path_dn, K_dn = conjugate_up_down(path_up, K_up)
 
-    util.show_paths(path_up, path_dn,
-               0.5*(path_up.points() + path_dn.points()))
-    import pylab as pl; pl.show()
+    #util.show_paths(path_up, path_dn,
+    #           0.5*(path_up.points() + path_dn.points()))
+    #import pylab as pl; pl.show()
     return path_up, K_up, path_dn, K_dn
 
 class WHSolver:
@@ -255,18 +258,22 @@ def join_arrays(*arrays):
     for a in arrays:
         res_list.extend(list(a))
     return np.array(res_list)
-    
-kvals = join_arrays( np.linspace(0.001, 0.009, 5),
-                     np.linspace(0.01, 0.99, 99),
-                     np.linspace(1.0, 10.0, 361),
-                     np.linspace(10.1, 30.0, 200))
-yvals = np.linspace(-1.0, 10.0, 1101)
 
-gamma  = 1.0
-gamma1 = 1.0
-ver = "01a"
+if __name__ == '__main__':
+    kvals = join_arrays( np.linspace(0.001, 0.009, 5),
+                         np.linspace(0.01, 0.99, 99),
+                         np.linspace(1.0, 10.0, 361),
+                         np.linspace(10.1, 30.0, 200))
+    yvals = np.linspace(-1.0, 10.0, 1101)
 
-for h in [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]:
-    fname = "whnew-data-ver%s-h=%g-gamma1=%g" % (ver, h, gamma1)
-    run(h, gamma, gamma1, kvals, yvals, fname)
+    gamma  = 1.0
+    gamma1 = 1.0
+    ver = "01d"
+
+    #for h in [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]:
+    #for h in [0.1,  0.2, 0.3,  0.4, 4.0, 4.5, 8.5,  9.0, 13.0]:
+    #for h in [0.6,  0.7, 0.8,  0.9, 3.5, 5.5, 7.5,  9.5, 12.0]:
+    for h in [1.25, 1.5, 1.75, 2.5, 6.0, 6.5, 7.0, 10.0, 11.0]:
+        fname = "whnew-data-ver%s-h=%g-gamma1=%g" % (ver, h, gamma1)
+        run(h, gamma, gamma1, kvals, yvals, fname)
 
