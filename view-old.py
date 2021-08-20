@@ -5,6 +5,23 @@ def readData(fname):
     d = np.load(fname)
     for k in d.keys(): print (k)
     y = d['y']
+    f_s = d['f_s']
+    k = d['k']
+    f_cos = d['f_cos']
+    f_sin = d['f_sin']
+    pl.figure()
+    pl.plot(d['k'], f_s.real, label='Re f_s')
+    pl.plot(d['k'], f_s.imag, label='Im f_s')
+    pl.legend()
+    pl.figure()
+    pl.plot(d['k'], f_cos.real, label='Re f_cos')
+    pl.plot(d['k'], f_cos.imag, label='Im f_cos')
+    pl.legend()
+    pl.figure()
+    pl.plot(d['k'], f_sin.real, label='Re f_sin')
+    pl.plot(d['k'], f_sin.imag, label='Im f_sin')
+    pl.legend()
+    pl.show()
     rho = d['rho']
     drho = d['drho']
     rho_s = d['rho_s']
