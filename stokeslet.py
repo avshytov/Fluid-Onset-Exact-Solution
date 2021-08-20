@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import special
 from flows import Flow
+from cauchy import cauchy_integral, cauchy_integral_array
 
 class Stokeslet(Flow):
     def __init__ (self, Fx, Fy, h, k, K_up, path_up, K_dn, path_dn):
@@ -50,23 +51,29 @@ class Stokeslet(Flow):
     def psi_minus(self, z):
         z1 = self.path_up.points()
         abs_k = np.abs(self.k)
-        z_z1 = np.outer(z, 1.0 + 0.0*z1) - np.outer(1.0 + 0.0*z, z1)
-        abs_kz1 = np.outer(1.0 + 0.0 * z, 1j * abs_k - z1)
-        f_psi = self.psi_up() * (1.0/z_z1 - 1.0/abs_kz1)
+        ###z_z1 = np.outer(z, 1.0 + 0.0*z1) - np.outer(1.0 + 0.0*z, z1)
+        ###abs_kz1 = np.outer(1.0 + 0.0 * z, 1j * abs_k - z1)
+        ###f_psi = self.psi_up() * (1.0/z_z1 - 1.0/abs_kz1)
+        psi_m  = -cauchy_integral_array(self.path_up, self.psi_up(), z)
+        psi_m +=  cauchy_integral_array(self.path_up, self.psi_up(),
+                                        1j * abs_k)
         #f_psi = self.psi_up() * (1.0/(z - z1) - 1.0/(1j * abs_k - z1))
-        psi_m = self.path_up.integrate_array(f_psi) / 2.0 / np.pi / 1j
-        return psi_m - self.psi_inf()
+        ###psi_m = self.path_up.integrate_array(f_psi) / 2.0 / np.pi / 1j
+        psi_m -= self.psi_inf()
+        return psi_m #- self.psi_inf()
 
     def psi_plus(self, z):
         z1 = self.path_dn.points()
         abs_k = np.abs(self.k)
-        z_z1 = np.outer(z, 1.0 + 0.0*z1) - np.outer(1.0 + 0.0*z, z1)
-        abs_kz1 = np.outer(1.0 + 0.0 * z, 1j * abs_k - z1)
+        ###z_z1 = np.outer(z, 1.0 + 0.0*z1) - np.outer(1.0 + 0.0*z, z1)
+        ###abs_kz1 = np.outer(1.0 + 0.0 * z, 1j * abs_k - z1)
         #print ("shapes:", np.shape(z_z1), np.shape(abs_kz1),
         #       type(z_z1), type)
-        f_psi = - self.psi_dn() * (1.0/z_z1 - 1.0/abs_kz1)
+        ###f_psi = - self.psi_dn() * (1.0/z_z1 - 1.0/abs_kz1)
         #f_psi = - self.psi_dn() * (1.0/(z - z1) - 1.0/(1j * abs_k - z1))
-        psi_p =  self.path_dn.integrate_array(f_psi) / 2.0 / np.pi / 1j
+        ###psi_p =  self.path_dn.integrate_array(f_psi) / 2.0 / np.pi / 1j
+        psi_p  = cauchy_integral_array(self.path_dn, self.psi_dn(), z)
+        psi_p -= cauchy_integral_array(self.path_dn, self.psi_dn(), 1j*abs_k) 
         psi_p += self.psi_inf()
         return psi_p
     

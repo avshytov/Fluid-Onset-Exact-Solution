@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import special
 from flows import Flow
+from cauchy import cauchy_integral, cauchy_integral_array
 
 class InjectedFlow(Flow):
     def __init__ (self, h, k, K_up, path_up, K_dn, path_dn):
@@ -55,12 +56,13 @@ class InjectedFlow(Flow):
     # Integral over path_up, evaluated at path_dn
     #
     def chi_minus(self, z):
-        z1 = self.path_up.points()
+        ###z1 = self.path_up.points()
         #exp_qh = np.exp(1j * z1 * self.h)
         #Kinv = 1.0/self.K_up.rho_minus() - 1.0
-        z_z1 = np.outer(z, 1.0 + 0.0 * z1) - np.outer(1.0 + 0.0 * z, z1)
-        f_chi = self.chi_up() / z_z1 #/ (z - z1) 
-        return self.path_up.integrate_array(f_chi) / 2.0 / np.pi / 1j
+        ###z_z1 = np.outer(z, 1.0 + 0.0 * z1) - np.outer(1.0 + 0.0 * z, z1)
+        ###f_chi = self.chi_up() / z_z1 #/ (z - z1) 
+        ###return self.path_up.integrate_array(f_chi) / 2.0 / np.pi / 1j
+        return -cauchy_integral_array(self.path_up, self.chi_up(), z)
 
     
     #
@@ -69,14 +71,14 @@ class InjectedFlow(Flow):
     def chi_plus(self, z):
         #gamma = self.gamma
         #h = self.h
-        z1 = self.path_dn.points()
+        ###z1 = self.path_dn.points()
         #exp_qh = np.exp(1j * z1 * self.h)
         #Kinv = 1.0/self.K_dn.rho_minus() - 1.0
-        z_z1 = np.outer(z, 1.0 + 0.0 * z1) - np.outer(1.0 + 0.0 * z, z1)
-        f_chi = -self.chi_dn() / z_z1 #/ (z - z1)
+        ###z_z1 = np.outer(z, 1.0 + 0.0 * z1) - np.outer(1.0 + 0.0 * z, z1)
+        ###f_chi = -self.chi_dn() / z_z1 #/ (z - z1)
         #f_chi = - exp_qh / (z - z1) * Kinv / gamma
-        I =  self.path_dn.integrate_array(f_chi) / 2.0 / np.pi / 1j
-        return I
+        ###I =  self.path_dn.integrate_array(f_chi) / 2.0 / np.pi / 1j
+        return cauchy_integral_array(self.path_dn, self.chi_dn(), z)
     
     def wall_flux(self):
         k = self.k

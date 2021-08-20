@@ -9,6 +9,7 @@ from edge import EdgeInjectedFlow
 from flows import CombinedFlow
 import time
 import util
+from cauchy import cauchy_integral
 
 def make_arc(k, kappa):
     abs_k = np.abs(k)
@@ -16,8 +17,8 @@ def make_arc(k, kappa):
     b = kappa - abs_k / 2.0
     coarse = False
     if not coarse:
-        N_arc  = 101
-        #N_arc = 201
+        #N_arc  = 101
+        N_arc = 201
         N_vert = 500
     else:
         N_arc = 25
@@ -37,6 +38,43 @@ def make_arc(k, kappa):
     path_up_left.reverse()
     return path_up_left
 
+def make_contours(k, kappa):
+    path_ul = make_arc(k, kappa)
+    path_ru = path.transform(path_ul, lambda z: complex(-z.real, z.imag))
+    path_ur = path.reverse(path_ru)
+    path_up = path.append_paths(path_ul, path_ur)
+    path_dn = path.transform(path_up, lambda z: complex(z.real, -z.imag))
+    return path_up, path_dn
+
+def make_paths_and_kernels(K, k):
+    kappa = np.sqrt(k**2 + K.gamma**2)
+    path_up, path_dn = make_contours(k, kappa)
+    # Do Cauchy integrals:
+    z_up = path_up.points()
+    log_Krho_p = cauchy_integral(path_dn,
+                                 lambda z: np.log(K.rho(k, z)), z_up)
+    z_be = 0.5 * (path_dn.begins_at() + path_dn.ends_at())
+    log_corr   = 1j / np.pi / z_up * np.log(z_be/(z_be - z_up))
+    log_Krho_p   += K.gamma * log_corr
+    log_Komega_p  = cauchy_integral(path_dn,
+                                    lambda z: np.log(K.omega(k, z)), z_up)
+    log_Komega_p += 2.0 * K.gamma1 * log_corr
+    Krho_p_up     = np.exp(-log_Krho_p)
+    Komega_p_up   = np.exp(-log_Komega_p)
+
+    # Obtain the values at the lower contour by the
+    # up-down symmetry
+    z_dn = path_dn.points()
+    Krho_dn     = K.rho(k,   z_dn)
+    Komega_dn   = K.omega(k, z_dn)
+    Krho_m_dn   = 1.0 / Krho_p_up.conj()
+    Komega_m_dn = 1.0 / Komega_p_up.conj()
+    Krho_p_dn   = Krho_m_dn / Krho_dn
+    Komega_p_dn = Komega_m_dn / Komega_dn
+    K_up = xkernel.TabulatedKernels(K, k, z_up, Krho_p_up, Komega_p_up)  
+    K_dn = xkernel.TabulatedKernels(K, k, z_dn, Krho_p_dn, Komega_p_dn)
+    return path_up, K_up, path_dn, K_dn
+    
 def append_paths_and_kernels(path_a, K_a, path_b, K_b):
 
     if abs(K_a.k - K_b.k) > 1e-6:
@@ -152,9 +190,57 @@ class WHSolver:
         gammma1 = self.gamma1
 
         # Prepare the integration contours and the tabulated kernels
-        path_up, K_up, path_dn, K_dn = make_contours_and_kernels(k, gamma,
-                                                                 gamma1)
+        K = xkernel.WHKernels(gamma, gamma1)
+        path_up, K_up, path_dn, K_dn = make_paths_and_kernels(K, k)
+        if False:
+           path_up_old, K_up_old, path_dn_old, K_dn_old \
+               = make_contours_and_kernels(k, gamma, gamma1)
+           import pylab as pl
+           x_arc_old = path_up_old.arc_lengths()
+           x_arc_new = path_up.arc_lengths()
+           pl.figure()
+           pl.plot(x_arc_new, np.abs(K_up.Krho_p - K_up_old.Krho_p),
+                   label='diff Krho+ up')
+           pl.plot(x_arc_new, np.abs(K_up.Komega_p - K_up_old.Komega_p),
+                   label='diff Komega+ up')
+           pl.plot(x_arc_new, np.abs(K_dn.Krho_p - K_dn_old.Krho_p),
+                   label='diff Krho+ dn')
+           pl.plot(x_arc_new, np.abs(K_dn.Komega_p - K_dn_old.Komega_p),
+                   label='diff Komega+ dn')
+           pl.legend()
+           pl.figure()
+           pl.plot(x_arc_new, K_up.Krho_p.real, label='Re Krho new up')
+           pl.plot(x_arc_new, K_up.Krho_p.imag, label='Im Krho new up')
+           pl.plot(x_arc_old, K_up_old.Krho_p.real,
+                   '--', label='Re Krho old up')
+           pl.plot(x_arc_old, K_up_old.Krho_p.imag,
+                   '--', label='Im Krho old up')
 
+           pl.plot(x_arc_new, K_up.Komega_p.real, label='Re Komega new up')
+           pl.plot(x_arc_new, K_up.Komega_p.imag, label='Im Komega new up')
+           pl.plot(x_arc_old, K_up_old.Komega_p.real,
+                   '--', label='Re Komega old up')
+           pl.plot(x_arc_old, K_up_old.Komega_p.imag,
+                   '--', label='Im Komega old up')
+           pl.legend()
+
+           pl.figure()
+           pl.plot(x_arc_new, K_dn.Krho_p.real, label='Re Krho new dn')
+           pl.plot(x_arc_new, K_dn.Krho_p.imag, label='Im Krho new dn')
+           pl.plot(x_arc_old, K_dn_old.Krho_p.real,
+                   '--', label='Re Krho old dn')
+           pl.plot(x_arc_old, K_dn_old.Krho_p.imag,
+                   '--', label='Im Krho old dn')
+
+           pl.plot(x_arc_new, K_dn.Komega_p.real, label='Re Komega new dn')
+           pl.plot(x_arc_new, K_dn.Komega_p.imag, label='Im Komega new dn')
+           pl.plot(x_arc_old, K_dn_old.Komega_p.real,
+                   '--', label='Re Komega old dn')
+           pl.plot(x_arc_old, K_dn_old.Komega_p.imag,
+                   '--', label='Im Komega old dn')
+           pl.legend()
+           pl.show()
+ 
         # Prepare the building blocks
         diffuse_flow   = DiffuseFlow(k, K_up, path_up, K_dn, path_dn)
         if (h < 0.001):
@@ -268,12 +354,13 @@ if __name__ == '__main__':
 
     gamma  = 1.0
     gamma1 = 1.0
-    ver = "01d"
+    ver = "01e"
 
+    for h in [0.0, 0.1, 0.3, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0]:
     #for h in [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]:
     #for h in [0.1,  0.2, 0.3,  0.4, 4.0, 4.5, 8.5,  9.0, 13.0]:
     #for h in [0.6,  0.7, 0.8,  0.9, 3.5, 5.5, 7.5,  9.5, 12.0]:
-    for h in [1.25, 1.5, 1.75, 2.5, 6.0, 6.5, 7.0, 10.0, 11.0]:
+    #for h in [1.25, 1.5, 1.75, 2.5, 6.0, 6.5, 7.0, 10.0, 11.0]:
         fname = "whnew-data-ver%s-h=%g-gamma1=%g" % (ver, h, gamma1)
         run(h, gamma, gamma1, kvals, yvals, fname)
 
