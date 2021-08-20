@@ -80,7 +80,7 @@ class Path:
        return np.vectorize(f)(self.z)
         
     def integrate(self, f):
-        return self.integrate_arr(self.eval(f))
+        return self.integrate_array(self.eval(f))
     
     def integrate_array(self, f_arr):
         self.setup()
