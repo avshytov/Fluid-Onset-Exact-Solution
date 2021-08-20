@@ -5,7 +5,7 @@ import sys
 from scipy import optimize
 from scipy import special
 import _makequad as mq
-from scipy import integrate
+from scipy import integrate, linalg
 import matplotlib.patches as patches
 
 #src_type = 'sin'
@@ -16,6 +16,11 @@ src_type = 'isotropic'
 #selector = ""
 
 gamma = 1.0
+
+#pl.rc('text', usetex=True)
+pl.rc('font', size=14)
+#pl.rc('font', family='serif')
+pl.rc("savefig", directory="")
 
 def visc_phi(data, x = None, scale = 1):
     if x == None: x = data.x
@@ -263,6 +268,9 @@ class FlowData:
         self.jtheta = None
         self.r_src = None
         self.j_src = None
+        self.gamma = None
+        self.gamma1 = None
+        self.gamma2 = None
 
 def prepare_data(fname, sel, x, R_dir, **kwargs):
     params = {
@@ -323,7 +331,7 @@ def prepare_data(fname, sel, x, R_dir, **kwargs):
       C_rho0 = 0.0 * C_cos
       C_phi_j = 0.0 * C_cos
     if sel == 'sin':
-      rho_k = drho_k = d['Fx:rho'] * C_sin
+      rho_k = drho_k = d['Fy:rho'] * C_sin
       jx_k = d['Fy:jx'] * C_sin
       jy_k = d['Fy:jy'] * C_sin
       f_sk = d['Fy:f']  * C_sin 
@@ -469,24 +477,38 @@ def prepare_data(fname, sel, x, R_dir, **kwargs):
     iy0 = np.argmin(np.abs(y))
     RHO_0[:, 0:iy0] = 0.0
     DRHO_joint2 = np.dot(fourier_joint2 * src_joint2, drho_k_joint2).real * 2.0
-    PSI_joint2 = np.dot(fourier_joint2 * src_joint2 * cos_src, psi_k_joint2).real * 2.0
+    PSI_joint2 = np.dot(fourier_joint2 * src_joint2 * cos_src,
+                        psi_k_joint2).real * 2.0
     JX = np.dot(fourier_joint2 * src_joint2, jx_k_joint2).real * 2.0
+    print ("JX = ", JX)
     JY = np.dot(fourier_joint2 * src_joint2, jy_k_joint2).real * 2.0
+    #j_zero = np.argmin(np.abs(data.y))
+    JX[:, :iy0] = 0.0
+    JY[:, :iy0] = 0.0
 
-    data.psi = PSI_joint2
-    data.jx = JX
-    data.jy = JY
-    data.rho = RHO_0 + DRHO_joint2
-    data.drho = DRHO_joint2
+    data.psi = np.nan_to_num(PSI_joint2, nan=0.0)
+    data.jx = np.nan_to_num(JX)
+    data.jy = np.nan_to_num(JY)
+    data.rho = np.nan_to_num(RHO_0 + DRHO_joint2)
+    data.drho = np.nan_to_num(DRHO_joint2)
     
     PSI3 = 0.0 * X
     dx = x[1] - x[0]
     dy = y[1] - y[0]
 
     for j in range(1, len(y)):
-        jx_half = (JX[:, j] + JX[:, j - 1])/2.0
+        print ("PIS3 col: ", PSI3[:, j-1])
+        jx_half = -(JX[:, j] + JX[:, j - 1])/2.0
+        print ("jx_half: ", jx_half)
         PSI3[:, j] = PSI3[:, j - 1] + jx_half * dy
-    data.psi_alt = PSI3
+        print ("PIS3 col: ", PSI3[:, j])
+    print ("PSI3: ", np.max(PSI3), np.min(PSI3))
+    j_zero = np.argmin(np.abs(data.y))
+    data.psi_alt = np.nan_to_num(PSI3, nan=0.0)
+    data.psi_alt[:, :j_zero] = 0
+    data.psi[:, :j_zero] = 0
+    data.rho[:, :j_zero] = 0
+    data.drho[:, :j_zero] = 0
 
     f_s_joint2 = np.dot(fourier_joint2 * src_joint2, f_sk_joint2).real * 2.0
 
@@ -625,8 +647,10 @@ def view_fs_gamma(data, fname, sel):
     for x_0 in [1.0]:
        i_x = [t for t in range(len(data.x)) if data.x[t] > 0.01]
        x_p = np.array([data.x[t] for t in i_x])
-       f_p = np.array([data.f_s[t] for t in i_x])
+       f_p = np.array([data.f_s[t] for t in i_x]).flatten()
+       print ("view_fs_gamma; f_p = ", f_p, np.shape(f_p))
        gamma_p = np.abs(x_p) / x_0
+       print ("view_fs_gamma; gamma_p = ", gamma_p, np.shape(gamma_p))
        #ax_fs_gamma.plot(gamma_p, gamma_p * f_p, label='x_0 = %g' % x_0)
        ax_fs_gamma.plot(gamma_p, gamma_p * f_p, 'k', label='WH solution')
        i_min = 0
@@ -748,9 +772,9 @@ def view_psi(data, fname, sel):
     print("psi: ", data.psi.min(), data.psi.max())
     #pl.contour(X, Y, data.psi, V, cmap='hsv')
     pl.contour(X, Y, data.psi, 32, cmap='hsv')
-    draw_edge(data)
+    draw_edge(data, pl.gca())
     pl.gca().set_aspect('equal', 'box')
-    #cb = pl.colorbar()
+    cb = pl.colorbar()
     pl.xlabel("$x/l_{ee}$")
     pl.ylabel("$y/l_{ee}$")
     pl.title(r"Stream function $\psi(x,y)$, $h = %g l_{ee}$" % data.h)
@@ -760,9 +784,9 @@ def view_psi_alt(data, fname, sel):
     Y, X = np.meshgrid(data.y, data.x)
     pl.figure()
     pl.contour(X, Y, data.psi_alt, 30, cmap='hsv')
-    draw_edge(data)
+    draw_edge(data, pl.gca())
     pl.gca().set_aspect('equal', 'box')
-    #cb = pl.colorbar()
+    cb = pl.colorbar()
     pl.xlabel("$x/l_{ee}$")
     pl.ylabel("$y/l_{ee}$")
     pl.title(r"Stream function $\psi(x,y)$, $h = %g l_{ee}$" % data.h)
@@ -788,7 +812,7 @@ def view_rho_comb(data, fname, sel, maxv = 0.05):
 
     Y, X = np.meshgrid(data.y, data.x)
     if data.h > 0.001 and data.sel == 'iso' or data.sel=='sin':
-        psi_XY = data.psi_alt
+        psi_XY = data.psi_alt.copy()
     #   cs= pl.contour(X, Y, data.psi_alt, 31, colors='black',
     #           lw=0.5, linestyles='solid')
     else:
@@ -803,7 +827,7 @@ def view_rho_comb(data, fname, sel, maxv = 0.05):
                     colors='green', lw=0.5, linestyle='solid')
     pl.clf()
     pl.pcolor(X, Y, data.rho, cmap='bwr', norm=custom_norm, shading='auto')
-    draw_edge(data)
+    draw_edge(data, pl.gca())
     pl.gca().set_aspect('equal', 'box')
     cb = pl.colorbar()
     pl.xlabel("$x/l_{ee}$")
@@ -828,14 +852,16 @@ def view_rho_comb(data, fname, sel, maxv = 0.05):
                if np.abs(data.h) < 0.001:
                    if np.abs(y_t) < 0.1: return True
                    return False
-               print ("cut?")
-               if abs(x_t - 0.0) < 0.02 and y_t > data.h: return True
+               print ("cut?", x_t, y_t)
+               if abs(x_t - 0.0) < max(0.02, 0.1*np.abs(y_t - data_h))  \
+                  and y_t > data.h: return True
                return False
            x_seg = [t[0] for t in poly if not cut(t)]
            y_seg = [t[1] for t in poly if not cut(t)]
-           if data.sel == 'iso':
-               x_seg.append(0.0)
-               y_seg.append(data.h)
+           if data.sel == 'iso' and data.h < 0.001:
+               pass
+               x_seg.insert(0, 0.0)
+               y_seg.insert(0, data.h)
            x_seg = np.array(x_seg)
            y_seg = np.array(y_seg)
            if len(x_seg) < 10: continue
@@ -847,9 +873,9 @@ def view_rho_comb(data, fname, sel, maxv = 0.05):
            z0 = 0.0 + 1j * data.h
            sgn = 1.0
            if i % 2 : sgn = -1.0
-           i_end = np.argmin(np.abs(np.abs(z_seg - z0) - R_0)
+           i_arr = np.argmin(np.abs(np.abs(z_seg - z0) - R_0)
                              - 0.001 *  sgn * x_seg)
-           i_arr = i_end + 5
+           i_end = i_arr - 5
            if i_arr >= len(x_seg): continue
            #i_arr = int(1*len(x_seg)/3)
            #pl.plot(x_seg, y_seg, 'k-')
@@ -873,6 +899,9 @@ def view_rho_comb(data, fname, sel, maxv = 0.05):
                 if lwid < 0.5: lwid = 0.5
                 if lwid > 5.0: lwid = 5.0
                 lw.append(lwid)
+           #if data.sel == 'iso':
+           #    x_seg.append(0.0)
+           #    y_seg.append(data.h)
            new_segs = np.array(new_segs)
            #print ("lw = ", lw)
            lw = np.array(lw)
@@ -909,7 +938,7 @@ def view_rho(data, fname, sel, maxv = 0.05):
     Y, X = np.meshgrid(data.y, data.x)
     pl.pcolormesh(X, Y, data.rho, cmap='bwr', vmin=-maxv, vmax=maxv,
               shading='auto')
-    draw_edge(data)
+    draw_edge(data, pl.gca())
     pl.gca().set_aspect('equal', 'box')
     cb = pl.colorbar()
     pl.xlabel("$x/l_{ee}$")
@@ -925,9 +954,9 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
     pl.pcolormesh(X, Y, data.jx**2 + data.jy**2,
               norm=LogNorm(vmin=0.01, vmax=10.0))
     pl.colorbar()
-    pl.title("j^2")
+    pl.title("$j^2$")
     
-    fig = pl.figure()
+    fig = pl.figure(figsize=(10, 6))
     import matplotlib.colors as mpc
     from matplotlib.collections import LineCollection
     class Custom_Norm(mpc.Normalize):
@@ -949,15 +978,21 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
     #   cs= pl.contour(X, Y, data.psi_alt, 31, colors='black',
     #           lw=0.5, linestyles='solid')
     else:
-      psi_XY = data.psi
+        psi_XY = data.psi
     min_lev = np.min(data.psi)
     max_lev = np.max(data.psi)
     levs = np.linspace(min_lev, max_lev, 25)
-    levs = 0.5 * (levs[1:] + levs[:-1])
+    if data.h < 0.001:
+       levs = np.linspace(min_lev, max_lev, 25)
+       levs = 0.5 * (levs[1:] + levs[:-1])
+    else:
+       levs = np.linspace(min_lev, max_lev, 26)[1:]
+       #levs = 0.5 * (levs[1:] + levs[:-1])
     print ("levels: ", list(levs))
     print ("levels = ", levs)
     cs = pl.contour(X, Y, psi_XY, levs,
                     colors='green', lw=0.5, linestyle='solid')
+    #pl.show()
     pl.clf()
     y_max = np.max(Y)
     if data.h < 10: 
@@ -965,12 +1000,12 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
     from matplotlib import gridspec
     from mpl_toolkits.axes_grid1 import make_axes_locatable
     #gs = gridspec.GridSpec(2, 2)
-    ax_phi = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+    ax_phi = fig.add_axes([0.05, 0.1, 0.85, 0.8])
     #pl.subplot(gs[0])
     divider = make_axes_locatable(ax_phi)
     ax_flux = divider.append_axes("bottom",
                                   size="66%",pad="1%", sharex=ax_phi)
-    ax_cb = divider.append_axes("right", size="5%", pad="2%")
+    ax_cb = divider.append_axes("right", size="5%", pad="6%")
     ax_flux.set_facecolor('0.95')
     # Does not work
     #ax_phi = pl.subplot2grid((10, 8), (0, 0), colspan=6, rowspan=7)
@@ -986,14 +1021,29 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
     ax_phi.set_aspect('equal', 'box')
     print ("phi axes:", ax_phi.get_axes_locator())
     draw_edge(data, ax_phi)
-    cb = fig.colorbar(pc, cax=ax_cb)
+    from matplotlib.ticker import FixedLocator, ScalarFormatter
+    cb = fig.colorbar(pc, cax=ax_cb,
+                      format=ScalarFormatter(useMathText=True))
+    cb_ticks = np.linspace(custom_norm.vmin, custom_norm.vmax, 5)
+    cb.ax.yaxis.set_major_locator(FixedLocator(5))
+    #cb.formatter = ScalarFormatter(useMathText=True)
+    cb.formatter.set_scientific(True)
+    cb.formatter.set_powerlimits((-1, 1))
+    cb.set_ticks(cb_ticks)
+    #loc_labels = [(t, r'$%g \times 10^{-2}$' % (t * 100)) for t in cb_ticks]
+    #loc_labels = [(t, r'$%g$' % (t * 100)) for t in cb_ticks]
+    #for i, loc_label in enumerate(loc_labels):
+    #    loc, label = loc_label
+    #    if abs(loc) < 1e-6:
+    #        loc_labels[i] = (0, "$0$")
+    #cb.ax.set_yticklabels([t[1] for t in loc_labels])
     #cb = pl.colorbar()
     #ax_phi.set_xlabel("$x/l_{ee}$")
     pl.setp(ax_phi.get_xticklabels(), visible=False)
     #pl.setp(ax_phi.get_xtickmarks(), visible=False) # no such function
     #ax_phi.set_xticks([])
     ax_phi.set_ylabel("$y/l_{ee}$")
-    cb.set_label(r"$\phi(x, y)$")
+    cb.set_label(r"Bulk potential $\phi(x, y)$")
     #import matplotlib._cntr as cntr
     #c = cntr.Cntr(X, Y, psi_XY, 31)
     segments = cs.allsegs
@@ -1011,16 +1061,22 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
                x_t = t[0]
                y_t = t[1]
                if np.abs(data.h) < 0.001:
-                   if np.abs(y_t) < 0.1: return True
+                   if np.abs(y_t) < 0.05: return True
                    return False
-               print ("cut?")
+               #print ("cut?")
                if abs(x_t - 0.0) < 0.02 and y_t > data.h: return True
+               if data.sel == 'iso' and data.h > 0.001:
+                   pass
+                   #if np.abs(levs[i_lev]) > 0.499 and y_t > data.h:
+                   #    if abs(x_t) < 0.03:
+                   #        return True
                return False
            x_seg = [t[0] for t in poly if not cut(t)]
            y_seg = [t[1] for t in poly if not cut(t)]
-           if data.sel == 'iso':
-               x_seg.append(0.0)
-               y_seg.append(data.h)
+           if data.sel == 'iso' and data.h < 0.001:
+               pass
+               x_seg.insert(0, 0.0)
+               y_seg.insert(0, data.h)
            x_seg = np.array(x_seg)
            y_seg = np.array(y_seg)
            if len(x_seg) < 10: continue
@@ -1028,13 +1084,15 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
                print ("x = ", x_seg, "y = ", y_seg)
            print ("filtered:", len(x_seg), len(poly))
            z_seg = x_seg + 1j * y_seg
+           seg_length = np.sum(np.abs(z_seg[1:] - z_seg[:-1]))
+           if seg_length < 1: continue
            R_0 = y_max*0.9 - data.h 
            z0 = 0.0 + 1j * data.h
            sgn = 1.0
            if i_lev % 2 : sgn = -1.0
            i_end = np.argmin(np.abs(np.abs(z_seg - z0) - R_0)
                              - 0.001 *  sgn * x_seg)
-           i_arr = i_end + 5
+           i_arr = i_end - 5
            if i_arr >= len(x_seg): continue
            #i_arr = int(1*len(x_seg)/3)
            #pl.plot(x_seg, y_seg, 'k-')
@@ -1057,15 +1115,16 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
                 jy = data.jy[ix, iy]
                 J   = np.sqrt(np.abs(jx)**2 + np.abs(jy)**2) 
                 if data.sel == 'iso':
-                    J0  = 1.0/2.0/np.pi * 0.3
+                    J0  = 1.0/2.0/np.pi * 0.2
                     lw0 = 1.5
                     lwid = 1.5 * np.abs(J)/J0
                 else:
-                    J0  = 0.3
+                    J0  = 0.05
                     lwid = np.abs(J)/J0 * 1.5
                 #lwid = 1.5 + np.log((np.abs(J) + 1e-4)/J0) * lw0
                 if lwid < 0.2: lwid = 0.2
-                if lwid > 2.0: lwid = 2.0
+                if lwid > 3.5: lwid = 3.5
+                #lwid = 1.0
                 lw.append(lwid)
            new_segs = np.array(new_segs)
            #print ("lw = ", lw)
@@ -1107,7 +1166,7 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
     #ax_flux.plot(data.x, data.jy[:, j0], 'b-', label='Edge source')
     #ax_flux.set_xlabel("")
     ax_flux.set_xlabel("$x/l_{ee}$")
-    ax_flux.set_ylabel("Edge signal $V_P(x)$")
+    ax_flux.set_ylabel("Edge potential $V_P(x)$")
     ax_flux.set_xlim(np.min(X), np.max(X))
     print ("X lim: ", np.min(X), np.max(X))
     ax_flux.plot([np.min(X), np.max(X)], [0.0, 0.0], 'k--')
@@ -1122,7 +1181,7 @@ def view_rho(data, fname, sel, maxv = 0.05):
     Y, X = np.meshgrid(data.y, data.x)
     pl.pcolormesh(X, Y, data.rho, cmap='bwr', vmin=-maxv, vmax=maxv,
               shading='auto')
-    draw_edge(data)
+    draw_edge(data, pl.gca())
     pl.gca().set_aspect('equal', 'box')
     cb = pl.colorbar()
     pl.xlabel("$x/l_{ee}$")
@@ -1161,10 +1220,10 @@ def view_data(data, fname, sel):
     view_fs_gamma(data, fname, sel)
     view_rho_b(data, fname, sel)
 #<<<<<<< HEAD
-    #view_rho(data, fname, sel, 0.3)
-    vmax = 0.01
+    view_rho(data, fname, sel, 0.3)
+    vmax = 0.02
     if data.sel == 'sin' or data.sel == 'cos':
-        vmax = 0.25
+        vmax = 0.05
     view_rho_comb2(data, fname, sel, vmax)
     #view_psi(data, fname, sel)
     #view_psi_alt(data, fname, sel)
@@ -1178,6 +1237,65 @@ def view_data(data, fname, sel):
 #    view_directivity(data, fname, sel)
 #>>>>>>> 3530290e7de93f95028febeab6a211e698cdadb2
     #pl.show()
+
+
+def load_or_prepare_data(fname, selector, x, R_dir):
+    import os
+    import os.path
+    preproc_fname = "preproc/%s-%s" % (selector, fname)
+    try:
+        if not os.path.exists(preproc_fname):
+            raise Exception("preprocessed file does not exist")
+        if os.path.getmtime(fname) > os.path.getmtime(preproc_fname):
+            raise Exception("obsolete preprocessed file")
+        d = np.load(preproc_fname)
+        if len(d['x']) != len(x):
+            raise Exception("x is different, need to update")
+        if linalg.norm(d['x'] - x) > 1e-6:
+            raise Exception("precomputed data for different values of x")
+        if d['selector'] != selector:
+            raise Exception("data for a different selector")
+        if d['orig_data'] != fname:
+            raise Exception("precomuted data for another data file")
+        data = FlowData()
+        data.x = d['x']
+        data.y = d['y']
+        data.sel = d['selector']
+        data.i_b = d['i_b']
+        data.rho = d['rho']
+        data.drho = d['drho']
+        data.psi = d['psi']
+        data.psi_alt = d['psi_alt']
+        data.h = d['h']
+        data.gamma = d['gamma']
+        data.f_s = d['f_s']
+        #data.rho_b = d['rho_b']
+        data.jx = d['jx']
+        data.jy = d['jy']
+        data.R_dir = d['R_dir']
+        data.jr = d['jr']
+        data.jtheta =d['jtheta']
+        data.r_src = d['r_src']
+        data.j_src = d['j_src']
+        if 'gamma1' in d.keys():
+            data.gamma1 = d['gamma1']
+            data.gamma2 = data.gamma - data.gamma1
+        return data
+    
+    except:
+        import traceback
+        traceback.print_exc()
+        data = prepare_data(fname, selector, x, R_dir)
+        np.savez(preproc_fname, x_orig=x, x=data.x, y=data.y, i_b = data.i_b,
+                 rho=data.rho, drho=data.drho,
+                 psi=data.psi, psi_alt=data.psi_alt, h=data.h,
+                 f_s=data.f_s, jx=data.jx, jy=data.jy,
+                 R_dir=np.array(data.R_dir), jr=data.jr,
+                 jtheta=data.jtheta, r_src=data.r_src, j_src=data.j_src,
+                 orig_data=fname, selector=selector,
+                 gamma=data.gamma, gamma1=data.gamma1)
+        return data
+        
     
 #for fname in ['wh-data-kmin=0.01-kmax=30-qmax=5000.npz']: #sys.argv[1:]:
 if __name__ == '__main__':
@@ -1188,7 +1306,7 @@ if __name__ == '__main__':
         x = np.linspace(-10.1, 10.1, 1001)
         #x = np.linspace(-10.1, 30.1, 2001)
         #x = np.linspace(-1.0, 30.1, 2001)
-        data = prepare_data(fname, selector, x, R_dir)
+        data = load_or_prepare_data(fname, selector, x, R_dir)
         view_data(data, fname, selector)
 
     #x_large = np.linspace(3.0, 20.0, 100)
