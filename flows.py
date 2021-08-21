@@ -125,35 +125,52 @@ class Flow:
         return path.integrate_array(F * exp_qy) / 2.0 / np.pi
     
     def _rho_y(self, y):
-        y_pos = y[ y >= 0 ]
-        y_neg = y[ y < 0  ]
-        res   = 0.0 + 0.0j * y
-        res[ y >=  0 ] = self._fourier(self.path_dn,
-                                        self.rho_plus_dn(), y_pos)
-        res[ y < 0 ]   = self._fourier(self.path_up,
-                                       self.rho_minus_up(), y_neg)
+        #y_pos = y[ y >= 0 ]
+        #y_neg = y[ y < 0  ]
+        #res   = 0.0 + 0.0j * y
+        #res[ y >=  0 ] =
+        return self._fourier(self.path_dn,
+                             self.rho_plus_dn(), y)
+        #res[ y < 0 ]   = self._fourier(self.path_up,
+        #                               self.rho_minus_up(), y_neg)
         return res
 
     def _drho_y(self, y):
-        y_pos = y[ y >= 0 ]
-        y_neg = y[ y < 0  ]
-        res   = 0.0 + 0.0j * y
-        res[ y >=  0 ] = self._fourier(self.path_dn,
-                                        self.drho_plus_dn(), y_pos)
-        res[ y < 0 ]   = self._fourier(self.path_up,
-                                       self.rho_minus_up(), y_neg)
-        return res
+        #y_pos = y[ y >= 0 ]
+        #y_neg = y[ y < 0  ]
+        #res   = 0.0 + 0.0j * y
+        #res[ y >=  0 ] =
+        return self._fourier(self.path_dn,
+                             self.drho_plus_dn(), y)
+        #res[ y < 0 ]   =
+        #return self._fourier(self.path_up,
+        #                               self.rho_minus_up(), y_neg)
+        #return res
         #print ("generic drho_y")
         #if y >= 0:
         #    return self._fourier(self.path_dn, self.drho_plus_dn(), y)
         #else:
         #    return self._rho_y(y)
 
+    def _get_positive(self, func, y):
+        res = 0.0 * y + 0.0j
+        eps = 1e-6
+        res[y < -eps] = 0.0
+        y_pos = y[y > -eps]
+        res[y > -eps] =  func(y_pos)  #np.vectorize(self._rho_y)(y)
+        return res
+    
     def rho_y(self, y):
-        return self._rho_y(y)  #np.vectorize(self._rho_y)(y)
+        #res = 0.0 * y + 0.0j
+        #eps = 1e-6
+        #res[y < -eps] = 0.0
+        #y_pos = y[y > -eps]
+        #res[y > -eps] =  self._rho_y(y_pos)  #np.vectorize(self._rho_y)(y)
+        return self._get_positive(self._rho_y, y)
     
     def drho_y(self, y):
-        return self._drho_y(y) #np.vectorize(self._drho_y)(y)
+        return self._get_positive(self._drho_y, y)
+        #return self._drho_y(y) #np.vectorize(self._drho_y)(y)
     
     def rho_sing_y(self, y):
         return 0.0 * y + 0.0j
@@ -179,34 +196,38 @@ class Flow:
         return self.jy_q(self.D_minus_up(), self.Omega_minus_up(), self.q_up)
 
     def _jx_y(self, y):
-        res = 0.0 + 0.0j * y
-        y_neg = y[ y <  0 ]
-        y_pos = y[ y >= 0 ]
-        res[ y <  0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
-        res[ y >= 0 ] = self._fourier(self.path_dn, self.jx_plus_dn(), y_pos)
-        return res
+        #res = 0.0 + 0.0j * y
+        #y_neg = y[ y <  0 ]
+        #y_pos = y[ y >= 0 ]
+        #res[ y <  0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
+        #res[ y >= 0 ] =
+        return  self._fourier(self.path_dn, self.jx_plus_dn(), y)
+        #return res
         #if y < 0:
         #    return self._fourier(self.path_up, self.jx_minus_up(), y)
         #else:
         #    return self._fourier(self.path_dn, self.jx_plus_dn(), y)
 
     def _jy_y(self, y):
-        res = 0.0 + 0.0j * y
-        y_neg = y[ y <  0 ]
-        y_pos = y[ y >= 0 ]
-        res[ y <  0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
-        res[ y >= 0 ] = self._fourier(self.path_dn, self.jy_plus_dn(), y_pos)
-        return res
+        #res = 0.0 + 0.0j * y
+        #y_neg = y[ y <  0 ]
+        #y_pos = y[ y >= 0 ]
+        #res[ y <  0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
+        #res[ y >= 0 ] =
+        return self._fourier(self.path_dn, self.jy_plus_dn(), y)
+        #return res
         #if y < 0:
         #    return self._fourier(self.path_up, self.jy_minus_up(), y)
         #else:
         #    return self._fourier(self.path_dn, self.jy_plus_dn(), y)
 
     def jx_y(self, y):
-       return self._jx_y(y) #np.vectorize(self._jx_y)(y)
+        return self._get_positive(self._jx_y, y)
+       #return self._jx_y(y) #np.vectorize(self._jx_y)(y)
    
     def jy_y(self, y):
-        return self._jy_y(y) #np.vectorize(self._jy_y)(y)
+        return self._get_positive(self._jy_y, y)
+        #return self._jy_y(y) #np.vectorize(self._jy_y)(y)
       
 
 class CombinedFlow(Flow):

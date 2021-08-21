@@ -292,14 +292,14 @@ class Stokeslet(Flow):
                                   self.K_dn.rho_plus(), self.chi_p_dn)
     
     def _rho_y(self, y):
-        res = 0.0 + 0.0j * y
-        y_neg = y[ y < 0  ]
-        y_pos = y[ y >= 0 ]
+        #res = 0.0 + 0.0j * y
+        #y_neg = y[ y < 0  ]
+        #y_pos = y[ y >= 0 ]
         #print ("stokeslet rho_y")
-        res[ y < 0 ] = self._fourier(self.path_up, self.rho_minus(), y_neg) 
+        #res[ y < 0 ] = self._fourier(self.path_up, self.rho_minus(), y_neg) 
         #if y < 0:
         #    return self._fourier(self.path_up, self.rho_minus(), y)
-        yh = np.abs(y_pos - self.h) # even/odd integrand
+        yh = np.abs(y - self.h) # even/odd integrand
         sgn_yh = np.sign(yh)
         rho_sing_x = self._fourier(self.path_dn, self._rho_sing_x_dn(),
                                    yh)
@@ -307,9 +307,10 @@ class Stokeslet(Flow):
                                    yh) * sgn_yh
         #if y < self.h: # the y contribution is odd, the x contrib is even
         #    rho_sing_y *= -1
-        rho_reg = self._fourier(self.path_dn, self._rho_plus_reg_dn(), y_pos)
-        res[y >= 0] = rho_sing_x + rho_sing_y + rho_reg
-        return res
+        rho_reg = self._fourier(self.path_dn, self._rho_plus_reg_dn(), y)
+        #res[y >= 0] =
+        return rho_sing_x + rho_sing_y + rho_reg
+        #return res
 
     def _drho_y(self, y):
         return self._rho_y(y)
@@ -330,11 +331,11 @@ class Stokeslet(Flow):
                                        self.K_dn.omega(self.q_dn))
         
     def _jx_y(self, y):
-        res = 0.0 * y + 0.0j
-        y_pos = y[ y >= 0 ]
-        y_neg = y[ y <  0 ]
-        res[ y < 0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
-        yh = y_pos - self.h
+        #res = 0.0 * y + 0.0j
+        #y_pos = y[ y >= 0 ]
+        #y_neg = y[ y <  0 ]
+        #res[ y < 0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
+        yh = y - self.h
         abs_yh = np.abs(yh)
         sgn_yh = np.sign(yh)
 
@@ -344,18 +345,19 @@ class Stokeslet(Flow):
         jx_sing_y = self.jx_q( 0.0 * self.q_dn, self._omega_sing_y(),
                                self.q_dn)
 
-        jx_pos = self._fourier(self.path_dn,  jx_reg, y_pos)
+        jx_pos = self._fourier(self.path_dn,  jx_reg, y)
         jx_pos += self._fourier(self.path_dn, jx_sing_x, abs_yh) 
         jx_pos += self._fourier(self.path_dn, jx_sing_y, abs_yh) * sgn_yh
-        res[ y >= 0 ] = jx_pos
-        return res
+        return jx_pos
+        #res[ y >= 0 ] = jx_pos
+        #return res
         
     def _jy_y(self, y):
-        res = 0.0 * y + 0.0j
-        y_pos = y[ y >= 0 ]
-        y_neg = y[ y <  0 ]
-        res[ y < 0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
-        yh = y_pos - self.h
+        #res = 0.0 * y + 0.0j
+        #y_pos = y[ y >= 0 ]
+        #y_neg = y[ y <  0 ]
+        #res[ y < 0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
+        yh = y - self.h
         abs_yh = np.abs(yh)
         sgn_yh = np.sign(yh)
 
@@ -365,11 +367,12 @@ class Stokeslet(Flow):
         jy_sing_y = self.jy_q( 0.0 * self.q_dn, self._omega_sing_y(),
                                self.q_dn)
 
-        jy_pos  = self._fourier(self.path_dn, jy_reg,    y_pos)
+        jy_pos  = self._fourier(self.path_dn, jy_reg,    y)
         jy_pos += self._fourier(self.path_dn, jy_sing_x, abs_yh) * sgn_yh
         jy_pos += self._fourier(self.path_dn, jy_sing_y, abs_yh) 
-        res[ y>= 0 ] = jy_pos
-        return res
+        #res[ y>= 0 ] = jy_pos
+        #return res
+        return jy_pos
 
         return 0.0 + 0.0j * y
     #def _jy_y(self, y): return 0.0 + 0.0j * y

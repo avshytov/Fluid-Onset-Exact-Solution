@@ -18,6 +18,8 @@ class InjectedFlow(Flow):
         #self.chi_up = self.chi_up()
         #self.chi_dn = self.chi_dn()
         self.chi_p_dn = self.chi_dn() - self.chi_m_dn
+        #self.chi_p_up = cauchy_integral_array(self.path_dn,
+        #                                 self.chi_p_dn, self.path_up.points())
         self.chi_m_up = self.chi_up() - self.chi_p_up
 
     def J(self, q):
@@ -248,36 +250,90 @@ class InjectedFlow(Flow):
     #
     def _rho_y(self, y):
         #print ("bulk: rho(y)")
-        res = 0.0 + 0.0j * y
-        y_neg = y[ y < 0 ]
-        res[ y < 0 ] = self._fourier(self.path_up, self.rho_minus_up(), y_neg) 
+        #res = 0.0 + 0.0j * y
+        #y_neg = y[ y < 0 ]
+        if False:
+            import pylab as pl
+            rho_m_up = self.rho_minus_up()
+            rho_p_up = self.rho_plus_up ()
+            rho_m_dn = self.rho_minus_dn()
+            rho_p_dn = self.rho_plus_dn()
+            x_arc = self.path_up.arc_lengths()
+            pl.figure()
+            for y in [0.0, -0.1, -0.3]:
+                #pl.title("y = %s" % y)
+                F = rho_m_dn * np.exp(-1j * self.path_up.points() * y)
+                pl.plot(x_arc, F.real, label='Re rho_p_dn @ y = %g' % y)
+                pl.plot(x_arc, F.imag, label='Im rho_p_dn @ y = %g' % y)
+            pl.legend()
+            pl.figure()
+            for y in [0.0, -0.1, -0.3]:
+                #pl.title("y = %s" % y)
+                F = rho_m_up * np.exp(-1j * self.path_up.points() * y)
+                pl.plot(x_arc, F.real, label='Re rho_m_up @ y = %g' % y)
+                pl.plot(x_arc, F.imag, label='Im rho_m_up @ y = %g' % y)
+            pl.legend()
+            pl.figure()
+            for y in [0.0, -0.1, -0.3]:
+                #pl.title("y = %s" % y)
+                F = rho_p_up * np.exp(-1j * self.path_up.points() * y)
+                pl.plot(x_arc, F.real, label='Re rho_p_up @ y = %g' % y)
+                pl.plot(x_arc, F.imag, label='Im rho_p_up @ y = %g' % y)
+            pl.legend()
+            pl.figure()
+            for y in [0.0, -0.1, -0.3]:
+                #pl.title("y = %s" % y)
+                F = rho_m_dn * np.exp(-1j * self.path_dn.points() * y)
+                pl.plot(x_arc, F.real, label='Re rho_m_dn @ y = %g' % y)
+                pl.plot(x_arc, F.imag, label='Im rho_m_dn @ y = %g' % y)
+            pl.legend()
+            pl.figure()
+            for y in [0.0, -0.1, -0.3]:
+                #pl.title("y = %s" % y)
+                F = self.chi_up() * np.exp(-1j * self.path_up.points() * y)
+                pl.plot(x_arc, F.real, label='Re chi_up @ y = %g' % y)
+                pl.plot(x_arc, F.imag, label='Im chi_up @ y = %g' % y)
+            pl.legend()
+            pl.figure()
+            for y in [0.0, -0.1, -0.3]:
+                #pl.title("y = %s" % y)
+                #F = self.chi_plus(self.path_up.points()) 
+                F = self.chi_p_up \
+                    * np.exp(-1j * self.path_up.points() * y)
+                pl.plot(x_arc, F.real, label='Re chi_up+ @ y = %g' % y)
+                pl.plot(x_arc, F.imag, label='Im chi_up+ @ y = %g' % y)
+            pl.legend()
+            pl.show()
+        #res[ y < 0 ] = self._fourier(self.path_up, self.rho_minus_up(), y_neg) 
         #if y < 0:
         #    return self._fourier(self.path_up, self.rho_minus_dn(), y)
         # Handle the singular term via |y - h|
-        y_pos = y[ y >= 0 ]
-        yh = np.abs(y_pos - self.h) # even integrand
+        #y_pos = y[ y >= 0 ]
+        yh = np.abs(y - self.h) # even integrand
         rho_sing = self._fourier(self.path_dn, self._rho_plus_sing_dn(), yh)
-        rho_reg  = self._fourier(self.path_dn, self._rho_plus_reg_dn(), y_pos)
-        res[ y>= 0] = rho_sing + rho_reg
-        return res
+        rho_reg  = self._fourier(self.path_dn, self._rho_plus_reg_dn(),  y)
+        return rho_sing + rho_reg
+        #res[ y>= 0] = rho_sing + rho_reg
+        #return res
 
     #
     # Custom evaluator for the excess term
     #
     def _drho_y(self, y):
         #print ("bulk: rho(y)")
-        res = 0.0 + 0.0j * y
-        y_neg = y[ y < 0 ]
-        res[ y < 0 ] = self._fourier(self.path_up, self.rho_minus_up(), y_neg) 
+        #res = 0.0 + 0.0j * y
+        #y_neg = y[ y < 0 ]
+        #res[ y < 0 ] = self._fourier(self.path_up, self.rho_minus_up(), y_neg) 
         #if y < 0:
         #    return self._fourier(self.path_up, self.rho_minus_dn(), y)
         # Handle the singular term via |y - h|
-        y_pos = y[ y >= 0 ]
-        yh = np.abs(y_pos - self.h) # even integrand
+        #y_pos = y[ y >= 0 ]
+        yh = np.abs(y - self.h) # even integrand
         rho_sing = self._fourier(self.path_dn, self._drho_plus_sing_dn(), yh)
-        rho_reg  = self._fourier(self.path_dn, self._rho_plus_reg_dn(), y_pos)
-        res[ y>= 0] = rho_sing + rho_reg
-        return res
+        rho_reg  = self._fourier(self.path_dn, self._rho_plus_reg_dn(), y)
+        #res[ y>= 0] = rho_sing + rho_reg
+        return rho_sing + rho_reg
+        #return res
     
         #print ("bulk: drho(y)")
         #if y < 0:
@@ -315,40 +371,42 @@ class InjectedFlow(Flow):
         return self.jy_q(0.0 * self.q_dn, self.Omega_plus_dn(), self.q_dn)
     
     def _jx_y(self, y):
-        res = 0.0 + 0.0j * y
-        y_pos = y[ y >= 0 ]
-        y_neg = y[ y <  0 ]
-        yh = y_pos - self.h
+        #res = 0.0 + 0.0j * y
+        #y_pos = y[ y >= 0 ]
+        #y_neg = y[ y <  0 ]
+        yh = y - self.h
         abs_yh = np.abs(yh)
         sgn_yh = np.sign(yh)
 
-        res[ y < 0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
-        jx_pos = self._fourier(self.path_dn, self._jx_reg(), y_pos)
+        #res[ y < 0 ] = self._fourier(self.path_up, self.jx_minus_up(), y_neg)
+        jx_pos = self._fourier(self.path_dn, self._jx_reg(), y)
         #jy_pos = self._fourier(self.path_dn, self._jy_reg(), y_pos)
         # Divergence contribution is just the free-space term:
         jx_pos += self._fourier(self.path_dn, self._jx_sing(), abs_yh)
         #jy_pos += self._fourier(self.path_dn, self._jy_sing(), abs_yh)* sgn_yh
-        res[y >= 0] = jx_pos
-        return res
+        #res[y >= 0] = jx_pos
+        #return res
+        return jx_pos
     
     def _jy_y(self, y):
-        res = 0.0 + 0.0j * y
-        y_pos = y[ y >= 0 ]
-        y_neg = y[ y <  0 ]
-        yh = y_pos - self.h
+        #res = 0.0 + 0.0j * y
+        #y_pos = y[ y >= 0 ]
+        #y_neg = y[ y <  0 ]
+        yh = y - self.h
         abs_yh = np.abs(yh)
         sgn_yh = np.sign(yh)
         #sgn_yh = 1.0 + 0.0 * yh
         #sgn_yh[ yh < 0 ] = -1
 
-        res[ y < 0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
+        #res[ y < 0 ] = self._fourier(self.path_up, self.jy_minus_up(), y_neg)
         #jx_pos = self._fourier(self.path_dn, self._jx_reg(), y_pos)
-        jy_pos = self._fourier(self.path_dn, self._jy_reg(), y_pos)
+        jy_pos = self._fourier(self.path_dn, self._jy_reg(), y)
         # Divergence contribution is just the free-space term:
         #jx_pos += self._fourier(self.path_dn, self._jx_sing(), abs_yh)
         jy_pos += self._fourier(self.path_dn, self._jy_sing(), abs_yh)* sgn_yh
-        res[y >= 0] = jy_pos
-        return res
+        return jy_pos
+        #res[y >= 0] = jy_pos
+        #return res
 
         
     

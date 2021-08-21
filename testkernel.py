@@ -1,7 +1,7 @@
 import numpy as np
 import pylab as pl
 from xkernel_new import WHKernels
-from whnew import make_arc
+from contours import make_arc
 import path
 import time
 
