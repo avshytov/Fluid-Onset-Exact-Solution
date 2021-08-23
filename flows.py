@@ -37,7 +37,9 @@ class Flow:
         self.psi_p_dn = None
         self.psi_m_up = None
         self.psi_m_dn = None
-        
+
+    def flux_down  (self): return 0.0
+    
     def wall_flux  (self): pass
 
     def rho_direct(self, q): pass

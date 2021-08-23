@@ -26,7 +26,7 @@ class GenericFlow(Flow):
         self._psi_dn    = 0.0 * path_dn.points() + 0.0j
         self._flux = 0.0
 
-    def solve(self, rho_dct, J, Omega_dct):
+    def solve(self, rho_dct, J, Omega_dct, flux_down = 0.0):
         self.rho_direct = rho_dct
         self.J = J
         self.Omega_direct = Omega_dct
@@ -143,6 +143,7 @@ class GenericFlow(Flow):
         #
         self.rho_p_dn = rho_dct_dn / Krho_dn - Krho_p_dn * self.chi_m_dn
         self.rho_m_up = Krho_m_up * self.chi_m_up
+        self.rho_m_dn = Krho_m_dn * self.chi_m_dn
         # Handle the extra current injection term: subtract the pole
         # from rho+ and add it to rho-
         gamma1 = self.gamma1
@@ -150,6 +151,7 @@ class GenericFlow(Flow):
         pole_J_up = gamma1 / abs_k / (abs_k + 1j * self.q_up)
         self.rho_p_dn += J_star * pole_J_dn * Krho_p_dn / self.Krho_star
         self.rho_m_up -= J_star * pole_J_up * Krho_m_up / self.Krho_star
+        self.rho_m_dn -= J_star * pole_J_dn * Krho_m_dn / self.Krho_star
         k2_dn = self.k**2 + path_dn.points()**2
         self.rho_p_dn += -2.0 * gamma1 / k2_dn * J_dn
 
@@ -157,6 +159,8 @@ class GenericFlow(Flow):
         # Eqs for D+ and D- are solved automagically
         #
         self._Dplus_dn  = 1j * J_dn
+        self._Dplus_up  = 1j * J_up
+        self._Dminus_dn = -1j * self.gamma * self.rho_m_dn
         self._Dminus_up = -1j * self.gamma * self.rho_m_up
 
         gamma = self.gamma
@@ -164,15 +168,23 @@ class GenericFlow(Flow):
         self._flux  = gamma * self.chi_m_star / self.Krho_star
         self._flux -= J_star * gamma_01 / (2.0 * abs_k**2) / self.Krho_star**2
         self._flux -= self.psi_m_star / self.Komega_star
+        self._flux -= flux_down
 
+        
     def wall_flux(self):
         return self._flux
 
     def D_plus_dn(self):
         return self._Dplus_dn
+    
+    def D_plus_up(self):
+        return self._Dplus_up
 
     def D_minus_up(self):
         return self._Dminus_up
+    
+    def D_minus_up(self):
+        return self._Dminus_dn
 
     def rho_plus_dn(self):
         return self.rho_p_dn

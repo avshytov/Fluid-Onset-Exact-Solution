@@ -1,7 +1,7 @@
 import contours
-from edge import EdgeInjectedFlow
+from edge import EdgeInjectedFlow, EdgeInjectedFlow_sym
 from bulk import InjectedFlow
-from diffuse import DiffuseFlow
+from diffuse import DiffuseFlow, DiffuseFlow_sym
 from stokeslet import Stokeslet
 from generic import GenericFlow
 import pylab as pl
@@ -22,7 +22,8 @@ def do_compare(x, y_new, y_old, quantity, label):
 def test(flow, label):
     gen_flow = GenericFlow(k, flow.K_up, flow.path_up,
                               flow.K_dn, flow.path_dn)
-    gen_flow.solve(flow.rho_direct, flow.J, flow.Omega_direct)
+    gen_flow.solve(flow.rho_direct, flow.J, flow.Omega_direct,
+                   flow.flux_down())
     x_arc = flow.path_dn.arc_lengths()
     do_compare (x_arc, gen_flow.rho_plus_dn(), flow.rho_plus_dn(),
                 "rho+", label)
@@ -43,6 +44,8 @@ K = WHKernels(gamma, gamma1)
 path_up, K_up, path_dn, K_dn = make_paths_and_kernels(K, k)
 
 custom_flows = {
+    "edge-src-sym" : EdgeInjectedFlow_sym(k, K_up, path_up, K_dn, path_dn),
+    "diffuse-sym"  : DiffuseFlow_sym(k, K_up, path_up, K_dn, path_dn),
     "diffuse"  : DiffuseFlow(k, K_up, path_up, K_dn, path_dn),
     "edge-src" : EdgeInjectedFlow(k, K_up, path_up, K_dn, path_dn),
     "bulk-src" : InjectedFlow(h, k, K_up, path_up, K_dn, path_dn),
