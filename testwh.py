@@ -2,10 +2,10 @@ import xkernel_new as xkernel
 import path
 import flows
 import numpy as np
-from diffuse import DiffuseFlow
+from diffuse import DiffuseFlow, DiffuseFlow_sym
 from stokeslet import Stokeslet
 from bulk import InjectedFlow
-from edge import EdgeInjectedFlow
+from edge import EdgeInjectedFlow, EdgeInjectedFlow_sym
 from flows import CombinedFlow
 
 import numpy as np
@@ -415,21 +415,25 @@ def test_wh(h, k, gamma, gamma1, yv):
     #Krho_sta = K_up.rho_star()
     #Xo_star  = K_up.omega_star()
     diff_flow  = DiffuseFlow(k, K_up, path_up, K_dn, path_dn)
+    diff_flow_sym  = DiffuseFlow_sym(k, K_up, path_up, K_dn, path_dn)
     print ("create current source")
     if np.abs(h) < 0.001:
         inj_flow = EdgeInjectedFlow(k, K_up, path_up, K_dn, path_dn)
     else:
         inj_flow = InjectedFlow(h, k, K_up, path_up, K_dn, path_dn)
     inj_edge   = EdgeInjectedFlow(k, K_up, path_up, K_dn, path_dn)
+    inj_edge_sym   = EdgeInjectedFlow_sym(k, K_up, path_up, K_dn, path_dn)
     stokes_x   = Stokeslet(1, 0, h, k, K_up, path_up, K_dn, path_dn)
     stokes_y   = Stokeslet(0, 1, h, k, K_up, path_up, K_dn, path_dn)
     print ("done", time.time() - now)
     all_flows  = {
+          'inj-edge-sym' : inj_edge_sym, 
+          'diffuse-sym'  : diff_flow_sym,
+          'inj-edge' : inj_edge, 
+          'diffuse'  : diff_flow,
           'inj-bulk' : inj_flow,
           'stokes_x' : stokes_x,
           'stokes_y' : stokes_y,
-          'diffuse'  : diff_flow,
-          'inj-edge' : inj_edge, 
     }
     results = {}
     q_up = path_up.points()
@@ -439,8 +443,8 @@ def test_wh(h, k, gamma, gamma1, yv):
         #continue
 
         print ("show rho and j"); now = time.time()
-        #test_up(flow, label, gamma, gamma1, k, h, K, path_up)
-        #test_dn(flow, label, gamma, gamma1, k, h, K, path_dn)
+        test_up(flow, label, gamma, gamma1, k, h, K, path_up)
+        test_dn(flow, label, gamma, gamma1, k, h, K, path_dn)
 
         test_Dstar(flow, label, path_up, path_dn)
 

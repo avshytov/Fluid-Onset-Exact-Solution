@@ -140,7 +140,7 @@ class EdgeInjectedFlow_sym(Flow):
         sgn_k = np.sign(self.k)
         #Ko_m = self.Komega_m
         #omega =  2.0 / np.pi * np.arctan(self.k/self.gamma)
-        omega -= Ko_m / self.Komega_star * sgn_k
+        omega  = -Ko_m / self.Komega_star * sgn_k
         return omega
 
     def rho_sing_y(self, y):

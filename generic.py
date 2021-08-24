@@ -17,8 +17,12 @@ class GenericFlow(Flow):
         self._Dplus_dn = 0.0 * path_dn.points() + 0.0j
         self._Dminus_up = 0.0 * path_up.points() + 0.0j
         self.rho_p_dn = 0.0 * path_dn.points() + 0.0j
+        self.rho_p_up = 0.0 * path_dn.points() + 0.0j
+        self.rho_m_dn = 0.0 * path_up.points() + 0.0j
         self.rho_m_up = 0.0 * path_up.points() + 0.0j
         self.Omega_p_dn = 0.0 * path_dn.points() + 0.0j
+        self.Omega_p_up = 0.0 * path_dn.points() + 0.0j
+        self.Omega_m_dn = 0.0 * path_up.points() + 0.0j
         self.Omega_m_up = 0.0 * path_up.points() + 0.0j
         self._chi_up    = 0.0 * path_up.points() + 0.0j
         self._chi_dn    = 0.0 * path_dn.points() + 0.0j
@@ -71,7 +75,7 @@ class GenericFlow(Flow):
         self._chi_up = rho_dct_up / Krho_m_up
         self._chi_dn = rho_dct_dn / Krho_m_dn
         self._psi_up = Omega_dct_up / Komega_m_up
-        self._psi_dn = Omega_dct_up / Komega_m_dn
+        self._psi_dn = Omega_dct_dn / Komega_m_dn
 
         # Obtain chi+ above and chi- below
         self.chi_m_dn = - cauchy_integral_array(self.path_up,
@@ -136,12 +140,15 @@ class GenericFlow(Flow):
         # For vorticity, the equation is particularly simple.
         # We write Omega+ and Omega- in terms of psi-
         self.Omega_p_dn = Omega_dct_dn / Komega_dn - Komega_p_dn * self.psi_m_dn
+        self.Omega_p_up = Omega_dct_up / Komega_up - Komega_p_up * self.psi_m_up
         self.Omega_m_up = Komega_m_up * self.psi_m_up
+        self.Omega_m_dn = Komega_m_dn * self.psi_m_dn
 
         #
         # The same for rho
         #
         self.rho_p_dn = rho_dct_dn / Krho_dn - Krho_p_dn * self.chi_m_dn
+        self.rho_p_up = rho_dct_up / Krho_up - Krho_p_up * self.chi_m_up
         self.rho_m_up = Krho_m_up * self.chi_m_up
         self.rho_m_dn = Krho_m_dn * self.chi_m_dn
         # Handle the extra current injection term: subtract the pole
@@ -150,10 +157,13 @@ class GenericFlow(Flow):
         pole_J_dn = gamma1 / abs_k / (abs_k + 1j * self.q_dn)
         pole_J_up = gamma1 / abs_k / (abs_k + 1j * self.q_up)
         self.rho_p_dn += J_star * pole_J_dn * Krho_p_dn / self.Krho_star
+        self.rho_p_up += J_star * pole_J_up * Krho_p_up / self.Krho_star
         self.rho_m_up -= J_star * pole_J_up * Krho_m_up / self.Krho_star
         self.rho_m_dn -= J_star * pole_J_dn * Krho_m_dn / self.Krho_star
         k2_dn = self.k**2 + path_dn.points()**2
+        k2_up = self.k**2 + path_up.points()**2
         self.rho_p_dn += -2.0 * gamma1 / k2_dn * J_dn
+        self.rho_p_up += -2.0 * gamma1 / k2_up * J_up
 
         #
         # Eqs for D+ and D- are solved automagically
@@ -180,41 +190,54 @@ class GenericFlow(Flow):
     def D_plus_up(self):
         return self._Dplus_up
 
-    def D_minus_up(self):
-        return self._Dminus_up
+    def D_minus_dn(self):
+        return self._Dminus_dn
     
     def D_minus_up(self):
-        return self._Dminus_dn
+        return self._Dminus_up
 
     def rho_plus_dn(self):
         return self.rho_p_dn
     
+    def rho_plus_up(self):
+        return self.rho_p_up
+    
     def rho_minus_up(self):
         return self.rho_m_up
+    
+    def rho_minus_dn(self):
+        return self.rho_m_dn
 
+    def Omega_plus_up(self):
+        return self.Omega_p_up
+    
     def Omega_plus_dn(self):
         return self.Omega_p_dn
     
     def Omega_minus_up(self):
         return self.Omega_m_up
+    
+    
+    def Omega_minus_dn(self):
+        return self.Omega_m_dn
 
     def rho_plus(self):
         return self.rho_p_dn
 
     def rho_minus(self):
-        return self.rho_m_up
+        return self.rho_m_dn
 
     def D_plus(self):
         return self._Dplus_dn
     
     def D_minus(self):
-        return self._Dminus_up
+        return self._Dminus_dn
 
     def Omega_plus(self):
         return self.Omega_p_dn
 
     def Omega_minus(self):
-        return self.Omega_m_up
+        return self.Omega_m_dn
 
     def drho_plus_dn(self):
         return self.rho_p_dn - self.rho_direct(self.path_dn.points())

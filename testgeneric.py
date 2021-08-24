@@ -26,9 +26,13 @@ def test(flow, label):
                    flow.flux_down())
     x_arc = flow.path_dn.arc_lengths()
     do_compare (x_arc, gen_flow.rho_plus_dn(), flow.rho_plus_dn(),
-                "rho+", label)
+                "dn: rho+", label)
     do_compare (x_arc, gen_flow.Omega_plus_dn(), flow.Omega_plus_dn(),
-                "Omega+", label)
+                "dn: Omega+", label)
+    do_compare (x_arc, gen_flow.rho_plus_up(), flow.rho_plus_up(),
+                "up: rho+", label)
+    do_compare (x_arc, gen_flow.Omega_plus_up(), flow.Omega_plus_up(),
+                "up: Omega+", label)
     print ("fluxes:", flow.wall_flux(), gen_flow.wall_flux())
     y = np.linspace(-1, 20, 2101)
     do_compare(y, gen_flow.rho_y(y), flow.rho_y(y), "rho(y)", label)
