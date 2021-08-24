@@ -662,7 +662,7 @@ of vorticity in the bulk, so that it is generated only by the
 boundaries and sources. Thus conservation of vorticity known
 from fluid mechanics is in fact obeyed at all scales.
 
-\section{Analytical properties of the kernel and its factorisation}
+\section{Complex-analytic properties of the kernel and its factorisation}
 \label{sec:factorisation}
 The key ingredient of the Wiener-Hopf method is factorisation of the kernels
 into components with desired complex-analytic properties.
@@ -732,9 +732,9 @@ and exhibits the same branch cut.
 Since the kernels are even functions of~$q$, one may also
 notice the following relations:
 \begin{align}
-\fplus{K}_{\rho, \Omega}(k, \bar{q})
-= \frac{1}{\fminus{\bar{K}}_{\rho, \Omega}(k, {\bar q})} \ ,
-\fplus{K}_{\rho, \Omega}(\bar{q})
+\fplus{\bar{K}}_{\rho, \Omega}(k, \bar{q})
+= \frac{1}{\fminus{K}_{\rho, \Omega}(k, {\bar q})} \ , \qquad
+\fplus{K}_{\rho, \Omega}(k, q)
 = \frac{1}{\fminus{K}_{\rho, \Omega}(k, -{\bar q})} \ ,
 \end{align}
 where~${\bar z}$ is the complex conjugate of
@@ -760,12 +760,17 @@ it catches the singularities at~$q = \pm is$.
 In doing so, the following facts are useful. Firstly,
 it is possible to express all quantities in terms of a single function,
  since~$\fminus{K}_\rho(k, -is) = 1/\fplus{K}_\rho(k, is)$.  Secondly,
-the behaviour near the poles can be obtained by analysing
-Eq.~(\ref{eq:factorisation}) near the poles. This yields e.g. \begin{equation}
-\fplus{K}_\rho (q \approx -i |k|) = - \frac{\gamma^2}{|k|(|k| - i q) K_\rho^\ast}
-\ ,
+the behaviour near the poles can be extracted from
+Eq.~(\ref{eq:factorisation}). This yields e.g. \begin{equation}
+  \fplus{K}_\rho (q \approx -i |k|)
+  = - \frac{\gamma^2}{|k|(|k| - i q) K_\rho^\ast(k)}
+  \ ,
+  \qquad
+  \fplus{K}_{\rho}(q \approx i |k|) = - \frac{\gamma^2}{|k|(|k| + iq)
+    K_\rho^\ast(k)}
+  \ , 
 \end{equation}
- where~$K_\rho^\ast \equiv \fplus{K}_\rho(k, i|k|)$. A similar expression
+ where~$K_\rho^\ast(k) \equiv \fplus{K}_\rho(k, i|k|)$. A similar expression
  for~$\fplus{K}_\Omega$ is often needed to the next order, due to the double poles in the expression for the current components~$j_{x, y}$:
  \begin{equation}
  \fplus{K}_\Omega(q \approx -i {\tilde \kappa})
@@ -828,31 +833,32 @@ separation of physical quantities into the contributions of the
 poles and the cut at all scales. (The cut contribution represents
 short-ranged modes decaying at length scale of~$l_\mathrm{ee}$.)
 Note that propagation of vorticity is described by the lengthscale
-${\tilde \kappa}^{-1} \approx 1/2 \gamma' \gamma''$. Indeed, viscous
+${\tilde \kappa}^{-1} \approx \gamma' \gamma'' / 2$. Indeed, the viscous
 response of an e-fluid at large scale can be described by Ohm-Stokes model,
 ${\bm E} = \sigma^{-1}  {\bm j} - \eta (ne)^{-2} \nabla^2 {\bm j}$,
 where~$\eta$ is the viscosity, $\sigma$ is the resistivity, $n$
 is the carrier density, and~$e$ is the elementary charge.
-In this model,
-the  crossover `between the viscous and Ohmic behaviour occurs at the
+This yields
+the  crossover `between the viscous and Ohmic behaviour at the
 length scale given
 by~$l_\ast = \sqrt{\eta \sigma} / ne$. In the dimensionless units
 employed throughout this paper,
-$\eta = 1/(8 \gamma')$, $\sigma^{-1} = 1/2\gamma''$, and~$n = 1/2$, which
+$\eta = 1/(8 \gamma')$, $\sigma = 2\gamma''$, and~$n = 1/2$, which
 gives~$l_\ast = {\tilde \kappa}^{-1}$.
 %and shorter, while the
 %An explicit expression for factorised kernels~$\fplusminus{K}_\rho(k, q)$
 %involves elliptic %integrals.
 
-\section{Solving the Wiener-Hopf equations for generic sourcs}
+\section{Solving the Wiener-Hopf equations for generic sources}
 \label{sec:wh-solution}
 
 We shall now show how to solve the nonlocal
-equations~(\ref{eq:wh-rho-3})--(\ref{eq:wh-Omega-3}), ()
+equations~(\ref{eq:wh-rho-3})--(\ref{eq:wh-Omega-3}),
+(\ref{eq:consistency-D-Omega})
 via the Wiener-Hopf method. While the specific solutions
 are to be derived from the specific form of the sources
-$\dct{rho}({\bm k})$, $\dct{\Omega}({\bm k})$,  some conclusions
-can be drawn for generic sources.
+$\dct{\rho}({\bm k})$, $\dct{\Omega}({\bm k})$,  some conclusions
+and general relations can be derived for generic sources.
 We begin our analysis with the continuity
 equation~(\ref{eq:wh-D-3}), which can be rewritten  in the form
 \begin{equation}
@@ -983,28 +989,37 @@ been placed in an infinite space:
 the effect of the wall which is expected to be regular.
 Thus, one may write
 \begin{align}
-\delta\fplus{\rho}(k, q) = \rho_{\inf}(k, q) + \rho_\mathrm{reg}(k, q)\ ,
-\qquad  \delta\rho_\mathrm{reg}(k, q) =
-- \fplus{K}_\rho(k, q)
+  \delta\fplus{\rho}(k, q) = \rho_{\infty}(k, q) + \delta\rho_\mathrm{reg}(k, q)
+  \ ,
+\end{align}
+where the regular part~$\delta\rho_\mathrm{reg}(k, q)$ is gven by
+\begin{align}
+  \label{eq:rho-reg}
+ \delta\rho_\mathrm{reg}(k, q) =
+  - \fplus{K}_\rho(k, q) 
 \fminus{S}_\rho(k, q) + \frac{\gamma'J_\mathrm{ext}^\ast}{|k|(|k| + iq)}
 \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)}\ .
 \end{align}
-The infinite-space solution can be found via the elementary approach.
-Another representation of~$\fplus{\rho}$ can be obtained by noticing that
+Thhus, the infinite-space solution~$\rho_\infty(k, q)$ can be found
+via a simple Fourier transform.
+Another representation of~$\fplus{\rho}(k, q)$ can be obtained by noticing that
 the real-space singularity of~$\fplus{\rho}(x, y)$ is given by
 $\dct{\rho}(x, y)$. Singling out this term, one may write
 \begin{align}
-\fplus{rho}(k, q) = \dct{\rho}(k, q)
+  \label{eq:rho-decomp}
+\fplus{\rho}(k, q) = \dct{\rho}(k, q)
  + \delta \rho_\infty(k, q) + \delta\rho_\mathrm{reg}(k, q)\ ,
 \end{align}
-with the excess density~$\delta\rho_\infty(k, q)$ due to the
-scattering in the infinite space given by
+with the excess density~$\delta\rho_\infty(k, q)$ in an infinite space
+due to rescattered particles is given by
 \begin{align}
+  \label{eq:drho-inf}
 \delta\rho_\infty(k, q) = \left[\frac{1}{K_\rho(k, q)} - 1\right]
-\dct{\rho}(k, q)\ .
-- \frac{2\gamma' J_\mathrm{ext}(k, q)}{k^2 + q^2}
+\dct{\rho}(k, q)
+- \frac{2\gamma' J_\mathrm{ext}(k, q)}{k^2 + q^2}\ . 
 \end{align}
-The advantage of using this representation is that the real-space
+The advantage of using this representation to transform the soluton
+to the real space~$(x, y)$ is that the 
 form of~$\dct{\rho}(x, y)$ is often self-evident, as will be discussed
 later.
 
@@ -1049,12 +1064,13 @@ each analytic in the respective half-plane:
 \end{equation}
 Acting as before, one writes
 \begin{align}
-  \fplus{\Omega}_{\bm k} = \fplus{K}_\Omega(k, q) (\fplus{S}_\Omega(k, q)
-  + C_\Omega)
+  \fplus{\Omega}_{\bm k} = \fplus{K}_\Omega(k, q) \left[\fplus{S}_\Omega(k, q)
+  + C_\Omega\right]
   \ ,
   \\
-  \fminus{\Omega}_{\bm k} = \fminus{K}_\Omega(k, q) (\fminus{S}_\Omega(k, q)
-  - C_\Omega)
+  \fminus{\Omega}_{\bm k} = \fminus{K}_\Omega(k, q) \left[
+  \fminus{S}_\Omega(k, q)
+  - C_\Omega\right]
   \ ,
 \end{align}
 where~$C_\Omega$ is an unknown constant. The key difference in this case
@@ -1070,13 +1086,13 @@ Instead, the constant~$C_\Omega$ is determined from the consistency condition,
 Eq.~(\ref{eq:consistency-D-Omega}). This gives
 \begin{align}
   \label{eq:solution-omega-plus-0}
-  \fplus{\Omega}_{\bm k}
+  \fplus{\Omega}(k, q)
   = \fplus{K}_\Omega(k, q)  \left[\fplus{S}_\Omega(k, q) - S_\Omega^\ast(k) +
   \frac{J_\mathrm{ext}^\ast(k)}{K_\Omega^\ast(k)}\sgn{k} \right]
   \ ,
   \\
   \label{eq:solution-omega-minus}
-  \fminus{\Omega}_{\bm k} = \fminus{K}_\Omega(k, q)
+  \fminus{\Omega}(k, q) = \fminus{K}_\Omega(k, q)
   \left[\fminus{S}_\Omega(k, q) + S_\Omega^\ast(k)
   - \frac{J_\mathrm{ext}^\ast(k)}{K_\Omega^\ast(k)} \sgn{k}\right]
   \ ,
@@ -1087,18 +1103,28 @@ expressed in terms of the quantity~$\fminus{S}_\Omega(k, q)
 + S_\Omega^\ast(k)$ alone:
 \begin{align}
   \label{eq:solution-omega-plus}
-  \fplus{\Omega}_{\bm k} = \dct{Omega}(k, q) + \Omega_\mathrm{req}(k, q)\ , \\
-  \Omega_\mathrm{reg}(k, q) =
-  \left(\frac{1}{K_\Omega(k, q)} - 1 \right) \Omega_\mathrm{dct}(k, q)
-  + \frac{J_\mathrm{ext}^\ast(k) \fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)} \sgn{k}
+  \fplus{\Omega}(k, q) &= \dct{\Omega}(k, q)
+                           + \delta\Omega_{\infty}(k, q)
+                           + \delta\Omega_\mathrm{req}(k, q)\ ,
+\end{align}
+with the infinite-space contribution
+\begin{align}
+  \delta\Omega_\mathrm{\infty}(k, q) &=
+        \left[\frac{1}{K_\Omega(k, q)} - 1 \right] \dct{\Omega}(k, q)\ ,
+\end{align}
+and the regular term
+\begin{align}
+  \delta\Omega_\mathrm{reg}(k, q) &=
+  \frac{J_\mathrm{ext}^\ast(k) \fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)}
+                                    \sgn{k}
   - \fplus{K}_\Omega(k, q) {\tilde S}_\Omega(k, q)
   %\left[\fminus{S}_\Omega(k, q)
   % + S_\Omega^\ast(k)\right]
   \ .
 \end{align}
-Here we absorbed the constant~$S_\Omega^\ast$
+Here we absorbed the constant~$S_\Omega^\ast(k)$
 into the function~$\fminus{S}_\Omega$ by introducing
-${\tilde S}_\Omega(k, q) = \fminus{S}_\Omega(k, q) + S_\omega^\ast$.
+${\tilde S}_\Omega(k, q) = \fminus{S}_\Omega(k, q) + S_\omega^\ast(k)$.
 The latter can be obtained as a difference of  two  Cauchy integrals.
 This yields
 \begin{align}
@@ -1108,9 +1134,11 @@ This yields
   \dct{\Omega}(k, q')}{(q - q' - i0)(i|k| - q' - i0) \fminus{K}_\Omega(k, q')}
   \ .
 \end{align}
-This integral is convertent even for~$\dct{\Omega}$ tending to a non-zero limit at~$q'\to \infty$.
+This integral is convergent even for~$\dct{\Omega}(k, q)$
+tending to a non-zero limit at~$q'\to \infty$, which is often the case. 
 
-Expressions (\ref{eq:solution-chi}) and~(\ref{eq:solution-chi}),
+% Expressions (\ref{eq:solution-chi}) and~(\ref{eq:solution-chi}),
+Our solutoin 
 can be also  employed to calculate the flux through the edge. Substituting
 Eqs.(\ref{eq:solution-rho-minus}) and~(\ref{eq:solution-omega-minus})
 into Eq.~(\ref{eq:flux-rho-Omega}),
@@ -1129,17 +1157,25 @@ one finds
      \frac{\dct{\Omega}(k, q)}{(k^2 + q^2)\fminus{K}_\Omega(k, q)}
     \ .
 \end{align}
-The quantities~$\dct{\rho}(k, q)$, $\dct{\Omega}(k, q)$ are determined
-by both external sources and diffuse scattering off the edge,
-while~$J_\mathrm{ext}(k, q)$ is determined by external sources only.
-Hence the above equation can be employed to deduce the intensity
-of the diffuse source~$f_s(k)$ self-consistently, via the relation
-$\Phi_k = f_{s, k}/\pi$.
 
-Generic expressions presented in this section often simplify for particular
-configurations of sources. In the next section, we derive the explicit
-form of the source terms, and discuss important relations between
-these contributions.
+% 5.14-5.16, 5.23-5.26 5.27
+Thus, the relations (\ref{eq:rho-reg})-(\ref{eq:solution-chi})
+and (\ref{eq:solution-omega-plus})-(\ref{eq:phi-general})
+give the general the solution of the Wiener-Hopf problem specified
+by the quantities~$\dct{\rho}(k, q)$, $\dct{\Omega}(k, q)$ via
+the Cauchy integrals. The source terms $\dct{\rho}(k, q)$
+and $\dct{\Omega}(k, q)$ include the contributions of  
+both the external sources and the secondary source that represents
+diffuse scattering.
+%The external current~$J_\mathrm{ext}(k, q)$ includes only
+%the external sources.
+This solution can be employed to deduce the intensity
+of the diffuse source~$f_s(k)$ self-consistently, via the relation
+$\Phi_k = f_{s}(k)/\pi$, as we shall demonstrate later.
+%Generic expressions presented in this section often simplify for particular
+%configurations of sources. In the next section, we derive the explicit
+%form of the source terms, and discuss important relations between
+%these contributions.
 
 When seeking for specific solutions to the Wiener-Hopf
 equations~(\ref{eq:wh-rho-3})-(\ref{eq:wh-Omega-3}) one may also
@@ -1155,11 +1191,11 @@ would give rise to an extra contribution to $\dct{\rho}({\bm k})$
 and~$\Omega_\mathrm{dct}({\bm k})$:
 \begin{align}
 \Delta \dct{\fminus{\rho}}({\bm k}) =
-\int_{-\pi}^{0} \frac{\fminus{J}_k(\alpha)}{\gamma - i {\bm k}\cdot{\bm v}}
+\int\limits_{-\pi}^{0} \frac{\fminus{J}_k(\alpha)}{\gamma - i {\bm k}\cdot{\bm v}}
 \frac{d\alpha}{2\pi}\ ,
 \qquad
-\Delta \dct{\fminus{\rho}}({\bm k}) =
-\int_{-\pi}^{0} \frac{{\bm k}\times{\bm v}\fminus{J}_k(\alpha)}{
+\Delta \dct{\fminus{\Omega}}({\bm k}) =
+\int\limits_{-\pi}^{0} \frac{{\bm k}\times{\bm v}\fminus{J}_k(\alpha)}{
             \gamma - i {\bm k}\cdot{\bm v}}
 \frac{d\alpha}{2\pi}\ .
 \end{align}
@@ -1174,11 +1210,13 @@ due to the particles produced by the source. This yields
 the expression for the flux~$\Phi_{k}$ that should be employed
 in the self-consistency condition:
 \begin{align}
+  \label{eq:delta-phi}
 \Phi_{k} = \left. \left(\gamma \fminus{\rho}_{\bm k}
 -  \fminus{\Omega}_{\bm k} \right)\right|_{q = i |k|} - \Delta\Phi_{k}\ ,
-\end{align}
-with
-\begin{align}
+% \end{align}
+\qquad
+\mathrm{with}\qquad
+%\begin{align}
 \Delta\Phi_{k} = \int\limits_{-\pi}^{0} \Delta \fminus{J}_{k}(\alpha)
 \frac{d\alpha}{2\pi}\ .
 \end{align}
@@ -1193,7 +1231,7 @@ see in the following two sections.
 %the condition~$\fminus{S}_\Omega(q = i|k|) %= 0$ due to a pole at this point.)
 
 
-\section{Diffuse scattering contribution}
+\section{The diffuse scattering contribution}
 \label{sec:diffuse}
 
 %The relations presented in the previous section
@@ -1203,93 +1241,94 @@ To this end, we extend the source antisymmetrically to down-going angles,
 writing the source in the form
 $J_{s}(\alpha, x, y) =  f_s(x) \sin\alpha \delta(y)$.
 Evaluating the integrals~(\ref{eq:rho-direct}) and~(\ref{eq:omega-direct}),
-one finds:
+one may express the results in terms of the kernels~$K_{\rho, \Omega}(k, q)$:
 \begin{align}
-\dct{\rho}^{(diff)}(k, q) = \frac{iq}{k^2 + q^2} K_\rho(k, q)\ ,
+\dct{\rho}^\mathrm{(diff)}(k, q) = \frac{iq f_s(k)}{k^2 + q^2} K_\rho(k, q)\ ,
 \qquad
-\dct{\Omega}^{diff}(k, q) = \frac{k}{2\gamma} \left[1 - K_\Omega(k, q)\right]
+\dct{\Omega}^\mathrm{diff}(k, q) = \frac{k f_s(k)}{2\gamma'} \left[1 - K_\Omega(k, q)\right] \ . 
 \end{align}
+The extra flux~$\Delta\Phi_{k}$
+supplied by the extended source in the downward direction
+is equal to~$-f_s(k)/\pi$. 
+Since we do not treat the diffuse scattering as a source of external current,
+the current term in the density equation~(\ref{eq:wh-rho-3}) can
+be suppressed.
 %defined by Eqs.(\ref{eq:source-diff-rho}), (\ref{eq:source-diff-omega}),
 %(\ref{eq:source-frho-def}) and~(\ref{eq:source-diff-omega}).
-To obtain the
-functions~$\fplusminus{S}_{\rho}(k, q)$
-and~$\fplusminus{S}_\Omega(k, q)$ defined
-by Eqs.(\ref{eq:chi-def}) and~(\ref{eq:psi-def}), we employ
-the identities (\ref{eq:frho-identity}) and~(\ref{eq:fomega-identity}):
+Hence the source term in the density equation takes the form
+\begin{equation}
+  \fplus{S}_\rho(k, q) + \fminus{S}_\rho(k, q) =
+  \frac{iq f_s(k)}{q^2 + k^2} \frac{1}{\fplus{K}_\rho(k, q)}\ . 
+\end{equation}
+Instead of computing the Cauchy integral~(\ref{eq:solution-chi}),
+one can simply separate the pole at~$q = i|k|$ as before:
 \begin{align}
-  \fplus{S}_\rho(k, q) + \fminus{S}_\rho(k, q)
-   = \frac{f_{s, k} F_\rho(k, q)}{\fminus{K}_\rho(k, q)}
-  = \frac{f_{s, k}}{\fminus{K}_\rho(k, q)} \left( \tilde{F}_\rho(k, q)
-      + \frac{iq}{k^2 + q^2} \frac{\fminus{K}_\rho(k, q)}{\fplus{K}_\rho(k, q)}\right)
-  \ ,
-\\
-\fplus{S}_\Omega(k, q) + \fminus{S}_\Omega(k, q)
-= \frac{f_{s, k} F_\Omega(k, q)}{\fminus{K}_\Omega(k, q)}
-= \frac{f_{s, k}}{\fminus{K}_\Omega(k, q)} \left( - \tilde{F}_\Omega(k, q)
-      + \frac{k}{2\gamma}
-      - \frac{k}{2\gamma}\frac{\fminus{K}_\Omega(k, q)}{\fplus{K}_\Omega(k, q)}\right)
-\ .
+  \fplus{S}_\rho(k, q) &= \frac{iq f_s(k)}{q^2 + k^2}
+  \frac{1}{\fplus{K}_\rho(k, q)}
+  + \frac{1}{2(|k| + iq)} \frac{1}{K_\rho^\ast(k)}\ , \\
+  \fminus{S}_\rho(k, q) &= - \frac{f_s(k)}{2(|k| + iq)}
+                          \frac{1}{K_\rho^\ast(k)}
+  \ . 
 \end{align}
-Since the functions~$\tilde{F}_\rho(k, q)$ and~$\tilde{F}_\Omega(k, q)$
-are complex-analytic at~$\Im q < 0$, and the remaining terms are analytic
-at~$\Im q > 0$ except the pole at~$q = i |k|$,
-we can find~$\fminus{S}_\rho(k, q)$ and~$\fminus{S}_\Omega(k, q)$ directly:
+Similarly, the source in the vorticity equation~(\ref{eq:wh-Omega-3}) can be
+recast as
 \begin{align}
-  \fminus{S}_\rho(k, q) &= f_{s, k} \left[
-  \frac{{F}_\rho(k, -q)}{\fminus{K}_\rho(k, q)}
-  - \frac{1}{2(|k| + iq) K_\rho^\ast(k)}
+  \fplus{S}_\Omega(k, q) + \fminus{S}_\Omega(k, q) =
+  \frac{k f_s(k)}{2\gamma'} \left[\frac{1}{\fminus{K}_\Omega(k, q)}
+  - \frac{1}{\fplus{K}_\Omega(k, q)} \right]\ . 
+\end{align}
+Obviously, the first term contributes to~$\fminus{S}_\omega(k, q)$
+while the second term gives rise to~$\fplus{S}_\Omega$. The constant
+term is derived from the self-consistency
+condition~(\ref{eq:consistency-D-Omega}), so that
+\begin{align}
+  \fplus{S}_\Omega(k, q) &= \frac{k f_s(k)}{2\gamma'}
+  \left[\frac{1}{K^\ast_\Omega(k)} - \frac{1}{\fplus{K}_\Omega(k, q)}
+  \right] \ , \\\nonumber
+  \fminus{S}_\Omega(k, q) &= \frac{k f_s(k)}{2\gamma'}
+  \left[-\frac{1}{K^\ast_\Omega(k)} + \frac{1}{\fminus{K}_\Omega(k, q)}
+  \right] \ .
+\end{align}
+Thus, one finds for the physical density and vorticity:
+\begin{align}
+  \rho^\mathrm{(diff)}(k, q) &= f_s(k)
+  \left[\frac{iq}{q^2 + k^2} + \frac{1}{2(|k| + iq)}
+   \frac{\fplus{K}_{+}(k, q)}{K_\rho^\ast(k)}
   \right]
-  \ ,
-  \\
-  \fminus{S}_\Omega(k, q) + S_\Omega^\ast(k)
-  &= f_{s, k}\left[\frac{k}{2\gamma} \left(\frac{1}{\fminus{K}_\Omega(k, q)}
-  - \frac{1}{K_\Omega^\ast(k)} \right)
-   - \frac{F_\Omega(k, -q)}{\fminus{K}_\Omega(k, q)}  \right]
-%  \ \ ,
-%  \\
-%  S_\Omega^\ast(k) &= - \frac{k}{2\gamma} \frac{f_s(k)}{K_\Omega^\ast(k)}
-  \ .
+  \ , \\\nonumber
+  \Omega^\mathrm{(diff)}(k, q) &= \frac{k}{2\gamma'} \left[
+  \frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)} - 1
+  \right]\ .
 \end{align}
-We also give explicit expressions for density and vorticity:
-\begin{align}
-  \label{eq:rho-s}
-  \rho_{s, {\bm k}} = \fplus{\rho}(k, q) &= f_{s, k} \left[\frac{-iq}{k^2 + q^2}
-  + \frac{1}{2(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k, q)} \right]
-  \\
-   \label{eq:omega-s}
-  \Omega_{s, {\bm k}} = \fplus{\Omega}(k, q)
-  &= \frac{k}{2\gamma}
-     \left(\frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast} - 1\right)
-  \ .
-\end{align}
-(Note that the diffuse scattering does not contribute to~$\fplus{D}_{\bm k}$,
-according to Eq.(\ref{eq:solution-D}).) The contribution of the diffuse source to
+The contribution of the diffuse source to
 the scattered flux is, according to Eq.(\ref{eq:flux-rho-Omega}),
 \begin{align}
-  \label{eq:phi-chi-psi}
-  \Phi^\mathrm{(diff)}_k &=
+  %\label{eq:phi-chi-psi}
+  \label{eq:phi-diff}
+  \Phi^\mathrm{(diff)}_k &= -\Delta\Phi_{k} + 
   \left[\gamma \fminus{K}_\rho \fminus{S}_\rho
   - \fminus{K}_\Omega \left(\fminus{S}_\Omega
                        + S_\Omega^\ast\right)\right]_{q = -i |k|} \\
-  &= f_{s, k} \left[\gamma F_\rho^\ast(k)
+    &= f_{s, k} \left[
+                       \frac{1}{\pi}
    - \frac{\gamma}{4|k| \left[K_\rho^\ast(k)\right]^2}
-  - \frac{|k|}{2\gamma}\left(1 - \frac{1}{\left[K_\Omega^\ast\right]^2} \right)
-   + \sgn k F_\Omega^\ast(k)\right]
+  - \frac{|k|}{2\gamma'}\left(1 - \frac{1}{\left[K_\Omega^\ast\right]^2} \right)
+   \right]
    \nonumber
-  \ ,
+  \ .
 \end{align}
-where~$F_\rho^\ast(k)$ and~$F_\Omega^\ast(k)$ are defined by
-Eqs.(\ref{eq:frho-star}) and~(\ref{eq:fomega-star}), respectively.
-Simplifying this expression, we find
-\begin{equation}
-  \label{eq:phi-diff}
-  \Phi^\mathrm{(diff)}_k
-  = f_{s, k} \left[\frac{1}{\pi}
-    - \frac{\gamma}{4|k| \left[K_\rho^\ast(k)\right]^2}
-  + \frac{|k|}{2\gamma} \left(\frac{1}{\left[K_\Omega^\ast(k)\right]^2}
-  - 1\right) \right] \equiv \Phi_s(k) f_{s, k}
-\end{equation}
+%where~$F_\rho^\ast(k)$ and~$F_\Omega^\ast(k)$ are defined by
+%Eqs.(\ref{eq:frho-star}) and~(\ref{eq:fomega-star}), respectively.
+%Simplifying this expression, we find
+%\begin{equation}
+%  \Phi^\mathrm{(diff)}_k
+%  = f_{s, k} \left[\frac{1}{\pi}
+%    - \frac{\gamma}{4|k| \left[K_\rho^\ast(k)\right]^2}
+%  + \frac{|k|}{2\gamma'} \left(\frac{1}{\left[K_\Omega^\ast(k)\right]^2}
+%  - 1\right) \right] \equiv \Phi_s(k) f_{s, k}
+%\end{equation}
 % In the long-wavelength limit, $k \to 0$, this quantity tends to $1/\pi$.
+
 In the long-wavelength limit, one can  use  the results of
 Appendix~\ref{sec:appendix-kstar} to obtain the expansion
 \begin{equation}
@@ -1309,73 +1348,92 @@ a proportional increase in the flux: $\Phi \to \Phi + \delta\mu/\pi$.
 At short distances, $k \gg \gamma$, one finds~$\Phi_s(k\to0) \approx - 1/\pi$,
 which represents single-collision backscattering.
 
-\section{Current injection at the edge}
+\textbf{VERIFY}
+
+\section{An isotropic current source at the edge}
 \label{sec:boundary-src}
 
 Let us now analyse the contribution of a current source placed at the boundary.
-Such a source is described by Eqs.(\ref{eq:source-surf-rho}),
-(\ref{eq:source-fm-def}),
-and~(\ref{eq:source-surf-omega}). In this case, $\fminus{S}_\rho(k, q)$ can be
-found with the help of the identity~(\ref{eq:fm-identity}):
-\begin{equation}
-\fplus{S}_\rho(k,q) + \fminus{S}_\rho(k, q) = \frac{2 I_0 F_m(k, q)}{\fminus{K}_\rho(k, q)}
-= \frac{2I_0}{\gamma}
-\left[ -  \frac{\gamma F_m(k, -q)}{\fminus{K}_\rho(k, q)}
-+ \frac{1}{\fminus{K}_\rho(k, q)}  -  \frac{1}{\fplus{K}_\rho(k, q)}\right]
-\  .
-\end{equation}
-Recall that the function~$F_m(k, -q)$ is analytic at~$\Im q < 0$,
-so that the first two terms can be grouped into~$\fminus{S}_\rho(k, q)$.
-Hence we find the solution decaying at~$q\to \infty$:
-\begin{equation}
-\fminus{S}_\rho(k, q) = \frac{2I_0}{\gamma}
-\left[ - \frac{\gamma F_m(k, -q)}{\fminus{K}_\rho(k, q)}
-       + \frac{1}{\fminus{K}_\rho(k, q)} - 1
-\right]
-\ .
-\end{equation}
-Since the vorticity contribution given by Eq.(\ref{eq:source-surf-omega})
-is $q$-independent, we also find
-\begin{equation}
-  \fminus{S}_\Omega(k, q) = \frac{2}{\pi \fminus{K}_\Omega(k, q)}
-  \tan^{-1}\frac{k}{\gamma}
-  \ , \qquad S_\Omega^\ast(k) = 0
-\ .
-\end{equation}
-Using Eq.(\ref{eq:solution-rho-plus}) and~(\ref{eq:solution-omega-plus}),
-we obtain final expressions for
-the density and vorticity induced by the current source alone:
+%Such a source is described by Eqs.(\ref{eq:source-surf-rho}),
+%(\ref{eq:source-fm-def}),
+% and~(\ref{eq:source-surf-omega}).
+Assuming full isotropy, it is convenient to
+extend the source into the lower semispace:
+$J(\alpha) = 2I_0 \delta(x) \delta(y)$. Since the source
+emits the flux~$\Delta \Phi_k = I_0$ downwards, the total
+current has to be doubled.
+The angular averaging in Eqs.(\ref{eq:rho-direct}) and~(\ref{eq:omega-direct})
+yields, with the help of Eq.(\ref{eq:angular-integrals}):
 \begin{align}
-  \label{eq:rho-I}
-\rho_{I, {\bm k}} = \fplus{\rho}_{\bm k}
-&= \frac{2 I_0}{\gamma}\left[\frac{1}{\fplus{K}_\rho(k, q)} - 1\right]
-+ \frac{2 \gamma' I_0}{k^2 + q^2}
-  - \frac{\gamma' I_0}{|k|(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)}
-  \ ,
-  \\
-  \label{eq:omega-I}
-\Omega_{I, {\bm k}} = \fplus{\Omega}_{\bm k}
-&= I_0 \frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)}  \sgn{k} \ .
+  \dct{\rho}(k, q) = \frac{2I_0}{\sqrt{\gamma^2 + k^2 + q^2}} = 
+  \frac{2I_0}{\gamma} \left[1 - K_\rho(k, q)\right]\ ,
+  \qquad
+  \dct{\Omega}(k, q) = 0\ .
+\end{align}
+The external current distribution is of course
+given by~$\langle J_\mathrm{ext}(k, q) \rangle = I_0$.
+%\end{align}
+The functions~$\fplusminus{S}_\rho(k, q)$ can be determined from
+\begin{align}
+    \fplus{S}_\rho(k, q)
+ +  \fminus{S}_\rho(k, q)
+  = \frac{2I_0}{\gamma} \left[\frac{1}{\fminus{K}_\rho(k, q)}
+  - \frac{1}{\fplus{K}_\rho(k, q)}\right]\ , 
+\end{align}
+which suggests the trivial decomposition
+\begin{align}
+  \fplus{S}_\rho(k, q) = \frac{2I_0}{\gamma}
+  \left[1 - \frac{1}{\fplus{K}_\rho(k, q)}\right]\ ,
+  \qquad
+  \fplus{S}_\rho(k, q) = \frac{2I_0}{\gamma}
+  \left[\frac{1}{\fminus{K}_\rho(k, q)} - 1\right]\ .
+\end{align}
+(The constants are chosen to make~$\fplusminus{S}_\rho(k, q)$
+vanishing at~$q\to\infty$.) Thus, the regular contribution
+to the density in Eq.(\ref{eq:rho-decomp}) takes the form
+\begin{align}
+  \delta\rho_\infty(k, q) + \delta\rho_\mathrm{reg}(k, q) =
+  - \frac{\gamma' I_0}{|k|(|k| - iq)}
+  + I_0 \left[K_\rho(k, q) + \fplus{K}_\rho(k, q) - 2\right] \ . 
+\end{align}
+As before, we have subtracted the singular direct-flight contribution,
+which takes a particularly simple form in the real space:
+\begin{align}
+  \dct{\rho}({\bm r}) = \frac{2I_0}{|{\bm r}|} e^{-\gamma |{\bm r}|}\ .
+\end{align}
+This relation describes radial propagation of particles emitted from
+the current source~$2I_0$ decaying with rate~$\gamma$.
+
+The vorticity equation is trivial, so that~$\fplusminus{S}_\Omega(k, q) = 0$,
+and the vorticity in Eq.~(\ref{eq:solution-omega-plus}) includes
+only the regular part: 
+\begin{align}
+  \fplus{\Omega}(k, q)
+  = \delta\Omega_\infty(k, q) + \delta\Omega_\mathrm{reg}(k, q)
+  = \frac{I_0}{K_\Omega^\ast(k)} \fplus{K}_\Omega (k, q)\ .
 \end{align}
 The contribution to the downward flux can be found from~$\fminus{S}_\rho(k, q)$
-and~$\fminus{S}_\Omega(k, q)$ similarly to Eq.(\ref{eq:phi-chi-psi}):
+and~$\fminus{S}_\Omega(k, q)$ similarly to Eq.(\ref{eq:phi-diff}):
 \begin{equation}
-  \Phi^\mathrm{(edge)}_{k} =  - 2 I_0 \gamma F_m^\ast(k)
-  + 2 I_0 \left(1 - \frac{1}{K_\rho^\ast(k)}\right)
-  - \frac{\gamma \gamma' I_0}{2|k|^2 K_\rho^\ast(k)}
-  - \frac{2 I_0}{\pi} \tan^{-1}\frac{k}{\gamma}
+  \Phi^\mathrm{(edge)}_{k} =  -I_0
+  + 2 I_0 \left[1 - \frac{1}{K_\rho^\ast(k)}\right]
+  - \frac{\gamma \gamma' I_0}{2|k|^2 \left[K_\rho^\ast(k)\right]^2}
   + \frac{I_0}{\left[K_\Omega^\ast(k)\right]^2}
-\ .
+\ , 
 \end{equation}
-Using the relation~(\ref{eq:fm-star}), this can be simplified to
+where the first term accounts for
+the extra injected flux~$\Delta\Phi_k = I_0$.
+%       Using the relation~(\ref{eq:fm-star}), this can be simplified to
+We rewrite this in the form
 \begin{equation}
   \label{eq:phi-iso-surf}
-  \Phi^\mathrm{(surf)}(k) =
-  I_0 \left[1  - \frac{2}{K_\rho^\ast}
+  \Phi^\mathrm{(edge)}(k) =
+  I_0 \Phi_I(k), \qquad
+  \Phi_I(k) \equiv \left[1  - \frac{2}{K_\rho^\ast}
     - \frac{\gamma \gamma'}{2k^2 \left[K_\rho^\ast(k)\right]^2}
     + \frac{1}{\left[K_\Omega^\ast(k)\right]^2}
-  \right]
-\equiv \Phi_I(k) I_0 \ .
+  \right]\ .
+%\equiv \Phi_I(k) I_0 \ .
 \end{equation}
 %{\bf STOPPED HERE}
 %
@@ -2197,7 +2255,102 @@ It is easy to verify
 the relation~$\gamma F_\rho^\ast(k) + \sgn k F_\Omega^\ast(k) = 1/\pi$,
 which will be important in the analysis of diffuse scattering contribution.
 
+To obtain the
+functions~$\fplusminus{S}_{\rho}(k, q)$
+and~$\fplusminus{S}_\Omega(k, q)$ defined
+by Eqs.(\ref{eq:chi-def}) and~(\ref{eq:psi-def}), we employ
+the identities (\ref{eq:frho-identity}) and~(\ref{eq:fomega-identity}):
+\begin{align}
+  \fplus{S}_\rho(k, q) + \fminus{S}_\rho(k, q)
+   = \frac{f_{s, k} F_\rho(k, q)}{\fminus{K}_\rho(k, q)}
+  = \frac{f_{s, k}}{\fminus{K}_\rho(k, q)} \left( \tilde{F}_\rho(k, q)
+      + \frac{iq}{k^2 + q^2} \frac{\fminus{K}_\rho(k, q)}{\fplus{K}_\rho(k, q)}\right)
+  \ ,
+\\
+\fplus{S}_\Omega(k, q) + \fminus{S}_\Omega(k, q)
+= \frac{f_{s, k} F_\Omega(k, q)}{\fminus{K}_\Omega(k, q)}
+= \frac{f_{s, k}}{\fminus{K}_\Omega(k, q)} \left( - \tilde{F}_\Omega(k, q)
+      + \frac{k}{2\gamma}
+      - \frac{k}{2\gamma}\frac{\fminus{K}_\Omega(k, q)}{\fplus{K}_\Omega(k, q)}\right)
+\ .
+\end{align}
+Since the functions~$\tilde{F}_\rho(k, q)$ and~$\tilde{F}_\Omega(k, q)$
+are complex-analytic at~$\Im q < 0$, and the remaining terms are analytic
+at~$\Im q > 0$ except the pole at~$q = i |k|$,
+we can find~$\fminus{S}_\rho(k, q)$ and~$\fminus{S}_\Omega(k, q)$ directly:
+\begin{align}
+  \fminus{S}_\rho(k, q) &= f_{s, k} \left[
+  \frac{{F}_\rho(k, -q)}{\fminus{K}_\rho(k, q)}
+  - \frac{1}{2(|k| + iq) K_\rho^\ast(k)}
+  \right]
+  \ ,
+  \\
+  \fminus{S}_\Omega(k, q) + S_\Omega^\ast(k)
+  &= f_{s, k}\left[\frac{k}{2\gamma} \left(\frac{1}{\fminus{K}_\Omega(k, q)}
+  - \frac{1}{K_\Omega^\ast(k)} \right)
+   - \frac{F_\Omega(k, -q)}{\fminus{K}_\Omega(k, q)}  \right]
+%  \ \ ,
+%  \\
+%  S_\Omega^\ast(k) &= - \frac{k}{2\gamma} \frac{f_s(k)}{K_\Omega^\ast(k)}
+  \ .
+\end{align}
+We also give explicit expressions for density and vorticity:
+\begin{align}
+  \label{eq:rho-s}
+  \rho_{s, {\bm k}} = \fplus{\rho}(k, q) &= f_{s, k} \left[\frac{-iq}{k^2 + q^2}
+  + \frac{1}{2(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k, q)} \right]
+  \\
+   \label{eq:omega-s}
+  \Omega_{s, {\bm k}} = \fplus{\Omega}(k, q)
+  &= \frac{k}{2\gamma}
+     \left(\frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast} - 1\right)
+  \ .
+\end{align}
+(Note that the diffuse scattering does not contribute to~$\fplus{D}_{\bm k}$,
+according to Eq.(\ref{eq:solution-D}).)
 
+In this case, $\fminus{S}_\rho(k, q)$ can be
+found with the help of the identity~(\ref{eq:fm-identity}):
+\begin{equation}
+\fplus{S}_\rho(k,q) + \fminus{S}_\rho(k, q) = \frac{2 I_0 F_m(k, q)}{\fminus{K}_\rho(k, q)}
+= \frac{2I_0}{\gamma}
+\left[ -  \frac{\gamma F_m(k, -q)}{\fminus{K}_\rho(k, q)}
++ \frac{1}{\fminus{K}_\rho(k, q)}  -  \frac{1}{\fplus{K}_\rho(k, q)}\right]
+\  .
+\end{equation}
+Recall that the function~$F_m(k, -q)$ is analytic at~$\Im q < 0$,
+so that the first two terms can be grouped into~$\fminus{S}_\rho(k, q)$.
+Hence we find the solution decaying at~$q\to \infty$:
+\begin{equation}
+\fminus{S}_\rho(k, q) = \frac{2I_0}{\gamma}
+\left[ - \frac{\gamma F_m(k, -q)}{\fminus{K}_\rho(k, q)}
+       + \frac{1}{\fminus{K}_\rho(k, q)} - 1
+\right]
+\ .
+\end{equation}
+Since the vorticity contribution given by Eq.(\ref{eq:source-surf-omega})
+is $q$-independent, we also find
+\begin{equation}
+  \fminus{S}_\Omega(k, q) = \frac{2}{\pi \fminus{K}_\Omega(k, q)}
+  \tan^{-1}\frac{k}{\gamma}
+  \ , \qquad S_\Omega^\ast(k) = 0
+\ .
+\end{equation}
+Using Eq.(\ref{eq:solution-rho-plus}) and~(\ref{eq:solution-omega-plus}),
+we obtain final expressions for
+the density and vorticity induced by the current source alone:
+\begin{align}
+  \label{eq:rho-I}
+\rho_{I, {\bm k}} = \fplus{\rho}_{\bm k}
+&= \frac{2 I_0}{\gamma}\left[\frac{1}{\fplus{K}_\rho(k, q)} - 1\right]
++ \frac{2 \gamma' I_0}{k^2 + q^2}
+  - \frac{\gamma' I_0}{|k|(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)}
+  \ ,
+  \\
+  \label{eq:omega-I}
+\Omega_{I, {\bm k}} = \fplus{\Omega}_{\bm k}
+&= I_0 \frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)}  \sgn{k} \ .
+\end{align}
 
 \section{Factorization of the kernels near the poles}
 
