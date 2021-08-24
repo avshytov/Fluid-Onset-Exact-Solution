@@ -496,12 +496,14 @@ finds~$K_\Omega({\bm k}) = 1$.
 The sources in this equation can be viewed as a contribution of particles
 propagating from the source via a ``direct flight'', i.e. unscattered:
 \begin{align}
+\label{eq:rho-direct}
   \dct{\rho}({\bm k}) &\equiv
   \left\langle
       \frac{J_{\bm k}(\alpha)}{ \gamma - i {\bm k} \cdot {\bm v}}
   \right\rangle
   \ ,
   \\
+  \label{eq:D-direct}
   \dct{D}({\bm k}) &\equiv
   \left\langle
        \frac{J_{\bm k}(\alpha) ({\bm k} \cdot {\bm v})}{\gamma
@@ -511,6 +513,7 @@ propagating from the source via a ``direct flight'', i.e. unscattered:
   + i \left\langle J_{\bm k}(\alpha) \right\rangle
   \ ,
   \\
+  \label{eq:omega-direct}
   \dct{\Omega}({\bm k}) &\equiv
   \left\langle
        \frac{J_{\bm k}(\alpha) ({\bm k} \times {\bm v})}{\gamma
@@ -980,8 +983,8 @@ been placed in an infinite space:
 the effect of the wall which is expected to be regular.
 Thus, one may write
 \begin{align}
-\fplus{\rho}(k, q) = \rho_{\inf}(k, q) + \rho_\mathrm{reg}(k, q)\ ,
-\qquad  \rho_\mathrm{reg}(k, q) =
+\delta\fplus{\rho}(k, q) = \rho_{\inf}(k, q) + \rho_\mathrm{reg}(k, q)\ ,
+\qquad  \delta\rho_\mathrm{reg}(k, q) =
 - \fplus{K}_\rho(k, q)
 \fminus{S}_\rho(k, q) + \frac{\gamma'J_\mathrm{ext}^\ast}{|k|(|k| + iq)}
 \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)}\ .
@@ -992,17 +995,18 @@ the real-space singularity of~$\fplus{\rho}(x, y)$ is given by
 $\dct{\rho}(x, y)$. Singling out this term, one may write
 \begin{align}
 \fplus{rho}(k, q) = \dct{\rho}(k, q)
- - \frac{2\gamma' J_\mathrm{ext}(k, q)}{k^2 + q^2}
- + \delta \rho_\infty(k, q) + \rho_\mathrm{reg}(k, q)\ ,
+ + \delta \rho_\infty(k, q) + \delta\rho_\mathrm{reg}(k, q)\ ,
 \end{align}
-with the excess density~$\delta\rho_\infty(k, q)$ given by
+with the excess density~$\delta\rho_\infty(k, q)$ due to the
+scattering in the infinite space given by
 \begin{align}
 \delta\rho_\infty(k, q) = \left[\frac{1}{K_\rho(k, q)} - 1\right]
 \dct{\rho}(k, q)\ .
+- \frac{2\gamma' J_\mathrm{ext}(k, q)}{k^2 + q^2}
 \end{align}
 The advantage of using this representation is that the real-space
 form of~$\dct{\rho}(x, y)$ is often self-evident, as will be discussed
-later. 
+later.
 
 We now see that the density behaviour both above and below the
 boundary is described in terms of a single unknown
@@ -1081,28 +1085,35 @@ where~$S_\Omega^\ast(k) \equiv \fplus{S}_\Omega(k, q = i |k|)$. Similarly to Eq.
 be separated, so that the vorticity is
 expressed in terms of the quantity~$\fminus{S}_\Omega(k, q)
 + S_\Omega^\ast(k)$ alone:
-\begin{equation}
+\begin{align}
   \label{eq:solution-omega-plus}
-  \fplus{\Omega}_{\bm k} = \frac{\dct{\Omega}(k, q)}{K_\Omega(k, q)}
+  \fplus{\Omega}_{\bm k} = \dct{Omega}(k, q) + \Omega_\mathrm{req}(k, q)\ , \\
+  \Omega_\mathrm{reg}(k, q) =
+  \left(\frac{1}{K_\Omega(k, q)} - 1 \right) \Omega_\mathrm{dct}(k, q)
   + \frac{J_\mathrm{ext}^\ast(k) \fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)} \sgn{k}
-  - \fplus{K}_\Omega(k, q) \left[\fminus{S}_\Omega(k, q)
-   + S_\Omega^\ast(k)\right]
+  - \fplus{K}_\Omega(k, q) {\tilde S}_\Omega(k, q)
+  %\left[\fminus{S}_\Omega(k, q)
+  % + S_\Omega^\ast(k)\right]
   \ .
-\end{equation}
+\end{align}
+Here we absorbed the constant~$S_\Omega^\ast$
+into the function~$\fminus{S}_\Omega$ by introducing
+${\tilde S}_\Omega(k, q) = \fminus{S}_\Omega(k, q) + S_\omega^\ast$.
 The latter can be obtained as a difference of  two  Cauchy integrals.
 This yields
-\begin{equation}
+\begin{align}
   \label{eq:solution-psi}
-  \fminus{S}_\Omega(k, q) + S_\Omega^\ast(k) = \int\limits_{-\infty}^{\infty}
+  {\tilde{S}}_\Omega(k, q) = \int\limits_{-\infty}^{\infty}
   \frac{dq'}{2\pi i} \frac{(i|k| - q) \,
   \dct{\Omega}(k, q')}{(q - q' - i0)(i|k| - q' - i0) \fminus{K}_\Omega(k, q')}
   \ .
-\end{equation}
+\end{align}
+This integral is convertent even for~$\dct{\Omega}$ tending to a non-zero limit at~$q'\to \infty$.
 
 Expressions (\ref{eq:solution-chi}) and~(\ref{eq:solution-chi}),
 can be also  employed to calculate the flux through the edge. Substituting
 Eqs.(\ref{eq:solution-rho-minus}) and~(\ref{eq:solution-omega-minus})
-into Eq.~\ref{eq:flux-rho-Omega},
+into Eq.~(\ref{eq:flux-rho-Omega}),
 one finds
 \begin{align}
   \label{eq:phi-general}
@@ -1129,6 +1140,52 @@ Generic expressions presented in this section often simplify for particular
 configurations of sources. In the next section, we derive the explicit
 form of the source terms, and discuss important relations between
 these contributions.
+
+When seeking for specific solutions to the Wiener-Hopf
+equations~(\ref{eq:wh-rho-3})-(\ref{eq:wh-Omega-3}) one may also
+bear in mind how it varies when the sources at the boundary
+are modified for downward-moving particles, $-\pi < \alpha < 0$.
+The extra source, $\Delta J^{-}_k(\alpha)$ would produce the particles
+that move to the lower semispace and decay there without being
+backscattered into the upper semispace. Thus, the extra sources
+would affect~$\fminus{\rho}_{\bm k}$ and~$\fminus{\Omega}_{\bm k}$,
+but not  $\fplus{\rho}_{\bm k}$ and~$\fplus{\Omega}_{\bm k}$.
+This can be seen from the Wiener-Hopf equations: the extra sources
+would give rise to an extra contribution to $\dct{\rho}({\bm k})$
+and~$\Omega_\mathrm{dct}({\bm k})$:
+\begin{align}
+\Delta \dct{\fminus{\rho}}({\bm k}) =
+\int_{-\pi}^{0} \frac{\fminus{J}_k(\alpha)}{\gamma - i {\bm k}\cdot{\bm v}}
+\frac{d\alpha}{2\pi}\ ,
+\qquad
+\Delta \dct{\fminus{\rho}}({\bm k}) =
+\int_{-\pi}^{0} \frac{{\bm k}\times{\bm v}\fminus{J}_k(\alpha)}{
+            \gamma - i {\bm k}\cdot{\bm v}}
+\frac{d\alpha}{2\pi}\ .
+\end{align}
+(These contributions are indeed complex-analytic in the lower half-plane,
+as all the poles of the integrand lie in the upper half plane.)
+The extra sources can be easily incorporated
+into the solution by a trivial  shift: $\fminus{\rho}({\bm k})
+\to \fminus{\rho}({\bm k}) + \Delta\dct{\fminus{\rho}}({\bm k})$, etc,
+so that the physial distributions at $y \geq 0$ are unaffected.
+However, such a change modifies the expression for the down-going flux
+due to the particles produced by the source. This yields
+the expression for the flux~$\Phi_{k}$ that should be employed
+in the self-consistency condition:
+\begin{align}
+\Phi_{k} = \left. \left(\gamma \fminus{\rho}_{\bm k}
+-  \fminus{\Omega}_{\bm k} \right)\right|_{q = i |k|} - \Delta\Phi_{k}\ ,
+\end{align}
+with
+\begin{align}
+\Delta\Phi_{k} = \int\limits_{-\pi}^{0} \Delta \fminus{J}_{k}(\alpha)
+\frac{d\alpha}{2\pi}\ .
+\end{align}
+This symmetry of the Wiener-Hopf equations allows one to choose the
+source terms in such a form as to simplify the analysis, as we shall
+see in the following two sections.
+
 %properties
 %of source terms that arise in our treatment.
 
@@ -1136,195 +1193,25 @@ these contributions.
 %the condition~$\fminus{S}_\Omega(q = i|k|) %= 0$ due to a pole at this point.)
 
 
-\section{Source terms in the Wiener-Hopf equations}
-\label{sec:sources}
-%Before attempting a solution of the Wiener-Hopf equations, let us discuss
-%the actual form of the sources.
-%As we will see below,
-%in many important cases solving the Wiener-Hopf equations can be facilitated
-%due to a particular form of the source terms.
-Here we shall consider the following four
-types of external sources: (i) an isotropic current source at the interface,
-$y = 0$, (ii) an isotropic current source in the interior,
-(iii) a point momentum source in the interior (Stokeslet),
-(iv) the Lambertian source representing diffuse scattering at the edge.
-
-(i) An isotropic current source placed at the interface is only allowed
-to emit upward-going particles. Hence we  write
-$J^{\mathrm{edge}}(x, y, \alpha) = 2 I_0 \delta(x)\delta(y) \Theta(\alpha)$,
-where~$I_0$ is the total current injected by the source. In the Fourier
-representation, this becomes~$J_{\bm k}(\alpha) = I_0 \Theta(\alpha) / \pi$.
-Hence
-\begin{equation}
-   \label{eq:source-surf-rho}
-  \dct{\rho}^{\mathrm{(edge)}}(k, q)
-  = \int\limits_{0}^{\pi}
-         \frac{d\alpha}{2\pi} \frac{J_{\bm k}(\alpha)}{\gamma
-                               - i {\bm k} \cdot {\bm v}} = 2 I_0 F_m(k, q) \ .
-\end{equation}
-The quantity
-\begin{equation}
-F_m(k, q) \equiv \int\limits_{0}^{\pi}  \frac{d\alpha}{2\pi}
-               \frac{1}{\gamma - i k \cos \alpha - i q \sin\alpha}
-\end{equation}
-represents the ``master integral'' through which one can express contributions
-of sources of many different types. A straightforward calculation yields
-\begin{equation}
-  \label{eq:source-fm-def}
-  F_m(k, q) = \frac{1}{2\sqrt{k^2 + q^2 + \gamma^2}}
-  \left[1 + \frac{2i}{\pi}
-               \log\frac{q + \sqrt{q^2 + k^2 + \gamma^2}}{\sqrt{k^2 + \gamma^2}}\right]
-\end{equation}
-(the logarithm in the brackets can be also written
-as~$\sinh^{-1} (q / \sqrt{k^2 + \gamma^2})$). By definition, this function
-is complex-analytic at~$\Im q > 0$ (all poles in the integrand are
-at~$\Im q < 0$). It can be also represented as the
-Fourier image of the density induced by a point source via "direct flights",
-$|{\bm r}|^{-1} \exp (-\gamma |{\bm r}|)$,
-restricted to the half-space~$y > 0$.)
-% induced by the source via "direct flight",
-% restricted to the semispace~$y > 0$.
-The contribution of the edge  source to the vorticity
-turns out to be $q$-indepdendent:
-\begin{equation}
-  \label{eq:source-surf-omega}
-  \dct{\Omega}^{\mathrm{(edge)}}(k, q) =
-  \int\limits_{0}^{\pi} \frac{d\alpha}{2\pi} \frac{J_{\bm k}(\alpha)
-        ({\bm k} \times {\bm v})}{\gamma - i {\bm k} \cdot {\bm v}}
-    = \frac{2 I_0}{\pi} \tan^{-1} \frac{k}{\gamma}
-\end{equation}
-
-(ii) Now consider an isotropic current source at $y = h > 0$:
-$J(x, y, \alpha) = \delta(x) \delta(y - h) J_0 $,
-which in the Fourier representation becomes
-$J_{\bm k}(\alpha) = e^{i q h} J_0$.
-Applying Eq.(\ref{eq:angular-integrals}), one finds
-\begin{equation}
-  \label{eq:source-bulk-rho}
-  \dct{\rho}^\mathrm{(int)}
-  = \frac{J_0 e^{i q h}}{\sqrt{k^2 + q^2 + \gamma^2}}
-  = \frac{J_0}{\gamma} \left[1 - K_\rho(k, q) \right]e^{i q h}
-  \ ,
-\end{equation}
-where~$K_\rho(k, q)$ is given by Eq.(\ref{eq:K-rho-def})
-The pertinent vorticity contribution vanishes:
-$\Omega_\mathrm{direct}^\mathrm{(int)} = 0$.
-
-(iii) A point momentum source is described by
-\begin{equation}
-  \label{eq:source-force-J}
-  J^\mathrm{(force)}(x, y, \alpha)
-  = 2 (F_x \cos\alpha + F_y \sin\alpha) \delta(x) \delta(y - h)
-\ ,
-\end{equation}
-where~$F_{x, y}$ are the components of the force applied at~$(0, h)$.
-A straightforward application of Eq.~(\ref{eq:angular-integrals}) yields
-\begin{equation}
-  \label{eq:source-force-rho}
-  \dct{\rho}^\mathrm{(force)}(k, q)
-      =  i \frac{2(k F_x + q F_y)}{k^2 + q^2}
-               K_\rho(k, q)  e^{i q h}\ ,
-\end{equation}
-\begin{equation}
-  \label{eq:source-force-omega}
-  \dct{\Omega}^\mathrm{(force)} = \frac{kF_y - q F_x}{\gamma}
-                                    \left[1 - K_\Omega(k, q)\right] e^{i q h}
-  \ .
-\end{equation}
-
-(iv) Finally, for  a diffuse source,
-$J(x, y, \alpha) = f_s(x) \sin\alpha \delta(y)$, one finds
-\begin{equation}
-  \label{eq:source-diff-rho}
-  \dct{\rho}^\mathrm{(diffuse)} = f_{s, k} F_\rho(k, q)
-  \ ,
-\end{equation}
-where
-\begin{equation}
-  \label{eq:source-frho-def}
-  F_\rho(k, q) \equiv
-  \int\limits_{0}^{\pi} \frac{\sin\alpha}{\gamma - i k \cos\alpha - i q \sin\alpha}
-             \frac{d\alpha}{2\pi}
-  =  \frac{1}{k^2 + q^2} \left[ \frac{k}{\pi} \tan^{-1}\frac{k}{\gamma}
-                              + \frac{iq}{2}
-  - i \gamma q F_m(k, q) \right]
-  \ .
-\end{equation}
-The vorticity contribution is
-$ \dct{\Omega}^\mathrm{(diffuse)} = f_{s, k} F_\Omega (k, q) $
-%\begin{equation}
-%\end{equation}
-with
-\begin{align}
-%\label{eq:source-fomega-def}
-\label{eq:source-diff-omega}
-  F_\Omega(k, q) \equiv{}&  \int\limits_{0}^{\pi}
-              \frac{\sin\alpha (k \sin \alpha - q \cos\alpha)}{\gamma
-                - i k \cos\alpha - i q \sin\alpha} \frac{d\alpha}{2\pi} && &
-  \\
-  ={}& k \left(1 + \frac{\gamma^2}{k^2 + q^2}\right) F_m(k, q)
-                 -\frac{1}{2} \frac{\gamma k}{k^2 + q^2}
-  - \frac{i}{\pi} \frac{\gamma q}{k^2 + q^2} \tan^{-1}\frac{k}{\gamma}
-  \ .
-  \nonumber
-\end{align}
-
-The following facts facilitate solving the Wiener-Hopf equations.
-First, note that the quantities~$F_m(k, q)$, $F_\rho(k, q)$
-and~$F_\Omega(k, q)$ are
-complex-analytic at~$\Im q > 0$. Hence their mirror images,
-~$\tilde{F}_m \equiv F_m(k, -q)$,
-${\tilde F}_{\rho} \equiv F_\rho(k, -q)$,
-and~$\tilde{F}_\Omega(k, q) \equiv F_\Omega(k, -q)$ are
-complex-analytic at~$\Im q < 0$. It is easy to verify the following relations
-between the functions in each pair:
-\begin{align}
-  \label{eq:fm-identity}
-  F_m(k, q) &+ \tilde{F}_m(k, q) = \frac{1 - K_\rho(k, q)}{\gamma} \ , \\
-  %\qquad
-  \label{eq:frho-identity}
-  F_\rho(k, q) &- \tilde{F}_\rho(k, q) = \frac{i q}{q^2 + k^2} K_\rho(k, q)
-  \ ,\\
-  \label{eq:fomega-identity}
-  F_\Omega(k, q) &+ \tilde{F}_\Omega(k, q)
-          = \frac{k}{2\gamma} \left[1 - K_\Omega(k, q)\right]
-  \ .
-\end{align}
-
-The solutions involve the values of the functions~$F_m(k, q)$,
-$F_\rho(k, q)$ and~$F_\Omega(k, q)$ at the pole~$q = i |k|$.
-Expanding Eqs.(\ref{eq:source-fm-def}), (\ref{eq:source-frho-def})
-and~(\ref{eq:source-diff-omega}), one finds
-\begin{align}
-  \label{eq:fm-star}
-  F_m^\ast(k) \equiv F_m(k, q = i |k|)
-       ={}& \frac{1}{2\gamma}
-        \left[ 1 - \frac{2}{\pi}\tan^{-1}\frac{|k|}{\gamma} \right] \\
-  \label{eq:frho-star}
-  F_\rho^\ast(k) \equiv F_\rho(k, q = i |k|)
-  ={}&  \frac{1}{2\pi \gamma} + \frac{1}{2\pi |k|} \tan^{-1}\frac{|k|}{\gamma}
-  - \frac{k}{4\gamma^2}
-    \left[1 - \frac{2}{\pi} \tan^{-1} \frac{|k|}{\gamma}\right]
-  \\
-  \label{eq:fomega-star}
-  F_\Omega^\ast(k) \equiv F_\Omega(k, q = i |k|)
-  ={}& \frac{\sgn k}{2\pi} +  \frac{k}{4\gamma}
-       - \frac{k}{2\pi \gamma}  \tan^{-1}\frac{|k|}{\gamma}
-       - \frac{\gamma}{2\pi k}  \tan^{-1}\frac{|k|}{\gamma}
-  \ .
-\end{align}
-It is easy to verify
-the relation~$\gamma F_\rho^\ast(k) + \sgn k F_\Omega^\ast(k) = 1/\pi$,
-which will be important in the analysis of diffuse scattering contribution.
-
 \section{Diffuse scattering contribution}
 \label{sec:diffuse}
 
 %The relations presented in the previous section
 %are significantly simplified for diffuse scattering contribution
-We can now discuss the explicit form of the diffuse contribution
-defined by Eqs.(\ref{eq:source-diff-rho}), (\ref{eq:source-diff-omega}),
-(\ref{eq:source-frho-def}) and~(\ref{eq:source-diff-omega}). To obtain the
+We can now discuss the explicit form of the diffuse contribution.
+To this end, we extend the source antisymmetrically to down-going angles,
+writing the source in the form
+$J_{s}(\alpha, x, y) =  f_s(x) \sin\alpha \delta(y)$.
+Evaluating the integrals~(\ref{eq:rho-direct}) and~(\ref{eq:omega-direct}),
+one finds:
+\begin{align}
+\dct{\rho}^{(diff)}(k, q) = \frac{iq}{k^2 + q^2} K_\rho(k, q)\ ,
+\qquad
+\dct{\Omega}^{diff}(k, q) = \frac{k}{2\gamma} \left[1 - K_\Omega(k, q)\right]
+\end{align}
+%defined by Eqs.(\ref{eq:source-diff-rho}), (\ref{eq:source-diff-omega}),
+%(\ref{eq:source-frho-def}) and~(\ref{eq:source-diff-omega}).
+To obtain the
 functions~$\fplusminus{S}_{\rho}(k, q)$
 and~$\fplusminus{S}_\Omega(k, q)$ defined
 by Eqs.(\ref{eq:chi-def}) and~(\ref{eq:psi-def}), we employ
@@ -2128,6 +2015,189 @@ to be continued.
 
 
 \appendix
+
+\section{To be reworked: the source terms in the Wiener-Hopf equations}
+\label{sec:sources}
+%Before attempting a solution of the Wiener-Hopf equations, let us discuss
+%the actual form of the sources.
+%As we will see below,
+%in many important cases solving the Wiener-Hopf equations can be facilitated
+%due to a particular form of the source terms.
+Here we shall consider the following four
+types of external sources: (i) an isotropic current source at the interface,
+$y = 0$, (ii) an isotropic current source in the interior,
+(iii) a point momentum source in the interior (Stokeslet),
+(iv) the Lambertian source representing diffuse scattering at the edge.
+
+(i) An isotropic current source placed at the interface is only allowed
+to emit upward-going particles. Hence we  write
+$J^{\mathrm{edge}}(x, y, \alpha) = 2 I_0 \delta(x)\delta(y) \Theta(\alpha)$,
+where~$I_0$ is the total current injected by the source. In the Fourier
+representation, this becomes~$J_{\bm k}(\alpha) = I_0 \Theta(\alpha) / \pi$.
+Hence
+\begin{equation}
+   \label{eq:source-surf-rho}
+  \dct{\rho}^{\mathrm{(edge)}}(k, q)
+  = \int\limits_{0}^{\pi}
+         \frac{d\alpha}{2\pi} \frac{J_{\bm k}(\alpha)}{\gamma
+                               - i {\bm k} \cdot {\bm v}} = 2 I_0 F_m(k, q) \ .
+\end{equation}
+The quantity
+\begin{equation}
+F_m(k, q) \equiv \int\limits_{0}^{\pi}  \frac{d\alpha}{2\pi}
+               \frac{1}{\gamma - i k \cos \alpha - i q \sin\alpha}
+\end{equation}
+represents the ``master integral'' through which one can express contributions
+of sources of many different types. A straightforward calculation yields
+\begin{equation}
+  \label{eq:source-fm-def}
+  F_m(k, q) = \frac{1}{2\sqrt{k^2 + q^2 + \gamma^2}}
+  \left[1 + \frac{2i}{\pi}
+               \log\frac{q + \sqrt{q^2 + k^2 + \gamma^2}}{\sqrt{k^2 + \gamma^2}}\right]
+\end{equation}
+(the logarithm in the brackets can be also written
+as~$\sinh^{-1} (q / \sqrt{k^2 + \gamma^2})$). By definition, this function
+is complex-analytic at~$\Im q > 0$ (all poles in the integrand are
+at~$\Im q < 0$). It can be also represented as the
+Fourier image of the density induced by a point source via "direct flights",
+$|{\bm r}|^{-1} \exp (-\gamma |{\bm r}|)$,
+restricted to the half-space~$y > 0$.)
+% induced by the source via "direct flight",
+% restricted to the semispace~$y > 0$.
+The contribution of the edge  source to the vorticity
+turns out to be $q$-indepdendent:
+\begin{equation}
+  \label{eq:source-surf-omega}
+  \dct{\Omega}^{\mathrm{(edge)}}(k, q) =
+  \int\limits_{0}^{\pi} \frac{d\alpha}{2\pi} \frac{J_{\bm k}(\alpha)
+        ({\bm k} \times {\bm v})}{\gamma - i {\bm k} \cdot {\bm v}}
+    = \frac{2 I_0}{\pi} \tan^{-1} \frac{k}{\gamma}
+\end{equation}
+
+(ii) Now consider an isotropic current source at $y = h > 0$:
+$J(x, y, \alpha) = \delta(x) \delta(y - h) J_0 $,
+which in the Fourier representation becomes
+$J_{\bm k}(\alpha) = e^{i q h} J_0$.
+Applying Eq.(\ref{eq:angular-integrals}), one finds
+\begin{equation}
+  \label{eq:source-bulk-rho}
+  \dct{\rho}^\mathrm{(int)}
+  = \frac{J_0 e^{i q h}}{\sqrt{k^2 + q^2 + \gamma^2}}
+  = \frac{J_0}{\gamma} \left[1 - K_\rho(k, q) \right]e^{i q h}
+  \ ,
+\end{equation}
+where~$K_\rho(k, q)$ is given by Eq.(\ref{eq:K-rho-def})
+The pertinent vorticity contribution vanishes:
+$\Omega_\mathrm{direct}^\mathrm{(int)} = 0$.
+
+(iii) A point momentum source is described by
+\begin{equation}
+  \label{eq:source-force-J}
+  J^\mathrm{(force)}(x, y, \alpha)
+  = 2 (F_x \cos\alpha + F_y \sin\alpha) \delta(x) \delta(y - h)
+\ ,
+\end{equation}
+where~$F_{x, y}$ are the components of the force applied at~$(0, h)$.
+A straightforward application of Eq.~(\ref{eq:angular-integrals}) yields
+\begin{equation}
+  \label{eq:source-force-rho}
+  \dct{\rho}^\mathrm{(force)}(k, q)
+      =  i \frac{2(k F_x + q F_y)}{k^2 + q^2}
+               K_\rho(k, q)  e^{i q h}\ ,
+\end{equation}
+\begin{equation}
+  \label{eq:source-force-omega}
+  \dct{\Omega}^\mathrm{(force)} = \frac{kF_y - q F_x}{\gamma}
+                                    \left[1 - K_\Omega(k, q)\right] e^{i q h}
+  \ .
+\end{equation}
+
+(iv) Finally, for  a diffuse source,
+$J(x, y, \alpha) = f_s(x) \sin\alpha \delta(y)$, one finds
+\begin{equation}
+  \label{eq:source-diff-rho}
+  \dct{\rho}^\mathrm{(diffuse)} = f_{s, k} F_\rho(k, q)
+  \ ,
+\end{equation}
+where
+\begin{equation}
+  \label{eq:source-frho-def}
+  F_\rho(k, q) \equiv
+  \int\limits_{0}^{\pi} \frac{\sin\alpha}{\gamma - i k \cos\alpha - i q \sin\alpha}
+             \frac{d\alpha}{2\pi}
+  =  \frac{1}{k^2 + q^2} \left[ \frac{k}{\pi} \tan^{-1}\frac{k}{\gamma}
+                              + \frac{iq}{2}
+  - i \gamma q F_m(k, q) \right]
+  \ .
+\end{equation}
+The vorticity contribution is
+$ \dct{\Omega}^\mathrm{(diffuse)} = f_{s, k} F_\Omega (k, q) $
+%\begin{equation}
+%\end{equation}
+with
+\begin{align}
+%\label{eq:source-fomega-def}
+\label{eq:source-diff-omega}
+  F_\Omega(k, q) \equiv{}&  \int\limits_{0}^{\pi}
+              \frac{\sin\alpha (k \sin \alpha - q \cos\alpha)}{\gamma
+                - i k \cos\alpha - i q \sin\alpha} \frac{d\alpha}{2\pi} && &
+  \\
+  ={}& k \left(1 + \frac{\gamma^2}{k^2 + q^2}\right) F_m(k, q)
+                 -\frac{1}{2} \frac{\gamma k}{k^2 + q^2}
+  - \frac{i}{\pi} \frac{\gamma q}{k^2 + q^2} \tan^{-1}\frac{k}{\gamma}
+  \ .
+  \nonumber
+\end{align}
+
+The following facts facilitate solving the Wiener-Hopf equations.
+First, note that the quantities~$F_m(k, q)$, $F_\rho(k, q)$
+and~$F_\Omega(k, q)$ are
+complex-analytic at~$\Im q > 0$. Hence their mirror images,
+~$\tilde{F}_m \equiv F_m(k, -q)$,
+${\tilde F}_{\rho} \equiv F_\rho(k, -q)$,
+and~$\tilde{F}_\Omega(k, q) \equiv F_\Omega(k, -q)$ are
+complex-analytic at~$\Im q < 0$. It is easy to verify the following relations
+between the functions in each pair:
+\begin{align}
+  \label{eq:fm-identity}
+  F_m(k, q) &+ \tilde{F}_m(k, q) = \frac{1 - K_\rho(k, q)}{\gamma} \ , \\
+  %\qquad
+  \label{eq:frho-identity}
+  F_\rho(k, q) &- \tilde{F}_\rho(k, q) = \frac{i q}{q^2 + k^2} K_\rho(k, q)
+  \ ,\\
+  \label{eq:fomega-identity}
+  F_\Omega(k, q) &+ \tilde{F}_\Omega(k, q)
+          = \frac{k}{2\gamma} \left[1 - K_\Omega(k, q)\right]
+  \ .
+\end{align}
+
+The solutions involve the values of the functions~$F_m(k, q)$,
+$F_\rho(k, q)$ and~$F_\Omega(k, q)$ at the pole~$q = i |k|$.
+Expanding Eqs.(\ref{eq:source-fm-def}), (\ref{eq:source-frho-def})
+and~(\ref{eq:source-diff-omega}), one finds
+\begin{align}
+  \label{eq:fm-star}
+  F_m^\ast(k) \equiv F_m(k, q = i |k|)
+       ={}& \frac{1}{2\gamma}
+        \left[ 1 - \frac{2}{\pi}\tan^{-1}\frac{|k|}{\gamma} \right] \\
+  \label{eq:frho-star}
+  F_\rho^\ast(k) \equiv F_\rho(k, q = i |k|)
+  ={}&  \frac{1}{2\pi \gamma} + \frac{1}{2\pi |k|} \tan^{-1}\frac{|k|}{\gamma}
+  - \frac{k}{4\gamma^2}
+    \left[1 - \frac{2}{\pi} \tan^{-1} \frac{|k|}{\gamma}\right]
+  \\
+  \label{eq:fomega-star}
+  F_\Omega^\ast(k) \equiv F_\Omega(k, q = i |k|)
+  ={}& \frac{\sgn k}{2\pi} +  \frac{k}{4\gamma}
+       - \frac{k}{2\pi \gamma}  \tan^{-1}\frac{|k|}{\gamma}
+       - \frac{\gamma}{2\pi k}  \tan^{-1}\frac{|k|}{\gamma}
+  \ .
+\end{align}
+It is easy to verify
+the relation~$\gamma F_\rho^\ast(k) + \sgn k F_\Omega^\ast(k) = 1/\pi$,
+which will be important in the analysis of diffuse scattering contribution.
+
+
 
 \section{Factorization of the kernels near the poles}
 
