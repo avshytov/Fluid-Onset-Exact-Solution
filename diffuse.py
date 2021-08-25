@@ -66,13 +66,13 @@ class DiffuseFlow(Flow):
         #q = self.q_dn
         #Komega_p = self.K_dn.omega_plus()
         omega = Komega_p / self.Komega_star - 1.0
-        return omega * self.k / self.gamma * 0.5
+        return omega * self.k / self.gamma1 * 0.5
     
     def _Omega_minus(self, q, Komega_m, psi_m):
         #q = self.q_up
         #Komega_m = self.K_up.omega_minus()
         omega  = (1.0 - Komega_m / self.Komega_star)
-        omega *= 0.5 * self.k / self.gamma
+        omega *= 0.5 * self.k / self.gamma1
         omega -= frhs.Fomega(self.gamma, self.k, -q)
         return omega
 
@@ -145,13 +145,13 @@ class DiffuseFlow_sym(Flow):
         #q = self.q_dn
         #Komega_p = self.K_dn.omega_plus()
         omega = Komega_p / self.Komega_star - 1.0
-        return omega * self.k / self.gamma * 0.5
+        return omega * self.k / self.gamma1 * 0.5
     
     def _Omega_minus(self, q, Komega_m, psi_m):
         #q = self.q_up
         #Komega_m = self.K_up.omega_minus()
         omega  = (1.0 - Komega_m / self.Komega_star)
-        omega *= 0.5 * self.k / self.gamma
+        omega *= 0.5 * self.k / self.gamma1
         #omega -= frhs.Fomega(self.gamma, self.k, -q)
         return omega
 
