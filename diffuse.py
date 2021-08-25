@@ -21,6 +21,7 @@ class DiffuseFlow(Flow):
         
     def wall_flux(self):
         gamma = self.gamma
+        gamma1 = self.gamma1
         Krho_star   = self.Krho_star
         Komega_star = self.Komega_star
         abs_k = np.abs(self.k)
@@ -28,7 +29,7 @@ class DiffuseFlow(Flow):
         
         flux = 1.0 / np.pi
         flux += -0.25 * gamma / abs_k / Krho_star**2
-        flux += - 0.5 * abs_k / gamma * (1.0 - 1.0 / Komega_star**2)
+        flux += - 0.5 * abs_k / gamma1 * (1.0 - 1.0 / Komega_star**2)
         #flux += sgn_k * frhs.Fomega_star(self.gamma, self.k)
         return flux
         
@@ -99,6 +100,7 @@ class DiffuseFlow_sym(Flow):
         
     def wall_flux(self):
         gamma = self.gamma
+        gamma1 = self.gamma1
         Krho_star   = self.Krho_star
         Komega_star = self.Komega_star
         abs_k = np.abs(self.k)
@@ -106,7 +108,7 @@ class DiffuseFlow_sym(Flow):
         
         flux = 1.0 / np.pi
         flux += -0.25 * gamma / abs_k / Krho_star**2
-        flux += - 0.5 * abs_k / gamma * (1.0 - 1.0 / Komega_star**2)
+        flux += - 0.5 * abs_k / gamma1 * (1.0 - 1.0 / Komega_star**2)
         #flux += sgn_k * frhs.Fomega_star(self.gamma, self.k)
         return flux
         
