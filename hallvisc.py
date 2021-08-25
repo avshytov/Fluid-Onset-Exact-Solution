@@ -85,9 +85,9 @@ def solve_for_correction(gamma, gamma1, k, yvals):
         return 0.0 * q + 0.0j
 
     def dF_omega_I(q):
-        k2 = k**2 +q**2
+        k2 = k**2 + q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        return - k2 / kqgamma**3
+        return - k2 / 2.0 / kqgamma**3
 
     def dF_rho_s(q):
         k2 = k**2 +q**2
@@ -97,7 +97,7 @@ def solve_for_correction(gamma, gamma1, k, yvals):
     def dF_omega_s(q):
         k2 = k**2 +q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        return q * gamma / kqgamma**3 
+        return 0.5 * q * gamma / kqgamma**3 
         
     
     def dF_rho_tot(q):
