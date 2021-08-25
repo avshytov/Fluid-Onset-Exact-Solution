@@ -113,12 +113,12 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
         f1 = (1.0 + 2.0j / np.pi * log_q) * k2 / kqgamma
         f2a = (k2 * (gamma**2 - k**2) + 2.0 * gamma**4) / kgamma**4 
         f2 = 2.0j * q / np.pi * f2a
-        return (f1 - f2) / 4.0 / kqgamma**2 * 2.0
+        return -(f1 - f2) / 4.0 / kqgamma**2 * 2.0
 
     def dF_rho_s_sym(q):
         k2 = k**2 +q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        return k / 2.0 / kqgamma
+        return k / 2.0 / kqgamma**3
 
     def dF_rho_s_one(q):
         k2 = q**2 + k**2
@@ -132,7 +132,7 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
     def dF_omega_s_sym(q):
         k2 = k**2 +q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        return 0.5 * q * gamma / kqgamma**3 
+        return 0.5 * 1j * q * gamma / kqgamma**3 
 
 
     def dF_omega_s_one(q):
@@ -236,6 +236,7 @@ if __name__ == '__main__':
 
     gamma  = 1.0
     gamma1 = 1.0
+    #use_sym = False
     use_sym = True
     ver = "01c"
 
