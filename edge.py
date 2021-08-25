@@ -5,7 +5,7 @@ import frhs
 
 class EdgeInjectedFlow(Flow):
     def __init__ (self, k, K_up, path_up, K_dn, path_dn):
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
 
     def J(self, q):
         return 1.0 + 0.0 * q
@@ -74,7 +74,7 @@ class EdgeInjectedFlow(Flow):
 
 class EdgeInjectedFlow_sym(Flow):
     def __init__ (self, k, K_up, path_up, K_dn, path_dn):
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
 
     def J(self, q):
         return 1.0 + 0.0 * q

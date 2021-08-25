@@ -4,7 +4,7 @@ from cauchy import cauchy_integral_array
 
 class GenericFlow(Flow):
     def __init__ (self, k,  K_up, path_up, K_dn, path_dn):
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
         self.k = k
         self.chi_p_up = 0.0 * path_up.points() + 0.0j
         self.chi_m_up = 0.0 * path_up.points() + 0.0j

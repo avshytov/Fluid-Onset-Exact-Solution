@@ -5,7 +5,7 @@ import frhs
 
 class DiffuseFlow(Flow):
     def __init__ (self, k, K_up, path_up, K_dn, path_dn):
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
         #self.gamma     = self.K.gamma
 
     def J(self, q):
@@ -78,7 +78,7 @@ class DiffuseFlow(Flow):
 
 class DiffuseFlow_sym(Flow):
     def __init__ (self, k, K_up, path_up, K_dn, path_dn):
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
         #self.gamma     = self.K.gamma
 
     def J(self, q):

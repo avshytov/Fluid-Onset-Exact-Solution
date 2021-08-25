@@ -5,7 +5,7 @@ from cauchy import cauchy_integral, cauchy_integral_array
 
 class Stokeslet(Flow):
     def __init__ (self, Fx, Fy, h, k, K_up, path_up, K_dn, path_dn):
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
         #self.K = K
         self.h = h
         self.Fx = Fx

@@ -5,7 +5,7 @@ from cauchy import cauchy_integral, cauchy_integral_array
 
 class InjectedFlow(Flow):
     def __init__ (self, h, k, K_up, path_up, K_dn, path_dn):
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
         #self.K = K
         self.h = h
         #self.path_up = path_up

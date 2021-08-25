@@ -3,14 +3,14 @@ import frhs as frhs
 from scipy import special
 
 class Flow:
-    def __init__(self, K_up, path_up, K_dn, path_dn):
+    def __init__(self, k, K_up, path_up, K_dn, path_dn):
         if np.abs(K_up.k - K_dn.k) > 1e-6:
             raise Exception("mismatched k")
         if np.abs(K_up.gamma - K_dn.gamma) > 1e-6:
             raise Exception("Mismatched gamma")
         if np.abs(K_up.gamma1 - K_dn.gamma1) > 1e-6:
             raise Exception("Mismatched gamma")
-        self.k      = K_up.k
+        self.k      = k
         self.q_up   = K_up.q
         self.q_dn   = K_dn.q
 
@@ -233,9 +233,9 @@ class Flow:
       
 
 class CombinedFlow(Flow):
-    def __init__(self, K_up, path_up, K_dn, path_dn):
+    def __init__(self, k, K_up, path_up, K_dn, path_dn):
         self.flows = []
-        Flow.__init__(self, K_up, path_up, K_dn, path_dn)
+        Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
         
     def add(self, flow, weight):
         self.flows.append((flow, weight))

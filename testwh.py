@@ -474,7 +474,7 @@ def test_wh(h, k, gamma, gamma1, yv):
         f_s = phi_bare / (1.0/np.pi - phi_diff)
         print ("bare flux: ", phi_bare, "diff: ", phi_diff)
         print ("flow: ", label, "f_s = ", f_s)
-        full_flow = CombinedFlow(K_up, path_up, K_dn, path_dn)
+        full_flow = CombinedFlow(k, K_up, path_up, K_dn, path_dn)
         full_flow.add(flow_bare, 1.0)
         full_flow.add(flow_diff, f_s)
 

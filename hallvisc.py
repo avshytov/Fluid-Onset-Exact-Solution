@@ -58,7 +58,7 @@ def find_correction(flow, f_s, k, diffuse_flow, dF_rho, dF_omega):
     diff_flux = diffuse_flow.wall_flux()
     df_s = ind_flux / (1.0/np.pi - diff_flux)
 
-    corr_flow = CombinedFlow(K_up, path_up, K_dn, path_dn)
+    corr_flow = CombinedFlow(k, K_up, path_up, K_dn, path_dn)
     corr_flow.add(ind_flow, 1.0)
     corr_flow.add(diffuse_flow,  df_s)
 
@@ -77,7 +77,7 @@ def solve_for_correction(gamma, gamma1, k, yvals):
     diff_flux = diffuse.wall_flux()
     orig_fs   = orig_flux / (1.0/np.pi - diff_flux)
 
-    orig_flow = CombinedFlow(K_up, path_up, K_dn, path_dn)
+    orig_flow = CombinedFlow(k, K_up, path_up, K_dn, path_dn)
     orig_flow.add(orig_I, 1.0)
     orig_flow.add(diffuse,  orig_fs)
 
@@ -171,7 +171,9 @@ if __name__ == '__main__':
     kvals_pos = join_arrays( np.linspace(0.001, 0.009, 9),
                          np.linspace(0.01, 0.99, 99),
                          np.linspace(1.0, 10.0, 361),
-                         np.linspace(10.1, 30.0, 200))
+                         np.linspace(10.1, 30.0, 200),
+                         np.linspace(31.0, 50.0, 20),
+                         np.linspace(52.5, 100.0, 20))
     kvals_neg = list(-kvals_pos)
     kvals_neg.reverse()
     kvals = join_arrays(np.array(kvals_neg), kvals_pos)
@@ -179,7 +181,7 @@ if __name__ == '__main__':
 
     gamma  = 1.0
     gamma1 = 1.0
-    ver = "01"
+    ver = "01a"
 
     for gamma1 in [1.0, 0.999, 0.99, 0.975, 0.95, 0.925,
                    0.9, 0.85, 0.8, 0.7, 0.6, 0.5]:
