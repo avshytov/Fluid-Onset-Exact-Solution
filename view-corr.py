@@ -33,6 +33,8 @@ def readData(fname):
     jx  = d['orig:jx']
     jy  = d['orig:jy']
 
+    print ("df_s = ", df_s)
+
     pl.figure()
     pl.plot(k, df_s.real, label='Re df(k)')
     pl.plot(k, df_s.imag, label='Im df(k)')
@@ -41,6 +43,7 @@ def readData(fname):
     pl.plot(k_eo, df_odd.real, '--', label='Re df_odd(k)')
     pl.plot(k_eo, df_odd.imag, '--', label='Im df_odd(k)')
     pl.legend()
+    pl.show()
 
     k_eo, dfI_even, dfI_odd = even_odd(k, dfs_I)
     pl.figure()
@@ -87,6 +90,9 @@ def readData(fname):
     DRHO = np.dot(F, drho)
     DJX  = np.dot(F, djx)
     DJY  = np.dot(F, djy)
+    PSI2 = np.dot(F, jy / (1j * k[:, None]))
+    JX  = np.dot(F, jx)
+    JY  = np.dot(F, jy)
     i_zero = np.argmin(np.abs(d['y']))
     print ("i_zero = ", i_zero)
     drho_x = np.dot(F, drho[:, i_zero])
@@ -94,10 +100,13 @@ def readData(fname):
     Y, X = np.meshgrid(d['y'], x)
 
     DPSI = 0.0 * X + 0.0j
+    PSI = 0.0 * X + 0.0j
     for j in range(1, len(y)):
-        jx_half =  -(DJX[:, j] + DJX[:, j - 1])/2.0
+        djx_half = (DJX[:, j] + DJX[:, j - 1])/2.0
+        jx_half =  (JX[:, j] + JX[:, j - 1])/2.0
         dy = y[j] - y[j - 1]
-        DPSI[:, j] = DPSI[:, j - 1] + jx_half * dy
+        DPSI[:, j] = DPSI[:, j - 1] + djx_half * dy
+        PSI[:, j] = PSI[:, j - 1] + jx_half * dy
 
     DPSI = np.nan_to_num(DPSI, nan=0.0)
     import matplotlib.colors as mpc
@@ -115,9 +124,18 @@ def readData(fname):
     pl.pcolormesh(X, Y, DRHO.real, cmap='bwr',
                   norm=custom_norm, shading='auto')
     pl.colorbar()
+    pl.gca().set_aspect('equal', 'box')
 
     pl.figure()
-    pl.contour(X, Y, DPSI.real, 31)
+    pl.contour(X, Y, DPSI.real, 31, cmap='jet')
+    pl.colorbar()
+    pl.gca().set_aspect('equal', 'box')
+
+    B = 0.25
+    pl.figure()
+    pl.contour(X, Y, (PSI2 + B * DPSI).real, 31, cmap='jet')
+    pl.colorbar()
+    pl.gca().set_aspect('equal', 'box')
 
     pl.figure()
     pl.plot(x, df_x.real, label='Re df(x)')
@@ -135,7 +153,12 @@ def readData(fname):
     pl.plot(x, DJY[:, i_zero].imag, label='Im dj_y')
     pl.legend()
 
-    
+    pl.figure()
+    for y_i in [0.0, 0.1, 0.2, 0.3, 0.5, 1.0]:
+        i_y = np.argmin(np.abs(y - y_i))
+        pl.plot(x, DRHO[:, i_y].real, label='Re drho @ y=%g' % y[i_y])
+        pl.plot(x, DRHO[:, i_y].imag, label='Im drho' % y[i_y])
+    pl.legend()
     pl.show()
 
 for f in sys.argv[1:]:
