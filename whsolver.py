@@ -96,7 +96,8 @@ class WHSolver:
         if (self.h < 0.001):
             injected_flow = EdgeInjectedFlow(k, K_up, path_up, K_dn, path_dn)
         else:
-            injected_flow = InjectedFlow(h, k, K_up, path_up, K_dn, path_dn)
+            injected_flow = InjectedFlow(self.h,
+                                         k, K_up, path_up, K_dn, path_dn)
         stokeslet_x = Stokeslet(1, 0, self.h, k, K_up, path_up, K_dn, path_dn)
         stokeslet_y = Stokeslet(0, 1, self.h, k, K_up, path_up, K_dn, path_dn)
         bare_flows = {
@@ -118,7 +119,7 @@ class WHSolver:
             print (key, "f_s = ", f_s)
 
             # Form a superposition of the bare flow and the diffuse flow
-            total_flow = CombinedFlow(K_up, path_up, K_dn, path_dn)
+            total_flow = CombinedFlow(k, K_up, path_up, K_dn, path_dn)
             total_flow.add(bare_flow, 1.0)
             total_flow.add(diffuse_flow, f_s)
 
@@ -157,7 +158,7 @@ if __name__ == '__main__':
                          np.linspace(0.01, 0.99, 99),
                          np.linspace(1.0, 10.0, 361),
                          np.linspace(10.1, 30.0, 200))
-    yvals = np.linspace(-1.0, 10.0, 1101)
+    yvals = np.linspace(-1.0, 20.0, 2101)
 
     gamma  = 1.0
     gamma1 = 1.0
