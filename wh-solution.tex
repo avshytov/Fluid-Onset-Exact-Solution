@@ -1,4 +1,4 @@
-\documentclass[preprint,aps,eqsecnum]{revtex4-1}
+\documentclass[preprint,aps,eqsecnum, prb]{revtex4-1}
 \usepackage{bm,amssymb,amsfonts,amsmath,graphicx,hyperref,subfig}
 \newcommand{\fplus}[1]{{#1}^{+}}
 \newcommand{\fminus}[1]{{#1}^{-}}
@@ -6,7 +6,7 @@
 \renewcommand{\Re}{\mathop{\mathrm{Re}}\nolimits}
 \renewcommand{\Im}{\mathop{\mathrm{Im}}\nolimits}
 \newcommand{\sgn}{\mathop{\mathrm{sgn}}\nolimits}
-\newcommand{\dct}[1]{{#1}_\mathrm{direct}}
+\newcommand{\dct}[1]{{#1}_\mathrm{dct}}
 \captionsetup[subfigure]{justification=justified,singlelinecheck=false}
 \captionsetup{justification=centerlast,singlelinecheck=false}
 %\newcommand{\rhoplus}{\rho^{(\plus)}}
@@ -733,25 +733,43 @@ Since the kernels are even functions of~$q$, one may also
 notice the following relations:
 \begin{align}
 \fplus{\bar{K}}_{\rho, \Omega}(k, \bar{q})
-= \frac{1}{\fminus{K}_{\rho, \Omega}(k, {\bar q})} \ , \qquad
-\fplus{K}_{\rho, \Omega}(k, q)
-= \frac{1}{\fminus{K}_{\rho, \Omega}(k, -{\bar q})} \ ,
+= \frac{1}{\fminus{K}_{\rho, \Omega}(k, q)} \ , \qquad
+\fplus{K}_{\rho, \Omega}(k, -q)
+= \frac{1}{\fminus{K}_{\rho, \Omega}(k, q)} \ ,
 \end{align}
 where~${\bar z}$ is the complex conjugate of
 $z$.
 
 \begin{figure}
+  \centering
   \includegraphics[width=0.25\textwidth]{pole-and-cut-1.mps} \qquad
   \includegraphics[width=0.25\textwidth]{pole-and-cut-2.mps} \qquad
   \includegraphics[width=0.25\textwidth]{pole-and-cut-3.mps}
   \caption{
    \label{fig:contours}
-   The kernels~$K_\rho(k, q)$ and~$K_\Omega(k, q)$ exhibit poles
-   at~$q = \pm i |k|$ and branch cuts starting at~$q = \pm i \kappa$.
-   The kernels~$\fplus{K}_{\rho, \Omega}$ are analytic in the upper half-plane,
-   and exhibit the singularities only at~$\Im q < 0$.
-   The contours in Fourier and Cauchy integrals (blue)  can be transformed
-   into the contributions of the pole (red) and the cut (green).}
+   The singularities and integration contours for the nonlocal kernel
+   $K_\rho(k, q)$. (a) The kernel exhibits two zeros at~$q = \pm i|k|$
+   and two branching points at~$q = \pm i \kappa$. The respective
+   branch cuts connect these points to infinity. The Wiener-Hopf
+   problem is defined on the real axis; the Fourier and Cauchy integrals
+   are to be taken along the horizontal contour shown in blue.
+   (b) The kernel~$\fplus{K}_\rho(k, q)$ has the singularities in the
+   lower half-plane~$\Im q < 0$ while the singularities in the upper half-plane
+   shown in pale gray are suppressed. In expressions involving
+   $\fplus{K}_\rho(k, q)$ the contour~$C$ can be deformed into the path~$C_+$
+   (magenta) enclosing these singularities. This path can be further
+   transformed into a sum of a contour encircling the pole (red)
+   and a path going around the cut (green). (c)
+   The kernel~$\fminus{K}_\rho(k, q)$ exhibits singularities in
+   the upper half plane, so that the integration path~$C$ can
+   be transformed into~$C_-$ which again can be reduced to the
+   contribution of the pole and the cut. }
+   %The kernels~$K_\rho(k, q)$ and~$K_\Omega(k, q)$ exhibit poles
+   %at~$q = \pm i |k|$ and branch cuts starting at~$q = \pm i \kappa$.
+   %The kernels~$\fplus{K}_{\rho, \Omega}$ are analytic in the upper half-plane,
+   %and exhibit the singularities only at~$\Im q < 0$.
+   %The contours in Fourier and Cauchy integrals (blue)  can be transformed
+   %into the contributions of the pole (red) and the cut (green).}
 \end{figure}
 
 These facts are very useful in treating the problem both analytically and
