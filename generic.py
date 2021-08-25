@@ -34,15 +34,15 @@ class GenericFlow(Flow):
         self.rho_direct = rho_dct
         self.J = J
         self.Omega_direct = Omega_dct
+        def take_star_lim(f):
+            eps = 1e-5
+            return (f(1j * abs_k + eps) + f(1j * abs_k - eps)) * 0.5
 
-        abs_k = np.abs(self.k)
+        abs_k   = np.abs(self.k)
         path_up = self.path_up
         path_dn = self.path_dn
         
         # Extract the sources
-        def take_star_lim(f):
-            eps = 1e-5
-            return (f(1j * abs_k + eps) + f(1j * abs_k - eps)) * 0.5
         rho_dct_up = self.rho_direct(path_up.points())
         rho_dct_dn = self.rho_direct(path_dn.points())
         rho_dct_star = take_star_lim(self.rho_direct)
@@ -56,7 +56,20 @@ class GenericFlow(Flow):
         J_dn = self.J(path_dn.points())
         J_star = self.J(1j * abs_k)
 
-        # ... and kernels
+        self._solve(rho_dct_up, rho_dct_dn, Omega_dct_up,
+                    Omega_dct_dn, J_up, J_dn, rho_dct_star,
+                    Omega_dct_star, J_star, flux_down)
+        
+    def _solve(self, rho_dct_up, rho_dct_dn, Omega_dct_up,
+               Omega_dct_dn, J_up, J_dn,
+               rho_dct_star, Omega_dct_star, J_star, flux_down = 0.0):
+
+
+        abs_k   = np.abs(self.k)
+        path_up = self.path_up
+        path_dn = self.path_dn
+        
+# ... and kernels
         Krho_p_dn   = self.K_dn.rho_plus()
         Komega_p_dn = self.K_dn.omega_plus()
         Krho_m_dn   = self.K_dn.rho_minus()
