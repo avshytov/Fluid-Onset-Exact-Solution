@@ -75,17 +75,17 @@ applies to other quantities.
 Then, the kinetic equation is solved in the form
 \begin{align}
   f_{\bm k} = \frac{J_{\bm k}(\alpha) + \gamma \fplus{\rho}_{\bm k}
-   2\gamma' \fplus{{\bm j}}_{\bm k}}{\gamma - i {\bm k} \cdot {\bm v}}\ . 
+    + 2\gamma' \fplus{{\bm j}\cdot{\bm v}}_{\bm k}}{\gamma - i {\bm k} \cdot {\bm v}}\ . 
 \end{align}
 It was also convenient to rewrite the current in terms of
 its divergence~$D_{\bm k} = {\bm k} \cdot {\bm j}_{\bm k}$
 and vorticity~$\Omega_{\bm k} = {\bm k} \times {\bm j}_{\bm k}$.
 This brings the distribution function to the following form:
 \begin{align}
-  f_{\bm k} = \frac{2i\gamma'}{\bm k^2} +
+  f_{\bm k} = \frac{2i\gamma' D_{\bm k}}{\bm k^2} +
   \frac{1}{\gamma - i {\bm k} \cdot {\bm v}}
   \left[J_{\bm k}(\alpha) + \gamma \fplus{\rho}_{\bm k}
-  + \frac{2i\gamma' \gamma}{{\bm k}^2} \fplus{D}_{\bm k} 
+  - \frac{2i\gamma' \gamma}{{\bm k}^2} \fplus{D}_{\bm k} 
   + \frac{2\gamma'}{\bm k^2} \fplus{\Omega}_{\bm k} {\bm k} \times {\bm v}
   \right]\ . 
 \end{align}
@@ -101,14 +101,14 @@ K_\rho({\bm k}) \fplus{\rho}_{\bm k}
 &= -i \gamma \fminus{\rho}_{\bm k} + i \left\langle J_{\bm k}(\alpha)
   \right\rangle \ , \\
 K_\Omega({\bm k}) \fplus{\Omega}_{\bm k}  + \fminus{\Omega}_{\bm k}
-= \Omega_\mathrm{direct}({\bm k})\ , 
+&= \Omega_\mathrm{direct}({\bm k})\ , 
 \end{align}
 where the terms~$ \rho_\mathrm{direct}({\bm k})$
 and~$\Omega_\mathrm{direct}({\bm k})$ represent the external
 sources, while the kernels~$K_\rho({\bm k})$ and~$K_\Omega({\bm k})$
 are given by
 \begin{align}
-  K_\rho({\bm k}) = 1 - \frac{\gamma}{\sqrt{\bm k}^2 + \gamma^2}\ ,
+  K_\rho({\bm k}) = 1 - \frac{\gamma}{\sqrt{{\bm k}^2 + \gamma^2}}\ ,
   \qquad
   K_\Omega({\bm k}) = 1 - \frac{2\gamma'}{{\bm k}^2}
   \left(\sqrt{{\bm k}^2 + \gamma^2} - \gamma\right)\ . 
