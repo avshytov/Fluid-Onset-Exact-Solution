@@ -7,6 +7,7 @@ import numpy as np
 from xkernel_new import WHKernels
 from contours import make_paths_and_kernels
 from flows import CombinedFlow
+from datasaver import DataSaver
 
 def find_correction(flow, k, diffuse_flow, dF_rho, dF_omega):
     K_up = flow.K_up
@@ -19,24 +20,38 @@ def find_correction(flow, k, diffuse_flow, dF_rho, dF_omega):
     gamma  = K.gamma
     gamma1 = K.gamma1
 
-    def drho_dct(q):
+    def drho_dct(q, omega_p):
         kqgamma = np.sqrt(k**2 + q**2 + gamma**2)
-        drho = 1j * gamma1 * flow.omega_plus_dn() / kqgamma**3
+        drho = 1j * gamma1 * omega_p / kqgamma**3
         drho += dF_rho(q)
         return drho
 
-    def dOmega_dct(q):
+    def dOmega_dct(q, rho_p, D_p):
         k2 = k**2 + q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        O1 = gamma * flow.rho_plus_dn() - 2.0 * 1j * D_plus_dn() / k2
+        O1 = gamma * rho_p - 2.0 * 1j * D_p / k2
         dOmega = O1 * (-1j * k2) / kqgamma**3
         dOmega += dF_omega(q)
 
     def dJ(q):
         return 0.0 * q + 0.0j
 
+    rho_dct_up   = drho_dct(flow.q_up, flow.omega_plus_up())
+    rho_dct_dn   = drho_dct(flow.q_dn, flow.omega_plus_dn())
+    Omega_dct_up = dOmect_dct(flow.q_up, flow.rho_plus_up(), flow.D_plus_up())
+    Omega_dct_dn = dOmect_dct(flow.q_dn, flow.rho_plus_dn, flow.D_plus_dn())
+    J_up = J_dn = 0.0 * flow.q_up # vanishes for hall corrections
+    ro_dct_star = 0.0     # Not in use now?
+    omega_dct_star = 0.0
+    J_star = 0.0
+    
+    flux_down = 0.0
     corr_flow = GenericFlow(k, K_up, path_up, K_dn, path_dn)
-    ind_flow.solve(drho_dct, dJ, dOmega_dct)
+    #ind_flow.solve(drho_dct, dJ, dOmega_dct)
+    ind_flow._solve(rho_dct_up,   rho_dct_dn,
+                    Omega_dct_up, Omega_dct_dn,
+                    J_up, J_dn,
+                    rho_dct_star, Omega_dct_star, J_star, flux_down)
 
     ind_flux = ind_flow.wall_flux()
     diff_flux = diffuser.wall_flux()
