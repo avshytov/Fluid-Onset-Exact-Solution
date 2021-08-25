@@ -9,7 +9,7 @@ from contours import make_paths_and_kernels
 from flows import CombinedFlow
 from datasaver import DataSaver
 
-def find_correction(flow, f_s, k, diffuse_flow, dF_rho, dF_omega):
+def find_correction(flow, k, diffuse_flow, dF_rho, dF_omega):
     K_up = flow.K_up
     K_dn = flow.K_dn
     path_up = flow.path_up
@@ -23,15 +23,15 @@ def find_correction(flow, f_s, k, diffuse_flow, dF_rho, dF_omega):
     def drho_dct(q, omega_p):
         kqgamma = np.sqrt(k**2 + q**2 + gamma**2)
         drho = 1j * gamma1 * omega_p / kqgamma**3
-        drho += dF_rho(q)
+        drho += 1j * dF_rho(q)
         return drho
 
     def dOmega_dct(q, rho_p, D_p):
         k2 = k**2 + q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        O1 = gamma * rho_p - 2.0 * 1j * D_p / k2
+        O1 = gamma * (rho_p - 2.0 * 1j * gamma1 * D_p / k2)
         dOmega = O1 * (-1j * k2) / kqgamma**3
-        dOmega += dF_omega(q)
+        dOmega += 1j * dF_omega(q)
         return dOmega
 
     def dJ(q):
@@ -163,11 +163,11 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
 
     
     
-    corr_I, df_I     = find_correction(orig_I, 0.0,    k, diffuse,
+    corr_I, df_I     = find_correction(orig_I,    k, diffuse,
                                        dF_rho_I, dF_omega_I)
-    corr_s, df_s     = find_correction(diffuse, 1.0,   k, diffuse,
+    corr_s, df_s     = find_correction(diffuse,   k, diffuse,
                                        dF_rho_s, dF_omega_s)
-    corr_tot, df_tot = find_correction(orig_flow, orig_fs, k, diffuse,
+    corr_tot, df_tot = find_correction(orig_flow, k, diffuse,
                                        dF_rho_tot, dF_omega_tot) 
 
     #yvals = np.linspace(-1.0, 10.0, 1101)
@@ -186,7 +186,7 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
     res_tot['rho'] = corr_tot.rho_y(yvals)
     res_tot['jx']  = corr_tot.jx_y(yvals)
     res_tot['jy']  = corr_tot.jy_y(yvals)
-    result['corr_tot'] = res_s
+    result['corr_tot'] = res_tot
 
     res_I['f_s'] = df_I
     res_I['rho'] = corr_I.rho_y(yvals)
@@ -199,6 +199,7 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
     res_s['jx']  = corr_s.jx_y(yvals)
     res_s['jy']  = corr_s.jy_y(yvals)
     result['corr_diff'] = res_s
+    print ("f_s = ", orig_fs, "df_I = ", df_I, "df_s = ", df_s, "df_tot = ", df_tot, "diff = ", df_tot - df_I - orig_fs * df_s)
     
 
     return result
@@ -223,12 +224,14 @@ def join_arrays(*arrays):
     return np.array(res_list)
 
 if __name__ == '__main__':
-    kvals_pos = join_arrays( np.linspace(0.001, 0.009, 9),
+    kvals_pos = join_arrays( np.linspace(0.0003, 0.009, 30),
                          np.linspace(0.01, 0.99, 99),
                          np.linspace(1.0, 10.0, 361),
                          np.linspace(10.1, 30.0, 200),
                          np.linspace(31.0, 50.0, 20),
-                         np.linspace(52.5, 100.0, 20))
+                         np.linspace(52.5, 100.0, 20),
+                         np.linspace(105, 300.0, 40)
+    )
     kvals_neg = list(-kvals_pos)
     kvals_neg.reverse()
     kvals = join_arrays(np.array(kvals_neg), kvals_pos)
@@ -238,7 +241,7 @@ if __name__ == '__main__':
     gamma1 = 1.0
     #use_sym = False
     use_sym = True
-    ver = "01c"
+    ver = "01d"
 
     suffix=""
     if use_sym: suffix="-sym"
