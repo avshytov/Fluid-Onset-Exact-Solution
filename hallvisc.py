@@ -1,6 +1,6 @@
 import contours
-from edge import EdgeInjectedFlow_sym
-from diffuse import DiffuseFlow_sym
+from edge import EdgeInjectedFlow_sym, EdgeInjectedFlow
+from diffuse import DiffuseFlow_sym, DiffuseFlow
 from generic import GenericFlow
 import pylab as pl
 import numpy as np
@@ -67,11 +67,24 @@ def find_correction(flow, f_s, k, diffuse_flow, dF_rho, dF_omega):
     
     
 
-def solve_for_correction(gamma, gamma1, k, yvals):
+def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
     K = WHKernels(gamma, gamma1)
     path_up, K_up, path_dn, K_dn = make_paths_and_kernels(K, k)
-    orig_I   = EdgeInjectedFlow_sym(k, K_up, path_up, K_dn, path_dn)
-    diffuse  = DiffuseFlow_sym(k, K_up, path_up, K_dn, path_dn)
+    orig_I_sym   = EdgeInjectedFlow_sym(k, K_up, path_up, K_dn, path_dn)
+    diffuse_sym  = DiffuseFlow_sym(k, K_up, path_up, K_dn, path_dn)
+    orig_I_one   = EdgeInjectedFlow(k, K_up, path_up, K_dn, path_dn)
+    diffuse_one  = DiffuseFlow(k, K_up, path_up, K_dn, path_dn)
+
+    #use_sym = False
+    if use_sym:
+       orig_I = orig_I_sym
+       diffuse = diffuse_sym
+    else:
+       orig_I = orig_I_one
+       diffuse = diffuse_one
+    
+    orig_I   = EdgeInjectedFlow(k, K_up, path_up, K_dn, path_dn)
+    diffuse  = DiffuseFlow(k, K_up, path_up, K_dn, path_dn)
 
     orig_flux = orig_I.wall_flux()
     diff_flux = diffuse.wall_flux()
@@ -81,25 +94,67 @@ def solve_for_correction(gamma, gamma1, k, yvals):
     orig_flow.add(orig_I, 1.0)
     orig_flow.add(diffuse,  orig_fs)
 
-    def dF_rho_I(q):
+    def dF_rho_I_sym(q):
         return 0.0 * q + 0.0j
 
-    def dF_omega_I(q):
+    def dF_rho_I_one(q):
+        return k * gamma / (k**2 + gamma**2)**2 / np.pi * 2.0
+
+    def dF_omega_I_sym(q):
         k2 = k**2 + q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        return - k2 / 2.0 / kqgamma**3
+        return - k2 / 2.0 / kqgamma**3 * 2.0
 
-    def dF_rho_s(q):
+    def dF_omega_I_one(q):
+        k2 = q**2 + k**2
+        kqgamma = np.sqrt(k2 + gamma**2) * 2.0
+        kgamma = np.sqrt(k**2 + gamma**2)
+        log_q = np.log((q + kqgamma) / kgamma)
+        f1 = (1.0 + 2.0j / np.pi * log_q) * k2 / kqgamma
+        f2a = (k2 * (gamma**2 - k**2) + 2.0 * gamma**4) / kgamma**4 
+        f2 = 2.0j * q / np.pi * f2a
+        return (f1 - f2) / 4.0 / kqgamma**2 * 2.0
+
+    def dF_rho_s_sym(q):
         k2 = k**2 +q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        return 1j * k / 2.0 / kqgamma
+        return k / 2.0 / kqgamma
 
-    def dF_omega_s(q):
+    def dF_rho_s_one(q):
+        k2 = q**2 + k**2
+        kqgamma = np.sqrt(k2 + gamma**2)
+        kgamma = np.sqrt(k**2 + gamma**2)
+        log_q = np.log((q + kqgamma) / kgamma)
+        f2 = 2.0j / np.pi * q * kqgamma / kgamma**2
+        return k / 4.0 / kqgamma**3 * (1.0 + 2j / np.pi * log_q + f2)
+        
+
+    def dF_omega_s_sym(q):
         k2 = k**2 +q**2
         kqgamma = np.sqrt(k2 + gamma**2)
         return 0.5 * q * gamma / kqgamma**3 
+
+
+    def dF_omega_s_one(q):
+        k2 = q**2 + k**2
+        kqgamma = np.sqrt(k2 + gamma**2)
+        kgamma = np.sqrt(k**2 + gamma**2)
+        log_q = np.log((q + kqgamma) / kgamma)
+        f2 = 2.0j / np.pi * q * kqgamma / kgamma**2
+        return 1j * q * gamma/ 4.0 / kqgamma**3 * (1.0 + 2j / np.pi * log_q + f2)
         
     
+    if use_sym:
+        dF_rho_I   = dF_rho_I_sym
+        dF_omega_I = dF_omega_I_sym
+        dF_rho_s   = dF_rho_s_sym
+        dF_omega_s = dF_omega_s_sym
+    else:
+        dF_rho_I   = dF_rho_I_one
+        dF_omega_I = dF_omega_I_one
+        dF_rho_s   = dF_rho_s_one
+        dF_omega_s = dF_omega_s_one
+        
     def dF_rho_tot(q):
         return dF_rho_I(q) + orig_fs * dF_rho_s(q)
     
@@ -149,11 +204,11 @@ def solve_for_correction(gamma, gamma1, k, yvals):
     return result
 
 
-def run(gamma, gamma1, kvals, yvals, fname):
+def run(gamma, gamma1, kvals, yvals, use_sym, fname):
     data = DataSaver(gamma=gamma, gamma1=gamma1, y=yvals)
     for i_k, k in enumerate(kvals):
         print ("run: k = ", k, "gamma1 = ", gamma1)
-        result = solve_for_correction(gamma, gamma1, k, yvals)
+        result = solve_for_correction(gamma, gamma1, k, yvals, use_sym)
         data.append_result(k, result)
         if i_k % 10 == 0:
             data.save(fname)
@@ -181,11 +236,15 @@ if __name__ == '__main__':
 
     gamma  = 1.0
     gamma1 = 1.0
-    ver = "01a"
+    use_sym = True
+    ver = "01c"
 
+    suffix=""
+    if use_sym: suffix="-sym"
+    else:       suffix="-one" 
     for gamma1 in [1.0, 0.999, 0.99, 0.975, 0.95, 0.925,
                    0.9, 0.85, 0.8, 0.7, 0.6, 0.5]:
-       fname = "hallvisc-data-ver%s-gamma1=%g" % (ver, gamma1)
-       run(gamma, gamma1, kvals, yvals, fname)
+       fname = "hallvisc-data-ver%s-gamma1=%g%s" % (ver, gamma1, suffix)
+       run(gamma, gamma1, kvals, yvals, use_sym, fname)
 
 
