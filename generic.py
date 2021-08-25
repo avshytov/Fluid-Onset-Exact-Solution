@@ -5,7 +5,7 @@ from cauchy import cauchy_integral_array
 class GenericFlow(Flow):
     def __init__ (self, k,  K_up, path_up, K_dn, path_dn):
         Flow.__init__(self, k, K_up, path_up, K_dn, path_dn)
-        self.k = k
+        #self.k = k
         self.chi_p_up = 0.0 * path_up.points() + 0.0j
         self.chi_m_up = 0.0 * path_up.points() + 0.0j
         self.chi_p_dn = 0.0 * path_dn.points() + 0.0j
@@ -34,11 +34,11 @@ class GenericFlow(Flow):
         self.rho_direct = rho_dct
         self.J = J
         self.Omega_direct = Omega_dct
+        abs_k   = np.abs(self.k)
         def take_star_lim(f):
             eps = 1e-5
             return (f(1j * abs_k + eps) + f(1j * abs_k - eps)) * 0.5
 
-        abs_k   = np.abs(self.k)
         path_up = self.path_up
         path_dn = self.path_dn
         
@@ -190,7 +190,7 @@ class GenericFlow(Flow):
         gamma_01 = gamma * gamma1
         self._flux  = gamma * self.chi_m_star / self.Krho_star
         self._flux -= J_star * gamma_01 / (2.0 * abs_k**2) / self.Krho_star**2
-        self._flux -= self.psi_m_star / self.Komega_star
+        self._flux -= self.psi_m_star / self.Komega_star * np.sign(self.k)
         self._flux -= flux_down
 
         
