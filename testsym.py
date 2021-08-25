@@ -11,7 +11,7 @@ from contours import make_paths_and_kernels
 
 def do_compare(x, y_new, y_old, quantity, label):
     pl.figure()
-    pl.title("Compare: %s for generic vs %s" % (quantity, label))
+    pl.title("Compare: %s for k>0 vs k < 0, %s" % (quantity, label))
     pl.plot(x, y_new.real, label='gen: Re %s' % quantity)
     pl.plot(x, y_new.imag, label='gen: Im %s' % quantity)
     pl.plot(x, y_old.real, '--', label='%s: Re %s' % (label, quantity))
@@ -39,21 +39,27 @@ def test(flow_pos, flow_neg, label):
                 "up: Omega+", label)
     
     do_compare (x_arc, gen_flow_pos.rho_plus_dn(), gen_flow_neg.rho_plus_dn(),
-                "dn: rho+", label)
+                "dn, gen: rho+", label)
     do_compare (x_arc, gen_flow_pos.Omega_plus_dn(),
                 -gen_flow_neg.Omega_plus_dn(),
-                "dn: Omega+", label)
+                "dn, gen: Omega+", label)
     do_compare (x_arc, gen_flow_pos.rho_plus_up(), gen_flow_neg.rho_plus_up(),
-                "up: rho+", label)
+                "up, gen: rho+", label)
     do_compare (x_arc, gen_flow_pos.Omega_plus_up(), -gen_flow_neg.Omega_plus_up(),
-                "up: Omega+", label)
+                "up, gen: Omega+", label)
     print ("fluxes:", flow_pos.wall_flux(), flow_neg.wall_flux())
     print ("generic fluxes:",
            gen_flow_pos.wall_flux(), gen_flow_neg.wall_flux())
     y = np.linspace(-1, 20, 2101)
-    #do_compare(y, gen_flow.rho_y(y), flow.rho_y(y), "rho(y)", label)
-    #do_compare(y, gen_flow.jx_y(y), flow.jx_y(y), "j_x(y)", label)
-    #do_compare(y, gen_flow.jy_y(y), flow.jy_y(y), "j_y(y)", label)
+    do_compare(y, flow_pos.rho_y(y), flow_neg.rho_y(y), "rho(y)", label)
+    do_compare(y, flow_pos.jx_y(y),  -flow_neg.jx_y(y), "j_x(y)", label)
+    do_compare(y, flow_pos.jy_y(y),  flow_neg.jy_y(y), "j_y(y)", label)
+    do_compare(y, gen_flow_pos.rho_y(y), gen_flow_neg.rho_y(y),
+               "gen: rho(y)", label)
+    do_compare(y, gen_flow_pos.jx_y(y),  -gen_flow_neg.jx_y(y),
+               "gen: j_x(y)", label)
+    do_compare(y, gen_flow_pos.jy_y(y),  gen_flow_neg.jy_y(y),
+               "gen: j_y(y)", label)
 
 k = 0.5
 h = 0.8
