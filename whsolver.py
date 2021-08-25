@@ -11,6 +11,7 @@ import time
 import util
 #from cauchy import cauchy_integral
 from contours import make_paths_and_kernels
+from datasaver import DataSaver
 
 class WHSolver:
     def __init__ (self, h, gamma, gamma1, kvals, yvals):
@@ -19,16 +20,19 @@ class WHSolver:
         self.kvals  = kvals
         self.h = h
         self.yvals = yvals
-        self.data = []
+        #self.data = []
+        self.data = DataSaver(gamma=self.gamma, gamma1=self.gamma1,
+                              h=self.h, y=self.yvals)
 
     def run(self, fname):
         save_interval = 10
+        self.data.set_filename (fname)
         for i_k, k in enumerate(self.kvals):
             result = self.solve(k)
-            self.data.append((k, result))
+            self.data.append_result(k, result)
             if  i_k  % save_interval == 0:
-                self.save(fname)
-        self.save(fname)
+                self.data.save(fname)
+        self.data.save(fname)
             
     def solve(self, k):
         print ("*** Solve for k = ", k, "h = ", self.h)
@@ -136,51 +140,8 @@ class WHSolver:
         return results
     
     def save(self, fname):
-        if not len(self.data): return 
-        results = dict()
-
-        # Store the parameters
-        results['h']      = self.h
-        results['gamma']  = self.gamma
-        results['gamma1'] = self.gamma1
-        results['y']      = self.yvals
-        
-        # first, record k values
-        k_done = np.array([t[0] for t in self.data])
-        results['k'] = k_done
-        # Parse the first item to determine the names
-        # of flows and fields
-        k0, data0 = self.data[0]
-        flows = list(data0.keys())
-        fields = data0[flows[0]].keys()
-        res_keys = []
-
-        #
-        # Use these keys in the .npz file
-        #
-        def make_key(flow, field):
-                return '%s:%s' % (flow, field)
-
-        # Now make empty arrays to sort the data items into
-        for flow in flows:
-            for field in fields:
-                results[make_key(flow, field)] = []
-
-        # Scan the data
-        for k, result_k in self.data:
-            # For each flow, extract individual fields: rho, jx, jy, etc
-            # and append to the data already collected
-            for flow, flow_fields in result_k.items():
-                for field, data in flow_fields.items():
-                    results[make_key(flow, field)].append(data)
-
-        # Convert lists to numpy arrays
-        for key in results.keys():
-            results[key] = np.array(results[key])
-
-        # Save the data
-        np.savez(fname, **results)
-
+        self.data.save(fname)
+ 
 def run(h, gamma, gamma1, kvals, yvals, fname):
     solver = WHSolver(h, gamma, gamma1, kvals, yvals)
     solver.run(fname)
