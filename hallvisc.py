@@ -30,7 +30,7 @@ def find_correction(flow, k, diffuse_flow, dF_rho, dF_omega):
         k2 = k**2 + q**2
         kqgamma = np.sqrt(k2 + gamma**2)
         O1 = gamma * (rho_p - 2.0 * 1j * gamma1 * D_p / k2)
-        dOmega = O1 * (-1j * k2) / kqgamma**3
+        dOmega = O1 * (-0.5j * k2) / kqgamma**3
         dOmega += 1j * dF_omega(q)
         return dOmega
 
@@ -224,8 +224,8 @@ def join_arrays(*arrays):
     return np.array(res_list)
 
 if __name__ == '__main__':
-    kvals_pos = join_arrays( np.linspace(0.0003, 0.009, 30),
-                         np.linspace(0.01, 0.99, 99),
+    kvals_pos = join_arrays( np.linspace(0.0003, 0.0096, 32),
+                         np.linspace(0.01, 0.995, 199),
                          np.linspace(1.0, 10.0, 361),
                          np.linspace(10.1, 30.0, 200),
                          np.linspace(31.0, 50.0, 20),
@@ -239,8 +239,8 @@ if __name__ == '__main__':
 
     gamma  = 1.0
     gamma1 = 1.0
-    #use_sym = False
-    use_sym = True
+    use_sym = False
+    #use_sym = True
     ver = "01d"
 
     suffix=""
