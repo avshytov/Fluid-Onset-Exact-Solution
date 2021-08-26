@@ -103,20 +103,20 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
     def dF_omega_I_sym(q):
         k2 = k**2 + q**2
         kqgamma = np.sqrt(k2 + gamma**2)
-        return - k2 / 2.0 / kqgamma**3 * 2.0
+        return - k2 / kqgamma**3 
 
     def dF_omega_I_one(q):
         k2 = q**2 + k**2
-        kqgamma = np.sqrt(k2 + gamma**2) * 2.0
+        kqgamma = np.sqrt(k2 + gamma**2) 
         kgamma = np.sqrt(k**2 + gamma**2)
         log_q = np.log((q + kqgamma) / kgamma)
         f1 = (1.0 + 2.0j / np.pi * log_q) * k2 / kqgamma
         f2a = (k2 * (gamma**2 - k**2) + 2.0 * gamma**4) / kgamma**4 
         f2 = 2.0j * q / np.pi * f2a
-        return -(f1 - f2) / 4.0 / kqgamma**2 * 2.0
-
+        return -(f1 - f2) / 2.0 / kqgamma**2
+    
     def dF_rho_s_sym(q):
-        k2 = k**2 +q**2
+        k2 = k**2 + q**2
         kqgamma = np.sqrt(k2 + gamma**2)
         return k / 2.0 / kqgamma**3
 
@@ -224,8 +224,10 @@ def join_arrays(*arrays):
     return np.array(res_list)
 
 if __name__ == '__main__':
-    kvals_pos = join_arrays( np.linspace(0.0003, 0.0096, 32),
-                         np.linspace(0.01, 0.995, 199),
+    kvals_pos = join_arrays(
+                         np.linspace(0.0001, 0.0003, 9),
+                         np.linspace(0.0003, 0.0096, 32),
+                         np.linspace(0.01, 0.995, 198),
                          np.linspace(1.0, 10.0, 361),
                          np.linspace(10.1, 30.0, 200),
                          np.linspace(31.0, 50.0, 20),
@@ -241,7 +243,7 @@ if __name__ == '__main__':
     gamma1 = 1.0
     use_sym = False
     #use_sym = True
-    ver = "01d"
+    ver = "01e"
 
     suffix=""
     if use_sym: suffix="-sym"
