@@ -498,6 +498,6 @@ def test_wh(h, k, gamma, gamma1, yv):
 h = 1.2
 k = 3.0
 gamma = 1.0
-gamma1 = 1.0
+gamma1 = 0.6
 yv = np.linspace(-3.0, 30.0, 3301)
 test_wh(h, k, gamma, gamma1, yv)
