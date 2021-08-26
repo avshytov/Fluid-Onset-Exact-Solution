@@ -260,8 +260,12 @@ is harder to evaluate, as it depends upon the distribution of
 the particles over angles.  We shall perform the analysis
 for the diffuse scattering contribution for which
 the source term is proportional to~$\sin\alpha$
-for~$0 < \alpha < \pi$. It is convenient to employ
-the master integral here:
+for~$0 < \alpha < \pi$:
+\begin{align}
+  J^\mathrm{(diff)}_{\bm k}(\alpha) = f_s \sin\alpha 
+\end{align}
+It is convenient to employ
+the master integral here and in what follows:
 \begin{align}
   F_m(k, q) = \int\limits_{0}^{\pi} \frac{1}{\gamma - i {\bm k} \cdot{\bm v}}
   \frac{d\alpha}{2\pi}
@@ -273,8 +277,8 @@ the master integral here:
 $u = \tan \alpha/2$.)
 For the contribution to the density, we write
 \begin{align}
-  F_{s, \rho}(k, q)
-  =  \int\limits_{0}^{\pi} \frac{\sin\alpha ({\bm k}\times{\bm v})}{
+  \delta\dct{\rho}^\mathrm{(diff)}(k, q) = f_s F_{s, \rho}({\bm k}) = 
+  =  f_s \int\limits_{0}^{\pi} \frac{\sin\alpha ({\bm k}\times{\bm v})}{
   \left(\gamma - i {\bm k} \cdot {\bm v}\right)^3} \frac{d\alpha}{2\pi} \ . 
 \end{align}
 One may notice that the expression here can be integrated by parts,
@@ -293,9 +297,11 @@ with respect to~$k$:
    + \frac{2i}{\pi} \frac{q \sqrt{k^2 + q^2 + \gamma^2}}{k^2 + \gamma^2}
   \right]\ . 
 \end{align}
-Similarly, we find that
+Similarly, we find the contribution to the vorticity,
+$\delta\dct{\Omega}({\bm k}) = f_s F_{s, \Omega}(k, q)$
+with
 \begin{align}
-  F_{s, \omega} = \int\limits_{0}^{\pi}
+  F_{s, \Omega} = \int\limits_{0}^{\pi}
   \sin\alpha \left( \frac{\gamma^2 + {\bm k}^2}{
           \left(\gamma - i {\bm k}\cdot{\bm v}\right)^3}
   - \frac{\gamma}{ \left(\gamma - i {\bm k}\cdot{\bm v}\right)^2}
@@ -306,7 +312,7 @@ Similarly, we find that
 \end{align}
 An explicit calculation then yields
 \begin{align}
-  F_{s, \omega} =
+  F_{s, \Omega}(k, q) =
  \frac{i \gamma q}{4(k^2 + q^2 + \gamma^2)^{3/2}}
   \left[1 + \frac{2i}{\pi} \log \frac{q + \sqrt{k^2 + q^2 + \gamma^2}}{
                           \sqrt{k^2 + \gamma^2}}
@@ -314,21 +320,27 @@ An explicit calculation then yields
   \right]\ . 
 \end{align}
 
-An isotropic injector is treated similarly.
+An isotropic injector defined by the source term
+\begin{align}
+  J_{\bm k}(\alpha) = 2I_0 \Theta(\alpha)
+\end{align}
+is treated similarly.
 Its contribution to the density is given by
+$\delta\dct{\rho}^{(I)} = I_0 F_{I, \rho}(k, q)$, with
 \begin{align}
   F_{I, \rho}(k, q) = \int\limits_{0}^{\pi} \frac{({\bm k}\times{\bm v})}{
-     \left(\gamma - i {\bm k} \cdot{\bm v}\right)^3} \frac{d\alpha}{2\pi}\ , 
+     \left(\gamma - i {\bm k} \cdot{\bm v}\right)^3} \frac{d\alpha}{\pi}\ , 
 \end{align}
 where the integrand is in fact proportional to the derivative
 of~$(\gamma - i {\bm k}\cdot{\bm v})^{-2}$. Thus one finds
 a $q$-independent contribution:
 \begin{align}
-  F_{I, \rho}(k, q) = \frac{k\gamma}{\pi (k^2 + \gamma^2)^2}\ . 
+  F_{I, \rho}(k, q) = \frac{2k\gamma}{\pi (k^2 + \gamma^2)^2}\ . 
 \end{align}
-The contribution to the vorticity,
+The contribution to the vorticity
+$\delta\dct{\Omega}^{(I)} = F_{I, \Omega}(k, q)$ with
 \begin{align}
-  F_{I, \omega} = \int\limits_{0}^{\pi} \left(
+  F_{I, \Omega}(k, q) = \int\limits_{0}^{\pi} \left(
   \frac{\gamma^2 + k^2 + q^2}{\left(\gamma - i {\bm k}\cdot{\bm v}\right)^3}
   - \frac{\gamma}{\left(\gamma - i {\bm k}\cdot{\bm v}\right)^2}
   \right)
@@ -336,13 +348,13 @@ The contribution to the vorticity,
 \end{align}
 can again be expressed in terms of the derivatives of the master integral:
 \begin{align}
-  F_{I, \omega} = \frac{\gamma^2 + k^2 + q^2}{2}
+  F_{I, \Omega}(k, q) = \left(\gamma^2 + k^2 + q^2 \right)
   \frac{\partial^2 F_m}{\partial \gamma^2}
-  + \gamma \frac{\partial F_m}{\partial\gamma}\ . 
+  + 2 \gamma \frac{\partial F_m}{\partial\gamma}\ . 
 \end{align}
 Again, a straightforward calculation yields
 \begin{align}
-  F_{I, \omega} = -\frac{1}{4 \left(k^2 + q^2 + \gamma^2\right)}
+  F_{I, \Omega}(k, q) = -\frac{1}{2 \left(k^2 + q^2 + \gamma^2\right)}
   \left[
   \frac{k^2 + q^2}{\sqrt{k^2 + q^2 + \gamma^2}}
   \left(
@@ -353,21 +365,63 @@ Again, a straightforward calculation yields
   (k^2 + \gamma^2)^2}
   \right]\ . 
 \end{align}
+
 These equations may look rather cumbersome, but they all share the same
 property: they define functions that are complex-analytic in the upper
 half-plane. (Indeed, all the poles in the denominator are at~$\Im q > 0$.)
-In fact, these expressions may be viewed as a solution of the
+For the diffuse scattering contribution,
+these expressions may be viewed as a solution of the
 Riemann-Hilbert problem for the respective integrals
 extended to the whole circle:
 \begin{align}
-  F_{I, \omega}(k, q) &= \left[\frac{-k^2 - q^2}{
-  2\left(k^2 + q^2 + \gamma^2\right)^{3/2}}\right]^{+}\ , \\
+%  F_{I, \omega}(k, q) &= \left[\frac{-k^2 - q^2}{
+%  2\left(k^2 + q^2 + \gamma^2\right)^{3/2}}\right]^{+}\ , \\
   F_{s, \rho}(k, q)
   = \left[\frac{k}{2(k^2 + q^2 + \gamma^2)^{3/2}}\right]^{+}\ , 
   \qquad
   F_{s, \omega}(k, q) &= \left[\frac{i \gamma q}{
           2\left(k^2 + q^2 + \gamma^2\right)^{3/2}}\right]^{+}\ . 
 \end{align}
+For an isotropic injector, however, the structure of the
+density and vorticity contributions is more complicated.
+It is in fact instructive to compare them to the respective expressions
+for an injector that emits the current~$2I_0$ isotropically both into the
+upper and lower semispaces: ${\tilde J}_{\bm k}(\alpha) = 2I_0$.
+Computing the respective integrals, one finds
+\begin{align}
+  {\tilde F}_{I, \rho}(k, q) = 0 \ , \qquad
+  {\tilde F}_{I, \Omega}(k, q)
+  = - \frac{k^2 + q^2}{(k^2 + q^2 + \gamma^2)^{3/2}}\ . 
+\end{align}
+One may then solve the respective Riemann-Hilbert problem,
+decomposing~${\tilde F}_{I, \Omega}(k, q)$
+into the contributions analytic in the upper and lower half-planes,
+respectively. This yields
+\begin{align}
+  \fplus{\tilde{F}}_{I, \Omega}(k, q) = F_{I, \Omega}(k, q)
+  - \frac{i \gamma^2 q}{(k^2 + \gamma^2)^2}\ . 
+\end{align}
+We see that both~$F_{I, \rho}(k, q)$ and~$F_{I, \Omega}(k, q)$
+involve the terms that do not involve the singularities
+at~$q = \pm i |k|$ or~$q = \pm i\sqrt{q^2 + k^2 + \gamma^2}$,
+which indicates that they are not associated with propagation
+of particles in the bulk. The unwanted terms are due to
+the discontinuity of the source at~$\alpha = 0$ and~$\alpha = \pi$.
+These terms in fact have to be discarded. 
+
+
+Extra terms:
+$$
+\frac{1}{(\gamma + i k)^2}
+- \frac{1}{(\gamma + i k)^2}
+$$
+and
+$$
+\frac{q}{(\gamma + i k)^2}
++ \frac{q}{(\gamma + i k)^2}
+$$
+are due to the delta-like contributions ... 
+
 
 \textbf{Coefficient not checked!}
 
