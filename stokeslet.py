@@ -33,14 +33,14 @@ class Stokeslet(Flow):
     def Omega_direct(self, q):
         kF = self.k * self.Fy - q * self.Fx
         K = self.K_up.omega(q)
-        omega = kF / self.gamma * (1.0 - K) * np.exp(1j * q * self.h)
+        omega = kF / self.gamma1 * (1.0 - K) * np.exp(1j * q * self.h)
         return omega
 
     def psi(self, Kminus, q):
         Kinv = 1.0/Kminus - 1.0
         kF = (self.k * self.Fy - q * self.Fx) 
         exp_qh = np.exp(1j * q * self.h)
-        return kF * exp_qh * Kinv / self.gamma
+        return kF * exp_qh * Kinv / self.gamma1
 
     def psi_up(self):
         return self.psi(self.K_up.omega_minus(), self.q_up)
@@ -81,7 +81,7 @@ class Stokeslet(Flow):
         sgn_k = np.sign(self.k)
         abs_k = np.abs(self.k)
         kF_star = (self.k * self.Fy - 1j * abs_k * self.Fx)
-        C = - kF_star / self.gamma * (1.0 - 1.0/self.Komega_star)
+        C = - kF_star / self.gamma1 * (1.0 - 1.0/self.Komega_star)
         return C * self.exp_kh
     
     def psi_star(self):
@@ -246,11 +246,11 @@ class Stokeslet(Flow):
         
     def _Omega_plus_sing_x(self, q, Ko):
         kF = (self.k * self.Fy * 0 - q * self.Fx) 
-        return (1.0/Ko - 1.0) * kF / self.gamma
+        return (1.0/Ko - 1.0) * kF / self.gamma1
     
     def _Omega_plus_sing_y(self, q, Ko):
         kF = (self.k * self.Fy * 1 - 0 * q * self.Fx) 
-        return (1.0/Ko - 1.0) * kF / self.gamma
+        return (1.0/Ko - 1.0) * kF / self.gamma1
         
     def _Omega_plus(self, q, Ko_p, psi_p):
         #return self._Omega_plus_old(q, Ko_p, psi_p)
@@ -268,7 +268,7 @@ class Stokeslet(Flow):
 
     def _Omega_plus_old(self, q, Ko_p, psi_p):
         sgn_k = np.sign(self.k)
-        kF = (self.k * self.Fy - q * self.Fx) / self.gamma
+        kF = (self.k * self.Fy - q * self.Fx) / self.gamma1
         exp_qh = np.exp(1j * q * self.h)
         return Ko_p * psi_p + kF * exp_qh * (Ko_p - 1.0)
     

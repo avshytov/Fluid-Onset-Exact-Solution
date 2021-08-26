@@ -91,7 +91,7 @@ class DiffuseFlow_sym(Flow):
         #- frhs.Frho(self.k, -self.q)
     
     def Omega_direct(self, q):
-        return self.k / self.gamma * 0.5 * (1.0 - self.K_up.K.omega(self.k, q))
+        return self.k / self.gamma1 * 0.5 * (1.0 - self.K_up.K.omega(self.k, q))
         #return frhs.Fomega(self.gamma, self.k, q)
         #+ frhs.Fomega(self.k, -self.q)
 
