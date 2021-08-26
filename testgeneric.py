@@ -39,13 +39,27 @@ def test(flow, label):
     do_compare(y, gen_flow.jx_y(y), flow.jx_y(y), "j_x(y)", label)
     do_compare(y, gen_flow.jy_y(y), flow.jy_y(y), "j_y(y)", label)
 
-k = 0.5
+k = -0.5
 h = 0.8
 gamma  = 1.0
-gamma1 = 1.0
+gamma1 = 0.5
 
 K = WHKernels(gamma, gamma1)
 path_up, K_up, path_dn, K_dn = make_paths_and_kernels(K, k)
+
+abs_k = np.abs(k)
+from cauchy import cauchy_integral_array
+log_Krho_star = cauchy_integral_array(path_up, np.log(K.rho(k, path_up.points())), 1j * abs_k)
+log_Ko_star = cauchy_integral_array(path_up, np.log(K.omega(k, path_up.points())), 1j * abs_k)
+
+print ("up: log Krho_star = ", log_Krho_star, np.log(K_up.Krho_star))
+print ("up: log Ko_star = ", log_Ko_star, np.log(K_up.Komega_star))
+log_Krho_star = cauchy_integral_array(path_up, np.log(K.rho(k, path_dn.points())), 1j * abs_k)
+log_Ko_star = cauchy_integral_array(path_up, np.log(K.omega(k, path_dn.points())), 1j * abs_k)
+
+# The dn path does not work for this purpose!
+#print ("dn: log Krho_star = ", log_Krho_star, np.log(K_up.Krho_star))
+#print ("dn: log Ko_star = ", log_Ko_star, np.log(K_up.Komega_star))
 
 custom_flows = {
     "edge-src-sym" : EdgeInjectedFlow_sym(k, K_up, path_up, K_dn, path_dn),
