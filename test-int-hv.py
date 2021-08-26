@@ -219,23 +219,23 @@ qvals = np.linspace(0, 10.0, 201)
 #test_int(func_1_3, expr_1_3d, gamma, kvals, qvals, "1-3d")
 #test_int(func_1_omega, expr_1_omega_a, gamma, kvals, qvals, "1-o-a")
 #test_int(func_1_omega, expr_1_omega_b, gamma, kvals, qvals, "1-o-b")
-def src_I(alpha):
-    return 2.0
+def src_I(alpha, k, q, gamma):
+    return 2.0 / propagator(alpha, k, q, gamma)
 
-def src_s(alpha):
-    return np.sin(alpha)
+def src_s(alpha, k, q, gamma):
+    return np.sin(alpha) / propagator(alpha, k, q, gamma)
 
 def make_rho(src):
     def f(alpha, k, q, gamma):
-        return k_cross_v(alpha, k, q) / propagator(alpha, k, q, gamma)**3 * src(alpha)
+        return k_cross_v(alpha, k, q) / propagator(alpha, k, q, gamma)**2 * src(alpha, k, q, gamma)
     return f
 
 def make_omega(src):
     def f(alpha, k, q, gamma):
-        s = src(alpha)
+        s = src(alpha, k, q, gamma)
         gk = gamma**2 + k**2 + q**2
-        p1 = gk / propagator(alpha, k, q, gamma)**3
-        p2 = gamma / propagator(alpha, k, q, gamma)**2
+        p1 = gk / propagator(alpha, k, q, gamma)**2
+        p2 = gamma / propagator(alpha, k, q, gamma)**1
         return s * (p1 - p2)
     return f
 
@@ -258,7 +258,7 @@ def expr_F_omega_I_up(k, q, gamma):
     f1 = (1.0 + 2.0j / np.pi * log_q) * k2 / kqgamma
     f2a = (k2 * (gamma**2 - k**2) + 2.0 * gamma**4) / kgamma**4
     f2 = 2.0j * q / np.pi * f2a
-    return -(f1 - f2) / 4.0 / kqgamma**2 * 2.0 
+    return -(f1 - f2) / 2.0 / kqgamma**2 
 
 def expr_F_rho_s_full(k, q, gamma):
     k2 = k**2 + q**2
@@ -298,15 +298,34 @@ def expr_F_omega_s_full(k, q, gamma):
 #         "I-omega-up")
 #test_int_full(make_omega(src_I), expr_F_omega_I_full, gamma, kvals, qvals,
 #              "s-omega-full")
-test_int(make_rho(src_s), expr_F_rho_s_up, gamma, kvals, qvals,
-         "s-rho-up")
-test_int_full(make_rho(src_s), expr_F_rho_s_full, gamma, kvals, qvals,
-              "s-rho-full")
-test_int(make_omega(src_s), expr_F_omega_s_up, gamma, kvals, qvals,
-         "s-rho-up")
-test_int_full(make_omega(src_s), expr_F_omega_s_full, gamma, kvals, qvals,
-              "s-rho-full")
+#test_int(make_rho(src_s), expr_F_rho_s_up, gamma, kvals, qvals,
+#         "s-rho-up")
+#test_int_full(make_rho(src_s), expr_F_rho_s_full, gamma, kvals, qvals,
+#              "s-rho-full")
+#test_int(make_omega(src_s), expr_F_omega_s_up, gamma, kvals, qvals,
+#         "s-rho-up")
+#test_int_full(make_omega(src_s), expr_F_omega_s_full, gamma, kvals, qvals,
+#              "s-rho-full")
 
+def src_o(alpha, k, q, gamma):
+    return 2 * k_cross_v(alpha, k, q) / (k**2 + q**2)  / propagator(alpha, k, q, gamma)
 
+def src_rho(alpha, k, q, gamma):
+    return 1.0 / propagator(alpha, k, q, gamma)
+
+def zero(k, q, gamma): return 0.0
+
+def drho_dct(k, q, gamma): # correct
+    return 1.0 / (k**2 + q**2 + gamma**2)**1.5
+
+def dO_dct(k, q, gamma): 
+    return - 0.5 * (k**2 + q**2) / (k**2 + q**2 + gamma**2)**1.5
+
+#correct belo
+test_int_full(make_rho(src_o), drho_dct, gamma, kvals, qvals, "drho-dct")
+# wrong
+test_int_full(make_omega(src_rho), dO_dct, gamma, kvals, qvals, "dO-dct")
+test_int_full(make_rho(src_rho), zero, gamma, kvals, qvals, "zero in drho")
+test_int_full(make_omega(src_o), zero, gamma, kvals, qvals, "zero in dO")
 
 pl.show()
