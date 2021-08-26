@@ -178,6 +178,7 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
     res_s = dict()
     res_orig['f_s'] = orig_fs
     res_orig['rho'] = orig_flow.rho_y(yvals)
+    res_orig['drho'] = orig_flow.drho_y(yvals)
     res_orig['jx']  = orig_flow.jx_y(yvals)
     res_orig['jy']  = orig_flow.jy_y(yvals)
     result['orig'] = res_orig
@@ -241,16 +242,22 @@ if __name__ == '__main__':
 
     gamma  = 1.0
     gamma1 = 1.0
-    use_sym = False
-    #use_sym = True
+    #use_sym = False
+    use_sym = True
     ver = "01f"
 
     suffix=""
     if use_sym: suffix="-sym"
     else:       suffix="-one" 
-    for gamma1 in [1.0, 0.9995, 0.999, 0.9975, 0.995, 0.9925,
-                   0.99, 0.975, 0.95, 0.925,
-                   0.9, 0.85, 0.8, 0.7, 0.6, 0.5]:
+    for gamma1 in [1.0, 0.999, 0.99, 0.98,   0.97, 0.96, 0.95,
+                   0.94, 0.93, 0.92, 0.91,   0.90, 0.88, 0.86,
+                   0.84, 0.82,  0.8,  0.75,  0.7,  0.65,  0.6,  0.5]:
+    #for gamma1 in [1.0,    0.9999, 0.9998, 0.9997, 0.9996,
+    #               0.9995, 0.9994, 0.9993, 0.9992, 0.9991, 
+    #               0.999,  0.9975, 0.995, 0.9925,
+    #               0.99,   0.98,   0.97,  0.96,
+    #               0.95,   0.94,   0.93,  0.92, 0.91, 0.90,
+    #               0.85,   0.8,    0.7,   0.6,  0.5]:
        fname = "hallvisc-data-ver%s-gamma1=%g%s" % (ver, gamma1, suffix)
        run(gamma, gamma1, kvals, yvals, use_sym, fname)
 
