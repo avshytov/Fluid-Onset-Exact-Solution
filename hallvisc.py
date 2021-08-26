@@ -225,7 +225,7 @@ def join_arrays(*arrays):
 
 if __name__ == '__main__':
     kvals_pos = join_arrays(
-                         np.linspace(0.0001, 0.0003, 9),
+                         np.linspace(0.0001, 0.000275, 8),
                          np.linspace(0.0003, 0.0096, 32),
                          np.linspace(0.01, 0.995, 198),
                          np.linspace(1.0, 10.0, 361),
@@ -243,12 +243,13 @@ if __name__ == '__main__':
     gamma1 = 1.0
     use_sym = False
     #use_sym = True
-    ver = "01e"
+    ver = "01f"
 
     suffix=""
     if use_sym: suffix="-sym"
     else:       suffix="-one" 
-    for gamma1 in [1.0, 0.999, 0.99, 0.975, 0.95, 0.925,
+    for gamma1 in [1.0, 0.9995, 0.999, 0.9975, 0.995, 0.9925,
+                   0.99, 0.975, 0.95, 0.925,
                    0.9, 0.85, 0.8, 0.7, 0.6, 0.5]:
        fname = "hallvisc-data-ver%s-gamma1=%g%s" % (ver, gamma1, suffix)
        run(gamma, gamma1, kvals, yvals, use_sym, fname)
