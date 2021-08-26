@@ -2,6 +2,42 @@ import numpy as np
 import pylab as pl
 import sys
 import fit
+from scipy import linalg
+from scipy import special
+
+global Fourier_F, Fourier_k, Fourier_x
+
+Fourier_F = None
+Fourier_k = None
+Fourier_x = None
+
+def _get_Fourier(k, x):
+    global Fourier_F, Fourier_k, Fourier_x
+    print ("compute the Fourier kernel", k, x)
+    Fourier_F =  fit.Fourier(k, x)
+    Fourier_k = k
+    Fourier_x = x
+    return Fourier_F
+
+def get_Fourier(k, x):
+    global Fourier_F, Fourier_k, Fourier_x
+    if type(Fourier_F) != type(np.array([0.0])):
+        print ("type mismatch", type(Fourier_F))
+        return _get_Fourier(k, x)
+    if len(Fourier_k) != len(k):
+        print ("k len mismatch")
+        return _get_Fourier(k, x)
+    if linalg.norm(k - Fourier_k) > 1e-6:
+        print ("k  mismatch")
+        return _get_Fourier(k, x)
+    if len(Fourier_x) != len(x):
+        print ("x len mismatch")
+        return _get_Fourier(k, x)
+    if linalg.norm(x - Fourier_x) > 1e-6:
+        print ("x  mismatch")
+        return _get_Fourier(k, x)
+    print ("use precomputed Fourier kernel")
+    return Fourier_F
 
 def even_odd(kvals, f):
     k_eo   = []
@@ -15,6 +51,58 @@ def even_odd(kvals, f):
             k_eo.append(k)
     return np.array(k_eo), np.array(f_even), np.array(f_odd)
 
+def integrate_invk(k, f, x, F = None):
+    def fit_inv_small(k, A, B, C):
+        return A / k + B * np.sign(k) + C * k
+    def fit_inv_large(k, A, B, C):
+        return A/k + B * np.sign(k) / k**2 + C / k**3
+    k_fit_small = np.linspace(0.001, 0.1, 501)
+    k_fit_large = np.linspace(100.0, 300, 201)
+    try:
+       p_fit_small, p_cov_small, f_fit_sm = fit.do_restricted_fit(k, f.imag,
+                                           0.001, 0.01, k_fit_small,
+                                           fit_inv_small)
+       A_small = p_fit_small[0]
+       print ("fit small: ", p_fit_small, p_cov_small)
+    except:
+        import traceback
+        traceback.print_exc()
+        A_small = 0.0
+        
+    try:
+       p_fit_large, p_cov_large, f_fit_lrg = fit.do_restricted_fit(k, f.imag,
+                                                -200, -100.0, k_fit_large,
+                                                fit_inv_large)
+       A_large = p_fit_large[0]
+       print ("fit_large: ", p_fit_large, p_cov_large)
+    except:
+        import traceback
+        traceback.print_exc()
+        A_large = 0.0
+    #A_small = p_fit_small[0]
+    #A_large = p_fit_large[0]
+    eps = 0.1
+    a   = 10.0
+    # Subtract small-k behaviour which yields a step at large distances
+    # Use exp to suppress its effect at large k
+    df_small = A_small / k * np.exp(-eps * np.abs(k))
+    # Subtract large-k behaviour which is responsible for a step
+    # at short distances
+    # Use a to make it regular and vanishing at small k
+    df_large = A_large * k / (k**2 + a**2)
+    # Fourier images of the functions above
+    df_x_small = A_small / np.pi * np.arctan(x/eps)
+    df_x_large = A_large / 2.0 * np.sign(x) * np.exp( - np.abs(a * x) )
+    # df should not have 1/k singularities, neither at k = 0 or at k = infty
+    df = f - 1j * df_small - 1j * df_large
+    if type(F) != type(np.array([0.0])):
+       print ("F = ", type(F), "recalculate the Fourier transform")
+       #F = fit.Fourier(k, x)
+       F = get_Fourier(k, x)
+    df_x = np.dot(F, df)
+    f_x = df_x + df_x_small + df_x_large
+    return f_x
+
 def get_Rvic(fname, x):
     print ("get Rvic from ", fname)
     d = np.load(fname)
@@ -24,9 +112,10 @@ def get_Rvic(fname, x):
     i_zero = np.argmin(np.abs(y))
     drho_k = d['corr_tot:rho'][:, i_zero]
     
-    kmin = 0.0003 * 0.999
-    kmax = 0.0003 * 1.001
-    i_incl = [t for t in range(len(k)) if np.abs(k[t]) < kmin or np.abs(k[t]) > kmax]
+    #kmin = 0.0003 * 0.999
+    #kmax = 0.0003 * 1.001
+    #i_incl = [t for t in range(len(k)) if np.abs(k[t]) < kmin or np.abs(k[t]) > kmax]
+    i_incl = range(len(k)) #[t for t in range(len(k))]
     k_excl = np.array([k[t] for t in range(len(k)) if t not in i_incl])
     df_k_new = np.array([df_k[t] for t in i_incl])
     drho_k_new = np.array([drho_k[t] for t in i_incl])
@@ -34,34 +123,122 @@ def get_Rvic(fname, x):
 
     print ("excluded:", k_excl)
     
-    F = fit.Fourier(k_new, x)
+    #F = fit.Fourier(k_new, x)
+    F = get_Fourier(k_new, x)
 
     eps = 0.1
-    f_inv_k = 2.0/k_new * np.exp(-eps * np.abs(k_new))
-    f_inv_x = np.arctan(x/eps) / np.pi * 2.0
-    df_x   = np.dot(F, df_k_new - f_inv_k).real + f_inv_x
-    drho_x = np.dot(F, drho_k_new - f_inv_k).real + f_inv_x
+    #f_inv_k = 2.0/k_new * np.exp(-eps * np.abs(k_new))
+    #f_inv_x = np.arctan(x/eps) / np.pi * 2.0
+    #df_x   = np.dot(F, df_k_new - f_inv_k).real + f_inv_x
+    #drho_x = np.dot(F, drho_k_new - f_inv_k).real + f_inv_x
+    df_x   = integrate_invk(k_new, df_k_new,   x, F)
+    drho_x = integrate_invk(k_new, drho_k_new, x, F)
 
-    return df_x, drho_x
+    return df_x, drho_x, d['gamma1']
 
 
 def compareData(fnames):
     x = np.linspace(-10.0, 10.0, 5000)
     data = []
     for fname in fnames:
-        df, drho = get_Rvic(fname, x)
-        data.append((fname, df, drho))
+        df, drho, gamma1 = get_Rvic(fname, x)
+        data.append((fname, df, drho, gamma1))
+    data.sort(key = lambda x: -x[3])
+
     pl.figure()
-    for fname, df, drho in data:
-        pl.plot(x, df, label=fname)
+    for fname, df, drho, gamma1 in data:
+        pl.plot(x, df.real, label=fname)
     pl.legend()
     pl.title("Edge flux")
+
     pl.figure()
-    for fname, df, drho in data:
-        pl.plot(x, drho, label=fname)
+    for fname, df, drho, gamma1 in data:
+        pl.plot(x, drho.real, label=fname)
     pl.legend()
     pl.title("edge density")
+
+    pl.figure()
+    for x_p in [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]:
+        pass
+        i_p = np.argmin(np.abs(x_p - x))
+        V_p      = []
+        phi_p    = []
+        gamma2_p = []
+        for fname, df, drho, gamma1 in data:
+            gamma2_p.append(1.0 - gamma1)
+            V_p.append(df[i_p].real)
+            phi_p.append(drho[i_p].real)
+        pl.plot(np.array(gamma2_p), np.array(V_p), label=r'$x_p = %g$' % x_p)
+    pl.title("V(x) vs ohmicity")
+    pl.xlabel(r"$\gamma''$")
+    pl.legend()
+    
+    pl.figure()
+    for x_p in [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]:
+        pass
+        i_p = np.argmin(np.abs(x_p - x))
+        V_p      = []
+        phi_p    = []
+        gamma2_p = []
+        for fname, df, drho, gamma1 in data:
+            gamma2_p.append(1.0 - gamma1)
+            V_p.append(df[i_p].real)
+            phi_p.append(drho[i_p].real)
+        pl.plot(np.array(gamma2_p), np.array(phi_p), label='$x = %g$' % x_p)
+    pl.title("V(x) vs ohmicity")
+    pl.xlabel(r"$\gamma''$")
+    pl.legend()
     pl.show()
+
+import matplotlib.colors as mpc
+class Custom_Norm(mpc.Normalize):
+        def __init__(self, vmin, vzero, vmax):
+            self.vmin = vmin
+            self.vmax = vmax
+            self.vzero = vzero
+        def __call__ (self, value, clip=None):
+             x, y = [self.vmin, self.vzero, self.vmax], [0, 0.5, 1]
+             return np.ma.masked_array(np.interp(value, x, y))
+         
+def show_rho_and_psi(X, Y, rho, psi, maxv, lab):
+    pl.figure()
+    PSI_R = psi.real
+    levs = np.linspace(np.min(PSI_R), np.max(PSI_R), 21)
+    #levs = 0.5 * (levs[1:] + levs[:-1])
+    cs = pl.contour(X, Y, PSI_R, levs, cmap='jet')
+    #pl.colorbar()
+    #pl.gca().set_aspect('equal', 'box')
+    pl.clf()
+    
+    #DPSI = 0.0 * X + 0.0j
+    #PSI = 0.0 * X + 0.0j
+    #for j in range(1, len(y)):
+    #    djx_half = (DJX[:, j] + DJX[:, j - 1])/2.0
+    #    jx_half =  (JX[:, j] + JX[:, j - 1])/2.0
+    #    dy = y[j] - y[j - 1]
+    #    DPSI[:, j] = DPSI[:, j - 1] + djx_half * dy
+    #    PSI[:, j] = PSI[:, j - 1] + jx_half * dy
+
+    #DPSI = np.nan_to_num(DPSI, nan=0.0)
+    #maxv = 1.2
+    #custom_norm = Custom_Norm(-maxv, 0.0, maxv)     
+    #pl.figure()
+    pl.pcolormesh(X, Y, rho.real, cmap='bwr',
+                  norm = Custom_Norm(-maxv, 0.0, maxv),
+                  shading='auto')
+    cb = pl.colorbar()
+    pl.gca().set_aspect('equal', 'box')
+    cb.set_label(lab)
+    segments = cs.allsegs
+    levels = cs.levels
+    for i in range(0, len(segments)):
+        polygons = segments[i]
+        for poly in polygons:
+            x_seg = np.array([t[0] for t in poly])
+            y_seg = np.array([t[1] for t in poly])
+            pl.plot(x_seg, y_seg, 'k-')
+    pl.xlabel(r"$x/l_\mathrm{ee}$")
+    pl.ylabel(r"$y/l_\mathrm{ee}$")
 
     
 
@@ -82,6 +259,8 @@ def readData(fname):
     djy  = d['corr_tot:jy']
     jx  = d['orig:jx']
     jy  = d['orig:jy']
+    rho = d['orig:rho']
+    #drho0 = d['orig:drho'] 
 
     print ("df_s = ", df_s)
 
@@ -116,35 +295,35 @@ def readData(fname):
     pl.plot(k, df_s.imag * k, label='k * Im f_s')
     pl.legend()
 
-    k_eo, dfI_even, dfI_odd = even_odd(k, dfs_I)
-    pl.figure()
-    pl.plot(k, dfs_I.real, label='Re df_I(k)')
-    pl.plot(k, dfs_I.imag, label='Im df_I(k)')
-    pl.plot(k_eo, dfI_even.real, label='Re dfI_even(k)')
-    pl.plot(k_eo, dfI_even.imag, label='Im dfI_even(k)')
-    pl.plot(k_eo, dfI_odd.real, '--', label='Re dfI_odd(k)')
-    pl.plot(k_eo, dfI_odd.imag, '--', label='Im dfI_odd(k)')
-    pl.legend()
+    #k_eo, dfI_even, dfI_odd = even_odd(k, dfs_I)
+    #pl.figure()
+    #pl.plot(k, dfs_I.real, label='Re df_I(k)')
+    #pl.plot(k, dfs_I.imag, label='Im df_I(k)')
+    #pl.plot(k_eo, dfI_even.real, label='Re dfI_even(k)')
+    #pl.plot(k_eo, dfI_even.imag, label='Im dfI_even(k)')
+    #pl.plot(k_eo, dfI_odd.real, '--', label='Re dfI_odd(k)')
+    #pl.plot(k_eo, dfI_odd.imag, '--', label='Im dfI_odd(k)')
+    #pl.legend()
 
     
-    k_eo, dfsd_even, dfsd_odd = even_odd(k, dfs_diff)
-    pl.figure()
-    pl.plot(k, dfs_diff.real, label='Re df_s(k)')
-    pl.plot(k, dfs_diff.imag, label='Im df_s(k)')
-    pl.plot(k_eo, dfsd_even.real, label='Re dfsd_even(k)')
-    pl.plot(k_eo, dfsd_even.imag, label='Im dfsd_even(k)')
-    pl.plot(k_eo, dfsd_odd.real, '--', label='Re dfsd_odd(k)')
-    pl.plot(k_eo, dfsd_odd.imag, '--', label='Im dfsd_odd(k)')
-    pl.legend()
+    #k_eo, dfsd_even, dfsd_odd = even_odd(k, dfs_diff)
+    #pl.figure()
+    #pl.plot(k, dfs_diff.real, label='Re df_s(k)')
+    #pl.plot(k, dfs_diff.imag, label='Im df_s(k)')
+    #pl.plot(k_eo, dfsd_even.real, label='Re dfsd_even(k)')
+    #pl.plot(k_eo, dfsd_even.imag, label='Im dfsd_even(k)')
+    #pl.plot(k_eo, dfsd_odd.real, '--', label='Re dfsd_odd(k)')
+    #pl.plot(k_eo, dfsd_odd.imag, '--', label='Im dfsd_odd(k)')
+    #pl.legend()
     
-    pl.figure()
-    pl.plot(k, fs_orig.real,    label='Re f_s(k)')
-    pl.plot(k, fs_orig.imag,    label='Im f_s(k)')
-    pl.plot(k_eo, fs_even.real, '--', label='Re f_even(k)')
-    pl.plot(k_eo, fs_even.imag, '--', label='Im f_even(k)')
-    pl.plot(k_eo, fs_odd.real,  label='Re f_odd(k)')
-    pl.plot(k_eo, fs_odd.imag,  label='Im f_odd(k)')
-    pl.legend()
+    #pl.figure()
+    #pl.plot(k, fs_orig.real,    label='Re f_s(k)')
+    #pl.plot(k, fs_orig.imag,    label='Im f_s(k)')
+    #pl.plot(k_eo, fs_even.real, '--', label='Re f_even(k)')
+    #pl.plot(k_eo, fs_even.imag, '--', label='Im f_even(k)')
+    #pl.plot(k_eo, fs_odd.real,  label='Re f_odd(k)')
+    #pl.plot(k_eo, fs_odd.imag,  label='Im f_odd(k)')
+    #pl.legend()
 
     pl.figure()
     pl.loglog(np.abs(k), np.abs(fs_orig), label='f_s')
@@ -157,96 +336,169 @@ def readData(fname):
 
 
     x = np.linspace(-10.0, 10.0, 5001)
-    F = fit.Fourier(k, x)
+    #F = fit.Fourier(k, x)
+    F = get_Fourier(k, x)
     src_k = np.exp(-0.0001*k**2)
     eps = 0.05
     # make the integrand regular by subtracting the leading 1/k singularity
-    f_invk = 1j * p_fit[0]/k * np.exp(-eps*np.abs(k))
+    #f_invk = 1j * p_fit[0]/k * np.exp(-eps*np.abs(k))
+    f_invk = 1j * 2.0/k * np.exp(-eps*np.abs(k))
     # Fourier transform of f_invk
-    f_invk_x = p_fit[0]/np.pi * np.arctan(x/eps)
-    df_x = np.dot(F, (df_s - f_invk) * src_k) + f_invk_x
+    #f_invk_x = p_fit[0]/np.pi * np.arctan(x/eps)
+    f_invk_x = 2.0/np.pi * np.arctan(x/eps)
+    #df_x = np.dot(F, (df_s - f_invk) * src_k) + f_invk_x
+    df_x = integrate_invk(k, df_s, x, F)
     #p_fit[0]/2.0 * np.sign(x)
     df0_x = np.dot(F, df_s * src_k)
     f_x = np.dot(F, fs_orig * src_k)
-    DRHO = np.dot(F, drho)
+    DRHO = np.dot(F, drho - f_invk[:, None]) + f_invk_x[:, None]
+    RHO  = np.dot(F, rho)
+
+    gamma = d['gamma']
+    if 'orig:drho' not in d.keys():
+       print ("calculate drho from K0")
+       kappa = np.sqrt(k**2 + gamma**2)
+       K0 = special.kn(0, np.outer(kappa, np.abs(y)))
+       K0[:, y < 0] = 0.0
+       drho0 = rho - 2.0 / np.pi * K0
+    else:
+       print ("use drho from file")
+       drho0 = d['orig:drho']
+       if True:
+          ddrho = rho - drho0
+          for k0 in [0.01, 0.1, 0.5, 1.0, 3.0, 10.0, 20.0, 40.0, 100.0]:
+              i_k = np.argmin(np.abs(k - k0))
+              pl.figure()
+              pl.plot(y, ddrho[i_k, :], label='ddrho')
+              k_i = k[i_k]
+              K_check = 2.0/np.pi * special.kn(0, np.sqrt(gamma**2 + k_i**2) * np.abs(y))
+              pl.plot(y, K_check, '--', label='K0')
+              pl.plot(y, K_check - ddrho[i_k, :], label='diff')
+              pl.title("check for k0 = %g" % k0 )
+              pl.legend()
+          pl.show()
+    DRHO0 = np.dot(F, drho0)
+    R2  = np.outer(x**2, np.ones(np.shape(y)))
+    R2 += np.outer(np.ones(np.shape(x)), y**2)
+    R = np.sqrt(R2)
+    RHO0 = DRHO0 + 1.0 / np.pi / R * np.exp(-gamma * R)
+    RHO0 = np.nan_to_num(RHO0, nan=0.0)
+    RHO0[:, y < -0.005] = 0.0
     DJX  = np.dot(F, djx)
     DJY  = np.dot(F, djy)
-    PSI2 = np.dot(F, jy / (1j * k[:, None]))
-    JX  = np.dot(F, jx)
-    JY  = np.dot(F, jy)
+    PSI2 = np.dot(F,  jy / (1j * k[:, None]))
+    DPSI = np.dot(F, djy / (1j * k[:, None]))
+    JX   = np.dot(F, jx)
+    JY   = np.dot(F, jy)
     i_zero = np.argmin(np.abs(d['y']))
     print ("i_zero = ", i_zero)
-    drho_x = np.dot(F, drho[:, i_zero])
+    drho_x = DRHO[:, i_zero + 1]
+    rho_x  = RHO0[:, i_zero + 1]
+    #drho_x = np.dot(F, drho[:, i_zero])
+    #rho_x   = np.dot(F, rho[:, i_zero])
+    print ("shape(y) = ", np.shape(y), "shape(psi) = ", np.shape(DPSI))
+    DPSI -= 0.5 * (DPSI[0, i_zero] + DPSI[-1, i_zero])
+    DPSI[:, :i_zero] = 0.0
 
     Y, X = np.meshgrid(d['y'], x)
 
-    DPSI = 0.0 * X + 0.0j
-    PSI = 0.0 * X + 0.0j
-    for j in range(1, len(y)):
-        djx_half = (DJX[:, j] + DJX[:, j - 1])/2.0
-        jx_half =  (JX[:, j] + JX[:, j - 1])/2.0
-        dy = y[j] - y[j - 1]
-        DPSI[:, j] = DPSI[:, j - 1] + djx_half * dy
-        PSI[:, j] = PSI[:, j - 1] + jx_half * dy
+    B = 0.2
+    show_rho_and_psi(X, Y, DRHO, PSI2 + B * DPSI, 1.2, r'$\delta\phi(x, y)$')
+    pl.title("Perturbed flow, Hall potential")
+    show_rho_and_psi(X, Y, RHO0 + B * DRHO, PSI2 + B * DPSI, 0.1,
+                     r'\phi(x, y)')
+    pl.title("Perturbed flow, full potential")
+    show_rho_and_psi(X, Y, RHO0, PSI2, 0.01, r'$\phi_0(x, y)$')
+    pl.title("Unperturbed flow and potential")
+    #pl.figure()
+    #pl.pcolormesh(X, Y, (RHO + B * DRHO).real, cmap='bwr',
+    #              norm=Custom_Norm(-0.1, 0.0, 0.1), shading='auto')
+    #pl.colorbar()
+    #pl.gca().set_aspect('equal', 'box')
+    #segments = cs.allsegs
+    #levels = cs.levels
+    #for i in range(0, len(segments)):
+    #    polygons = segments[i]
+    #    for poly in polygons:
+    #        x_seg = np.array([t[0] for t in poly])
+    #        y_seg = np.array([t[1] for t in poly])
+    #        pl.plot(x_seg, y_seg, 'k-')
 
-    DPSI = np.nan_to_num(DPSI, nan=0.0)
-    import matplotlib.colors as mpc
-    class Custom_Norm(mpc.Normalize):
-        def __init__(self, vmin, vzero, vmax):
-            self.vmin = vmin
-            self.vmax = vmax
-            self.vzero = vzero
-        def __call__ (self, value, clip=None):
-             x, y = [self.vmin, self.vzero, self.vmax], [0, 0.5, 1]
-             return np.ma.masked_array(np.interp(value, x, y))
-    maxv = 1.2
-    custom_norm = Custom_Norm(-maxv, 0.0, maxv)     
-    pl.figure()
-    pl.pcolormesh(X, Y, DRHO.real, cmap='bwr',
-                  norm=custom_norm, shading='auto')
-    pl.colorbar()
-    pl.gca().set_aspect('equal', 'box')
+    #pl.figure()
+    #pl.contour(X, Y, DPSI.real, 31, cmap='jet')
+    #pl.colorbar()
+    #pl.gca().set_aspect('equal', 'box')
 
-    pl.figure()
-    pl.contour(X, Y, DPSI.real, 31, cmap='jet')
-    pl.colorbar()
-    pl.gca().set_aspect('equal', 'box')
-
-    B = 0.25
-    pl.figure()
-    pl.contour(X, Y, (PSI2 + B * DPSI).real, 31, cmap='jet')
-    pl.colorbar()
-    pl.gca().set_aspect('equal', 'box')
 
     pl.figure()
-    pl.plot(x, df_x.real, label='Re df(x)')
-    pl.plot(x, df_x.imag, label='Im df(x)')
-    pl.plot(x, df0_x.real, '--', label='Re df(x), no fit')
-    pl.plot(x, df0_x.imag, '--', label='Im df(x), no fit')
-    pl.plot(x, f_x.real, label='Re f(x)')
-    pl.plot(x, f_x.imag, label='Im f(x)')
-    pl.plot(x, drho_x.real, label='drho(x)')
-    pl.plot(x, drho_x.imag, label='drho(x)')
+    pl.plot(x, df_x.real, label=r'$\delta V(x)$')
+    #pl.plot(x, df_x.imag, label='Im df(x)')
+    #pl.plot(x, df0_x.real, '--', label='Re df(x), no fit')
+    #pl.plot(x, df0_x.imag, '--', label='Im df(x), no fit')
+    #pl.plot(x, f_x.real, label='Re f(x)')
+    #pl.plot(x, f_x.imag, label='Im f(x)')
+    pl.plot(x, drho_x.real, label=r'$\delta \phi(x)$')
+    #pl.plot(x, drho_x.imag, label='$\phi(x)$')
     pl.legend()
+    pl.xlabel(r"$x/l_\mathrm{ee}$")
+    pl.ylabel(r"$\delta\phi(x)$")
+    pl.title("Edge voltage and potential")
 
     pl.figure()
-    pl.plot(x, DJX[:, i_zero].real, label='Re dj_x')
-    pl.plot(x, DJX[:, i_zero].imag, label='Im dj_x')
-    pl.plot(x, DJY[:, i_zero].real, label='Re dj_y')
-    pl.plot(x, DJY[:, i_zero].imag, label='Im dj_y')
+    pl.plot(x, DJX[:, i_zero].real, label=r'$\delta j_x(x)$')
+    #pl.plot(x, DJX[:, i_zero].imag, label='Im dj_x')
+    pl.plot(x, DJY[:, i_zero].real, label=r'$\delta j_y(x)$')
+    #pl.plot(x, DJY[:, i_zero].imag, label='Im dj_y')
     pl.legend()
+    pl.xlabel(r"$x/l_\mathrm{ee}$")
+    pl.ylabel(r"$\delta j(x)$")
+    pl.title("Hall current at the edge")
+    
 
     pl.figure()
-    for y_i in [0.0, 0.1, 0.2, 0.3, 0.5, 1.0]:
+    for y_i in [0.0, 0.01, 0.1, 0.2, 0.3, 0.5, 1.0]:
         i_y = np.argmin(np.abs(y - y_i))
-        pl.plot(x, DRHO[:, i_y].real, label='Re drho @ y=%g' % y[i_y])
-        pl.plot(x, DRHO[:, i_y].imag, label='Im drho' % y[i_y])
+        pl.plot(x, DRHO[:, i_y].real, label=r'y=%g' % y[i_y])
+        #pl.plot(x, DRHO[:, i_y].imag, label='Im drho' % y[i_y])
+    pl.legend()
+    pl.title(r"Bulk potential $\phi(x)$")
+    pl.xlabel(r"$x/l_\mathrm{ee}$")
+    pl.ylabel(r"$\phi(x)$")
+
+    pl.figure()
+    from matplotlib import cm
+    cmap = cm.get_cmap('seismic')
+    b_norm = Custom_Norm(-0.1, 0.0, 0.1)
+    for b, col in [(-0.1, 'blue'), (0.0, 'black'), (0.1, 'red')]:
+        #col = cmap(b_norm(b))
+        #.to_rgba(Custom_Norm(-0.1, 0, 0.1))
+        #if (abs(b) < 1e-5): c = 'black'
+        pl.plot(x, f_x.real + b * df_x.real, color=col,
+                label=r'$B = %g$' % b)
+    pl.title("Edge voltage")
+    pl.xlabel(r"$x/l_\mathrm{ee}$")
+    pl.ylabel(r"$V(x)$")
+    pl.legend()
+    
+    pl.figure()
+    from matplotlib import cm
+    cmap = cm.get_cmap('seismic')
+    b_norm = Custom_Norm(-0.1, 0.0, 0.1)
+    for b, col in [(-0.1, 'blue'), (0.0, 'black'), (0.1, 'red')]:
+        #col = cmap(b_norm(b))
+        #.to_rgba(Custom_Norm(-0.1, 0, 0.1))
+        #if (abs(b) < 1e-5): c = 'black'
+        pl.plot(x, rho_x.real + b * drho_x.real, color=col,
+                label=r'$B = %g$' % b)
+    pl.title("Edge potential")
+    pl.xlabel(r"$x/l_\mathrm{ee}$")
+    pl.ylabel(r"$\phi(x)$")
     pl.legend()
     pl.show()
 
 #for f in sys.argv[1:]:
 if len(sys.argv) == 2:
-    readData(f)
+    readData(sys.argv[1])
 else:
     compareData(sys.argv[1:])
     
