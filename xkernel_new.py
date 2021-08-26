@@ -165,7 +165,8 @@ class WHKernels:
         kappa = np.sqrt(self.gamma**2 + k**2)
         abs_k = np.abs(k)
         Krho_star = self.Krho.star(k)
-        Ko_star = self.Ko.star(k)
+        Ko_star = self.Ko.plus(k, 1j * abs_k)
+        #self.Ko.star(k)
         return Krho_star * Ko_star * 2.0 * abs_k / (abs_k + kappa)
 
     #def rho_prime(self, k):
@@ -211,7 +212,7 @@ class WHKernels:
     # For two merging poles
     #
     def omega_prime2(self, k):
-        if np.abs(self.gamma2) > 0.001 * self.gamma:
+        if np.abs(self.gamma2) > 1e-5 * self.gamma:
           raise Exception("omega_prime for distinct poles not implemented yet")
         abs_k = np.abs(k)
         kappa = np.sqrt(abs_k**2 + self.gamma**2)
@@ -225,7 +226,7 @@ class WHKernels:
         return result
 
     def omega_reg2(self, k):
-        if np.abs(self.gamma2) > 0.001 * self.gamma:
+        if np.abs(self.gamma2) > 1e-5 * self.gamma:
           raise Exception("omega_prime for distinct poles not implemented yet")
         abs_k = np.abs(k)
         kappa = np.sqrt(abs_k**2 + self.gamma**2)
@@ -237,7 +238,7 @@ class WHKernels:
         return result
 
     def omega_resiude2(self, k):
-        if np.abs(self.gamma2) > 0.001 * self.gamma:
+        if np.abs(self.gamma2) > 1e-5 * self.gamma:
           raise Exception("omega_prime for distinct poles not implemented yet")
         abs_k = np.abs(k)
         kappa = np.sqrt(abs_k**2 + self.gamma**2)
@@ -291,7 +292,7 @@ def tabulate_kernel(K, k, q, tabulate_omega = False):
     print ("Tabulate Krho, ", len(q))
     Krho_p   = np.vectorize( lambda z: K.rho_plus(k, z))(q)
     # In the ohmic case, tabulate Komega_plus as well
-    if abs(K.gamma - K.gamma1) > 0.001 * abs(K.gamma) or tabulate_omega:
+    if abs(K.gamma - K.gamma1) > 1e-6 * abs(K.gamma) or tabulate_omega:
        print ("tabulate Komega_plus")
        Komega_p = np.vectorize( lambda z: K.omega_plus(k, z))(q)
     else: # economize on the relation between Krho and Komega otherwise
