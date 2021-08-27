@@ -2361,18 +2361,32 @@ Hence we find the solution decaying at~$q\to \infty$:
 \right]
 \ ,
 \end{equation}
-while~$\fplus{S}_\rho(k, q)$ is the same as in Eq.~(\ref{eq:chi-iso-xxx}).
+while~$\fplus{S}_\rho(k, q)$ is the same as in Eq.~(\ref{eq:chi-iso-xxx}),
+so that the density~$\fminus{rho}(k, q)$ is changed by
+$\Delta\fminus{\rho}(k, q) = - I_0 F_m(k, -q)$.
 Since the vorticity contribution given by Eq.(\ref{eq:source-surf-omega})
-is $q$-independent, we also find
-Handling the vorticity contribution is similar: the
-respective constant term on the right-hand side can be
-absorbed into~$\fminus{\Omega}(k, q)$ as
-\begin{equation}
-  \fminus{S}_\Omega(k, q) = \frac{2}{\pi \fminus{K}_\Omega(k, q)}
-  \tan^{-1}\frac{k}{\gamma} + \mathrm{const}\fminus{K}_{\Omega}(k, q)\ .
+is $q$-independent, we can also absorb this constant by
+shifting~$\fminus{Omega}(k, q)$ without changing~$\fplus{\Omega}(k, q)$.
+%Handling the vorticity contribution is similar: the
+%respective constant term on the right-hand side can be
+%absorbed into~$\fminus{\Omega}(k, q)$ by adding an extra contribution
+%\begin{equation}
+%  \Delta\fminus{S}_\Omega(k, q) = \frac{2}{\pi \fminus{K}_\Omega(k, q)}
+%  \tan^{-1}\frac{k}{\gamma}\ .
+%\ .
+%\end{equation}
+%Again, this does not affect~$\fplus{\Omega}(k, q)$.
+Thus, the only change occurs in the expression for the downward-going
+flux, see Eq.~(\ref{eq:flux-rho-Omega}):
+\begin{align}
+\Delta \Phi(k) = \gamma \Delta \fminus{\rho}(k, -i|k|) -
+\sgn k \fminus{Omega}(k, -i|k)
+= I_0 \left[-F_m(k, i|k|) + \frac{2}{\pi} \tan^{-1}\frac{|k|}{\gamma}\right]
 \ .
-\end{equation}
-Again, this does not affect~$\fplus{\Omega}(k, q)$.
+\end{align}
+With the help of Eq.~(\ref{eq:source-fm-def}), this simplifies to
+$\Delta \Phi(k) = -I_0 / \gamma$, which coincides with the flux
+used in our analysis.
 
 %Using Eq.(\ref{eq:solution-rho-plus}) and~(\ref{eq:solution-omega-plus}),
 %we obtain final expressions for
@@ -2391,13 +2405,14 @@ Again, this does not affect~$\fplus{\Omega}(k, q)$.
 %\end{align}
 
 Let us now perform the same analysis for a diffuse source.
-$J(x, y, \alpha) = f_s(x) \sin\alpha \delta(y)$, one finds
+$J(x, y, \alpha) = f_s(x) \sin\alpha \delta(y)$ restricted to
+upward movers. The source in the density equation
 \begin{equation}
   \label{eq:source-diff-rho}
-  \dct{\rho}^\mathrm{(diffuse)} = f_{s, k} F_\rho(k, q)
+  \dct{\rho}^\mathrm{(diffuse)} = f_{s}(k) F_\rho(k, q)
   \ ,
 \end{equation}
-where
+can be expressed via the master integral:
 \begin{equation}
   \label{eq:source-frho-def}
   F_\rho(k, q) \equiv
@@ -2408,11 +2423,21 @@ where
   - i \gamma q F_m(k, q) \right]
   \ .
 \end{equation}
-The vorticity contribution is
-$ \dct{\Omega}^\mathrm{(diffuse)} = f_{s, k} F_\Omega (k, q) $
+It obeys an identity similar to Eq.~(\ref{eq:fm-identity}):
+\begin{align}
+\label{eq:frho-identity}
+F_\rho(k, q) &-  F_\rho(k, -q) = \frac{i q}{q^2 + k^2} K_\rho(k, q)
+\ ,
+\end{align}
+where again the right-hand side represents a source extended to
+the whole unit circle, which is decomposed into upward- and downward
+movers. The function~$F_\rho(k, q)$ is analytic in the upper half-plane,
+while the function~$F_\rho(k, -q)$ is analytic in the lower half-plane.
+The respective vorticity contribution
+$ \dct{\Omega}^\mathrm{(diffuse)} = f_{s}(k) F_\Omega (k, q) $,
 %\begin{equation}
 %\end{equation}
-with
+is again expressed via the master integral:
 \begin{align}
 %\label{eq:source-fomega-def}
 \label{eq:source-diff-omega}
@@ -2426,6 +2451,30 @@ with
   \ .
   \nonumber
 \end{align}
+The function~$F_\Omega(k, q)$ obeys the identity
+\begin{align}
+\label{eq:fomega-identity}
+F_\Omega(k, q) & + F_\Omega(k, -q)
+        = \frac{k}{2\gamma} \left[1 - K_\Omega(k, q)\right]
+\ ,
+\end{align}
+which has the same interpretation as Eqs.(\ref{eq:fm-identity})
+and~(\ref{eq:frho-identity}).
+The Wiender-Hopf equations are solved in the same manner as before.
+The function~$\fminus{\rho}(k, q)$ acquires an extra contribution
+$\Delta \fminus{\rho}(k, q) = f_s F_\rho(k, -q)$, while
+the function~$\fplus{\rho}(k, q)$ is again given
+by Eq.~(\ref{eq:chi-rho-xxx}). Similarly, $\fminus{\Omega}(k, q)$
+is shifted by~$\Delta\fminus{\Omega}(k, q) = - f_s F_\Omega(k, -q)$.
+The respective change in flux is given by
+\begin{align}
+\Delta \Phi(k)
+= f_s(k) \left[F_\rho(k, i|k|) - \sgn k F_\Omega(k, i|k|)\right]
+\ .
+\end{align}
+Again, this expression simplifies to~$-1/\pi f_s(k)$. 
+
+
 
 The following facts facilitate solving the Wiener-Hopf equations.
 First, note that the quantities~$F_m(k, q)$, $F_\rho(k, q)$
