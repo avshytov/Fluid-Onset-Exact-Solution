@@ -236,9 +236,9 @@ The contribution of the vorticity to the density is given by
 Similarly, the contribution of the density to the vorticity is given by
 \begin{align}
   \delta\Omega_{\mathrm{direct}, \rho} =
-  \frac{-i \omega_c {\bm k}^2}{2\left(\gamma^2 + {\bm k}^2\right)^{3/2}}
+  \frac{-i \gamma \omega_c {\bm k}^2}{2\left(\gamma^2 + {\bm k}^2\right)^{3/2}}
   \left( - \frac{2i\gamma' \fplus{D}_{\bm k}}{{\bm k}^2}
-     + \gamma \fplus{\rho}_{\bm k}\right)\ . 
+     + \fplus{\rho}_{\bm k}\right)\ . 
 \end{align}
 (One may also incorporate the isotropic part of the source,
 $\langle J_{\bm k}(\alpha) \rangle$ into the bracket on the
@@ -247,10 +247,10 @@ right-hand side.)
 The contribution of the external sources,
 \begin{align}
   \delta \rho_{\mathrm{direct},J}({\bm k}) &=
-  \left\langle \frac{J_{\bm k}(\alpha) ({\bm k}\times{\bm v})}{
+  i \omega_c \left\langle \frac{J_{\bm k}(\alpha) ({\bm k}\times{\bm v})}{
      (\gamma - i {\bm k}\cdot{\bm v})^3}\right\rangle\ , \\  
   \delta \Omega_{\mathrm{direct},J}({\bm k}) &=
-    \left\langle J_{\bm k}(\alpha) \left[
+    i \omega_c \left\langle J_{\bm k}(\alpha) \left[
     \frac{\gamma^2 + {\bm k}^2}{(\gamma - i {\bm k}\cdot{\bm v})^3}
    - \frac{\gamma}{\left(\gamma - i {\bm k} \cdot{\bm v}\right)^2}
      \right]                                          
@@ -269,7 +269,7 @@ the master integral here and in what follows:
 \begin{align}
   F_m(k, q) = \int\limits_{0}^{\pi} \frac{1}{\gamma - i {\bm k} \cdot{\bm v}}
   \frac{d\alpha}{2\pi}
-  = \frac{1}{\sqrt{k^2 + q^2 + \gamma^2}}
+  = \frac{1}{2\sqrt{k^2 + q^2 + \gamma^2}}
   \left[1 + \frac{2i}{\pi} \log\frac{q + \sqrt{q^2 + k^2 + \gamma^2}}{
       \sqrt{k^2 + \gamma^2}}\right]\ . 
 \end{align}
@@ -277,8 +277,9 @@ the master integral here and in what follows:
 $u = \tan \alpha/2$.)
 For the contribution to the density, we write
 \begin{align}
-  \delta\dct{\rho}^\mathrm{(diff)}(k, q) = f_s F_{s, \rho}({\bm k}) = 
-  =  f_s \int\limits_{0}^{\pi} \frac{\sin\alpha ({\bm k}\times{\bm v})}{
+  \delta\dct{\rho}^\mathrm{(diff)}(k, q) = i \omega_c f_s F_{s, \rho}({\bm k}) 
+  =  i\omega_c
+  f_s \int\limits_{0}^{\pi} \frac{\sin\alpha ({\bm k}\times{\bm v})}{
   \left(\gamma - i {\bm k} \cdot {\bm v}\right)^3} \frac{d\alpha}{2\pi} \ . 
 \end{align}
 One may notice that the expression here can be integrated by parts,
@@ -298,15 +299,15 @@ with respect to~$k$:
   \right]\ . 
 \end{align}
 Similarly, we find the contribution to the vorticity,
-$\delta\dct{\Omega}({\bm k}) = f_s F_{s, \Omega}(k, q)$
+$\delta\dct{\Omega}({\bm k}) = i \omega_c f_s F_{s, \Omega}(k, q)$
 with
 \begin{align}
-  F_{s, \Omega} = \int\limits_{0}^{\pi}
-  \sin\alpha \left( \frac{\gamma^2 + {\bm k}^2}{
+  F_{s, \Omega}(k, q) &= \int\limits_{0}^{\pi}
+  \sin\alpha \left[ \frac{\gamma^2 + {\bm k}^2}{
           \left(\gamma - i {\bm k}\cdot{\bm v}\right)^3}
   - \frac{\gamma}{ \left(\gamma - i {\bm k}\cdot{\bm v}\right)^2}
-  \right) \frac{d\alpha}{2\pi}
-  = \frac{i(\gamma^2 + k^2 + q^2)}{2}
+  \right] \frac{d\alpha}{2\pi} \\
+  &= \frac{i(\gamma^2 + k^2 + q^2)}{2}
   \frac{\partial^2 F_m}{\partial\gamma \partial q}
   + i \gamma \frac{\partial F_m}{\partial q}\ . 
 \end{align}
@@ -319,6 +320,11 @@ An explicit calculation then yields
   + \frac{2i}{\pi} \frac{q\sqrt{k^2 + q^2 + \gamma^2}}{k^2 + \gamma^2}
   \right]\ . 
 \end{align}
+One may also note that
+\begin{align}
+  k F_{s, \Omega}(k, q) = i \gamma q F_{s, \rho}(k, q)
+\end{align}
+
 
 An isotropic injector defined by the source term
 \begin{align}
@@ -326,7 +332,7 @@ An isotropic injector defined by the source term
 \end{align}
 is treated similarly.
 Its contribution to the density is given by
-$\delta\dct{\rho}^{(I)} = I_0 F_{I, \rho}(k, q)$, with
+$\delta\dct{\rho}^{(I)} = i \omega_c I_0 F_{I, \rho}(k, q)$, with
 \begin{align}
   F_{I, \rho}(k, q) = \int\limits_{0}^{\pi} \frac{({\bm k}\times{\bm v})}{
      \left(\gamma - i {\bm k} \cdot{\bm v}\right)^3} \frac{d\alpha}{\pi}\ , 
@@ -338,12 +344,12 @@ a $q$-independent contribution:
   F_{I, \rho}(k, q) = \frac{2k\gamma}{\pi (k^2 + \gamma^2)^2}\ . 
 \end{align}
 The contribution to the vorticity
-$\delta\dct{\Omega}^{(I)} = F_{I, \Omega}(k, q)$ with
+$\delta\dct{\Omega}^{(I)} = i \omega_c I_0 F_{I, \Omega}(k, q)$ with
 \begin{align}
-  F_{I, \Omega}(k, q) = \int\limits_{0}^{\pi} \left(
+  F_{I, \Omega}(k, q) = \int\limits_{0}^{\pi} \left[
   \frac{\gamma^2 + k^2 + q^2}{\left(\gamma - i {\bm k}\cdot{\bm v}\right)^3}
   - \frac{\gamma}{\left(\gamma - i {\bm k}\cdot{\bm v}\right)^2}
-  \right)
+  \right]
   \frac{d\alpha}{2\pi}\ , 
 \end{align}
 can again be expressed in terms of the derivatives of the master integral:
@@ -379,7 +385,7 @@ extended to the whole circle:
   F_{s, \rho}(k, q)
   = \left[\frac{k}{2(k^2 + q^2 + \gamma^2)^{3/2}}\right]^{+}\ , 
   \qquad
-  F_{s, \omega}(k, q) &= \left[\frac{i \gamma q}{
+  F_{s, \Omega}(k, q) &= \left[\frac{i \gamma q}{
           2\left(k^2 + q^2 + \gamma^2\right)^{3/2}}\right]^{+}\ . 
 \end{align}
 For an isotropic injector, however, the structure of the
