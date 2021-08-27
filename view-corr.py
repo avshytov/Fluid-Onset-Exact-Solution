@@ -4,6 +4,7 @@ import sys
 import fit
 from scipy import linalg
 from scipy import special
+import matplotlib.patches as patches
 
 global Fourier_F, Fourier_k, Fourier_x
 
@@ -108,8 +109,12 @@ def get_Rvic(fname, x):
     d = np.load(fname)
     k = d['k']
     y = d['y']
+    src_k = np.exp(-0.00005 * k**2)
     df_k = d['corr_tot:f_s']
+    f_k = d['orig:f_s'] * src_k
+    rho1_k = d['orig:drho']
     i_zero = np.argmin(np.abs(y))
+    rho1_k = rho1_k[:, i_zero + 1] * src_k
     drho_k = d['corr_tot:rho'][:, i_zero]
     
     #kmin = 0.0003 * 0.999
@@ -124,7 +129,7 @@ def get_Rvic(fname, x):
     print ("excluded:", k_excl)
     
     #F = fit.Fourier(k_new, x)
-    F = get_Fourier(k_new, x)
+    F     = get_Fourier(k_new, x)
 
     eps = 0.1
     #f_inv_k = 2.0/k_new * np.exp(-eps * np.abs(k_new))
@@ -133,29 +138,51 @@ def get_Rvic(fname, x):
     #drho_x = np.dot(F, drho_k_new - f_inv_k).real + f_inv_x
     df_x   = integrate_invk(k_new, df_k_new,   x, F)
     drho_x = integrate_invk(k_new, drho_k_new, x, F)
+    f_x    = np.dot(F, f_k)
 
-    return df_x, drho_x, d['gamma1']
+    rho1_x  = np.dot(F, rho1_k)
+    gamma = d['gamma']
+    r = np.sqrt(x**2 + y[i_zero + 1]**2)
+    rho_x = rho1_x + 1.0 / np.pi / r  * np.exp( - gamma * r)
+
+    f_ref = 0.5 * (f_x[0] + f_x[-1])
+    f_x -= f_ref
+    rho_x -= f_ref
+
+    return df_x, drho_x, f_x, rho_x, d['gamma'], d['gamma1']
 
 
 def compareData(fnames):
     x = np.linspace(-10.0, 10.0, 5000)
     data = []
     for fname in fnames:
-        df, drho, gamma1 = get_Rvic(fname, x)
-        data.append((fname, df, drho, gamma1))
-    data.sort(key = lambda x: -x[3])
+        df, drho, f, rho, gamma, gamma1 = get_Rvic(fname, x)
+        data.append((fname, df, drho, f, rho, gamma, gamma1))
+    data.sort(key = lambda x: -x[6])
 
     pl.figure()
-    for fname, df, drho, gamma1 in data:
+    for fname, df, drho, f, rho, gamma, gamma1 in data:
+        pl.plot(x, f.real, label=fname)
+    pl.legend()
+    pl.title("Edge flux (B = 0)")
+    
+    pl.figure()
+    for fname, df, drho, f, rho, gamma, gamma1 in data:
         pl.plot(x, df.real, label=fname)
     pl.legend()
-    pl.title("Edge flux")
+    pl.title("Edge flux(Hall)")
 
     pl.figure()
-    for fname, df, drho, gamma1 in data:
-        pl.plot(x, drho.real, label=fname)
+    for fname, df, drho, f, rho, gamma, gamma1 in data:
+        pl.plot(x, rho.real, label=fname)
     pl.legend()
     pl.title("edge density")
+    
+    pl.figure()
+    for fname, df, drho, f, rho, gamma, gamma1 in data:
+        pl.plot(x, drho.real, label=fname)
+    pl.legend()
+    pl.title("edge density (Hall)")
 
     pl.figure()
     for x_p in [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]:
@@ -163,13 +190,17 @@ def compareData(fnames):
         i_p = np.argmin(np.abs(x_p - x))
         V_p      = []
         phi_p    = []
+        dV_p     = []
+        dphi_p   = []
         gamma2_p = []
-        for fname, df, drho, gamma1 in data:
+        for fname, df, drho, f, rho, gamma, gamma1 in data:
             gamma2_p.append(1.0 - gamma1)
-            V_p.append(df[i_p].real)
-            phi_p.append(drho[i_p].real)
+            dV_p.append(df[i_p].real)
+            dphi_p.append(drho[i_p].real)
+            V_p.append(f[i_p].real)
+            phi_p.append(rho[i_p].real)
         pl.plot(np.array(gamma2_p), np.array(V_p), label=r'$x_p = %g$' % x_p)
-    pl.title("V(x) vs ohmicity")
+    pl.title("V(x) vs ohmicity, B=0")
     pl.xlabel(r"$\gamma''$")
     pl.legend()
     
@@ -179,13 +210,56 @@ def compareData(fnames):
         i_p = np.argmin(np.abs(x_p - x))
         V_p      = []
         phi_p    = []
+        dV_p     = []
+        dphi_p   = []
         gamma2_p = []
-        for fname, df, drho, gamma1 in data:
+        for fname, df, drho, f, rho, gamma, gamma1 in data:
             gamma2_p.append(1.0 - gamma1)
-            V_p.append(df[i_p].real)
-            phi_p.append(drho[i_p].real)
+            V_p.append(f[i_p].real)
+            phi_p.append(rho[i_p].real)
+            dV_p.append(df[i_p].real)
+            dphi_p.append(drho[i_p].real)
+        pl.plot(np.array(gamma2_p), np.array(dV_p), label=r'$x_p = %g$' % x_p)
+    pl.title("V(x) vs ohmicity (Hall)")
+    pl.xlabel(r"$\gamma''$")
+    pl.legend()
+    
+    pl.figure()
+    for x_p in [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]:
+        pass
+        i_p = np.argmin(np.abs(x_p - x))
+        V_p      = []
+        phi_p    = []
+        dV_p      = []
+        dphi_p    = []
+        gamma2_p = []
+        for fname, df, drho, f, rho, gamma, gamma1 in data:
+            gamma2_p.append(1.0 - gamma1)
+            V_p.append(f[i_p].real)
+            phi_p.append(rho[i_p].real)
+            dV_p.append(df[i_p].real)
+            dphi_p.append(drho[i_p].real)
         pl.plot(np.array(gamma2_p), np.array(phi_p), label='$x = %g$' % x_p)
-    pl.title("V(x) vs ohmicity")
+    pl.title(r"$\phi(x)$ vs ohmicity (B = 0)")
+    pl.xlabel(r"$\gamma''$")
+    pl.legend()
+    pl.figure()
+    for x_p in [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]:
+        pass
+        i_p = np.argmin(np.abs(x_p - x))
+        V_p      = []
+        phi_p    = []
+        dV_p     = []
+        dphi_p   = []
+        gamma2_p = []
+        for fname, df, drho, f, rho, gamma, gamma1 in data:
+            gamma2_p.append(1.0 - gamma1)
+            V_p.append(f[i_p].real)
+            phi_p.append(rho[i_p].real)
+            dV_p.append(df[i_p].real)
+            dphi_p.append(drho[i_p].real)
+        pl.plot(np.array(gamma2_p), np.array(dphi_p), label='$x = %g$' % x_p)
+    pl.title(r"$\phi(x)$ vs ohmicity (Hall)")
     pl.xlabel(r"$\gamma''$")
     pl.legend()
     pl.show()
@@ -223,12 +297,32 @@ def show_rho_and_psi(X, Y, rho, psi, maxv, lab):
     #maxv = 1.2
     #custom_norm = Custom_Norm(-maxv, 0.0, maxv)     
     #pl.figure()
+
     pl.pcolormesh(X, Y, rho.real, cmap='bwr',
                   norm = Custom_Norm(-maxv, 0.0, maxv),
                   shading='auto')
     cb = pl.colorbar()
     pl.gca().set_aspect('equal', 'box')
     cb.set_label(lab)
+
+    src_w = 0.1
+    corner_ll = (np.min(X), np.min(Y))
+    left_wid  = -src_w - np.min(X)
+    hei = 0.0 - np.min(Y)
+    right_wid = np.max(X) - src_w
+    corner_src_ll = (-src_w, np.min(Y))
+    corner_src_lr = (src_w, np.min(Y))
+    rect_left  = patches.Rectangle(corner_ll, left_wid, hei,
+                                   edgecolor='0.5', facecolor='0.8')
+    rect_right = patches.Rectangle(corner_src_lr, right_wid, hei,
+                                   edgecolor='0.5', facecolor='0.8')
+    rect_mid   = patches.Rectangle(corner_src_ll, 2.0*src_w, hei,
+                                   edgecolor='black', facecolor='red')
+    pl.gca().add_patch(rect_left)
+    pl.gca().add_patch(rect_right)
+    pl.gca().add_patch(rect_mid)
+
+
     segments = cs.allsegs
     levels = cs.levels
     for i in range(0, len(segments)):
@@ -260,6 +354,11 @@ def readData(fname):
     jx  = d['orig:jx']
     jy  = d['orig:jy']
     rho = d['orig:rho']
+    gamma = d['gamma']
+    if 'orig:drho' in d.keys():
+       drho0 = d['orig:drho']
+    else:
+       drho0 = None
     #drho0 = d['orig:drho'] 
 
     print ("df_s = ", df_s)
@@ -335,7 +434,9 @@ def readData(fname):
     pl.legend()
 
 
-    x = np.linspace(-10.0, 10.0, 5001)
+    #x = np.linspace(-10.0, 10.0, 5001)
+    x = np.linspace(-10.0, 10.0, 1001)
+    #x = np.linspace(-10.0, 10.0, 51)
     #F = fit.Fourier(k, x)
     F = get_Fourier(k, x)
     src_k = np.exp(-0.0001*k**2)
@@ -354,8 +455,7 @@ def readData(fname):
     DRHO = np.dot(F, drho - f_invk[:, None]) + f_invk_x[:, None]
     RHO  = np.dot(F, rho)
 
-    gamma = d['gamma']
-    if 'orig:drho' not in d.keys():
+    if type(drho0) == type(None): #'orig:drho' not in d.keys():
        print ("calculate drho from K0")
        kappa = np.sqrt(k**2 + gamma**2)
        K0 = special.kn(0, np.outer(kappa, np.abs(y)))
@@ -363,8 +463,7 @@ def readData(fname):
        drho0 = rho - 2.0 / np.pi * K0
     else:
        print ("use drho from file")
-       drho0 = d['orig:drho']
-       if True:
+       if False:
           ddrho = rho - drho0
           for k0 in [0.01, 0.1, 0.5, 1.0, 3.0, 10.0, 20.0, 40.0, 100.0]:
               i_k = np.argmin(np.abs(k - k0))
@@ -383,7 +482,7 @@ def readData(fname):
     R = np.sqrt(R2)
     RHO0 = DRHO0 + 1.0 / np.pi / R * np.exp(-gamma * R)
     RHO0 = np.nan_to_num(RHO0, nan=0.0)
-    RHO0[:, y < -0.005] = 0.0
+    RHO0[:, y < -0.001] = 0.0
     DJX  = np.dot(F, djx)
     DJY  = np.dot(F, djy)
     PSI2 = np.dot(F,  jy / (1j * k[:, None]))
@@ -393,7 +492,23 @@ def readData(fname):
     i_zero = np.argmin(np.abs(d['y']))
     print ("i_zero = ", i_zero)
     drho_x = DRHO[:, i_zero + 1]
-    rho_x  = RHO0[:, i_zero + 1]
+    rho_x  = np.array(RHO0[:, i_zero + 1])
+    
+    #rho0_ref = (RHO0[0, i_zero] + RHO0[-1, i_zero]) * 0.5
+    rho_l = np.average(RHO0[0, i_zero:]).real
+    rho_r = np.average(RHO0[-1, i_zero:]).real
+    len_lr = y[-1]
+    rho_top = np.average(RHO0[:, -1]).real
+    len_top = x[-1] - x[0]
+    rho0_ref = ((rho_l + rho_r) * len_lr +rho_top*len_top)/(2*len_lr + len_top)
+    print ("ref potential: ", rho0_ref)
+    RHO0[:, i_zero:]  -= rho0_ref
+    rho_x             -= rho0_ref
+    
+    fx_ref = rho0_ref
+    #fx_ref = (f_x[0] + f_x[-1]).real / 2.0
+    f_x -= fx_ref
+
     #drho_x = np.dot(F, drho[:, i_zero])
     #rho_x   = np.dot(F, rho[:, i_zero])
     print ("shape(y) = ", np.shape(y), "shape(psi) = ", np.shape(DPSI))
@@ -488,7 +603,7 @@ def readData(fname):
         #col = cmap(b_norm(b))
         #.to_rgba(Custom_Norm(-0.1, 0, 0.1))
         #if (abs(b) < 1e-5): c = 'black'
-        pl.plot(x, rho_x.real + b * drho_x.real, color=col,
+        pl.plot(x, rho_x.real  + b * drho_x.real, color=col,
                 label=r'$B = %g$' % b)
     pl.title("Edge potential")
     pl.xlabel(r"$x/l_\mathrm{ee}$")
