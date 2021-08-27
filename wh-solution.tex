@@ -596,6 +596,8 @@ where~$D^\ast \equiv \fplus{D}_{\bm k} (q = i |k|)$
 and~$\Omega^\ast \equiv \fplus{\Omega}_{\bm k} (q = i |k|)$.
 (Various quantities evaluated at~$q = i |k|$ are ubiquitous in what follows,
 and we shall use this notation systematically.)
+
+
 Thus, to eliminate the interior variables,
 one has to solve the Wiener-Hopf equations
 \begin{align}
@@ -615,11 +617,10 @@ one has to solve the Wiener-Hopf equations
 \end{align}
 for given source terms~$\dct{\rho}(k, q)$, $\dct{\Omega}(k, q)$,
 together with the consistency condition~(\ref{eq:consistency-D-Omega}).
-
 %We have now almost
 %eliminated the microscopic degrees of freedom~$f'({\bm r}, \alpha)$
 %in the interior.%However our system of integral equations,
-The system (\ref{eq:consistency-D-Omega})--(\ref{eq:wh-Omega-3})
+However, the system (\ref{eq:consistency-D-Omega})--(\ref{eq:wh-Omega-3})
 is not yet closed:
 its right-hand side includes the unknown intensity~$f_s(x)$
 of the diffuse source at the boundary.
@@ -1311,11 +1312,13 @@ condition~(\ref{eq:consistency-D-Omega}), so that
 \end{align}
 Thus, one finds for the physical density and vorticity:
 \begin{align}
+  \label{eq:rho-s}
   \rho^\mathrm{(diff)}(k, q) &= f_s(k)
   \left[\frac{iq}{q^2 + k^2} + \frac{1}{2(|k| + iq)}
    \frac{\fplus{K}_{+}(k, q)}{K_\rho^\ast(k)}
   \right]
-  \ , \\\nonumber
+  \ , \\
+  \label{eq:omega-s}
   \Omega^\mathrm{(diff)}(k, q) &= \frac{k}{2\gamma'} \left[
   \frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)} - 1
   \right]\ .
@@ -1370,7 +1373,7 @@ which represents single-collision backscattering.
 
 \textbf{VERIFY}
 
-\section{An isotropic current source at the edge}
+\section{An isotropic current emitter at the edge}
 \label{sec:boundary-src}
 
 Let us now analyse the contribution of a current source placed at the boundary.
@@ -1412,6 +1415,7 @@ which suggests the trivial decomposition
 vanishing at~$q\to\infty$.) Thus, the regular contribution
 to the density in Eq.(\ref{eq:rho-decomp}) takes the form
 \begin{align}
+  \label{eq:iso-rho-reg}
   \delta\rho_\infty(k, q) + \delta\rho_\mathrm{reg}(k, q) =
   \frac{\gamma' I_0}{|k|(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{
   K^\ast_{\rho}(k)}
@@ -1421,7 +1425,8 @@ to the density in Eq.(\ref{eq:rho-decomp}) takes the form
 As before, we have subtracted the singular direct-flight contribution,
 which takes a particularly simple form in the real space:
 \begin{align}
-  \dct{\rho}({\bm r}) = \frac{2I_0}{|{\bm r}|} e^{-\gamma |{\bm r}|}\ .
+  \label{eq:rho-direct-edge}
+  \dct{\rho}({\bm r}) = \frac{I_0}{\pi|{\bm r}|} e^{-\gamma |{\bm r}|}\ .
 \end{align}
 This relation describes radial propagation of particles emitted from
 the current source~$2I_0$ decaying with rate~$\gamma$.
@@ -1430,9 +1435,11 @@ The vorticity equation is trivial, so that~$\fplusminus{S}_\Omega(k, q) = 0$,
 and the vorticity in Eq.~(\ref{eq:solution-omega-plus}) includes
 only the regular part: 
 \begin{align}
+  \label{eq:iso-omega}
   \fplus{\Omega}(k, q)
   = \delta\Omega_\infty(k, q) + \delta\Omega_\mathrm{reg}(k, q)
-  = \frac{I_0}{K_\Omega^\ast(k)} \fplus{K}_\Omega (k, q)\ .
+  = I_0 \frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)}
+  %\fplus{K}_\Omega (k, q)\ .
 \end{align}
 The contribution to the downward flux can be found from~$\fminus{S}_\rho(k, q)$
 and~$\fminus{S}_\Omega(k, q)$ similarly to Eq.(\ref{eq:phi-diff}):
@@ -1451,19 +1458,24 @@ We rewrite this in the form
   \label{eq:phi-iso-surf}
   \Phi^\mathrm{(edge)}(k) =
   I_0 \Phi_I(k), \qquad
-  \Phi_I(k) \equiv \left[1  - \frac{2}{K_\rho^\ast}
+  \Phi_I(k) \equiv 1  - \frac{2}{K_\rho^\ast}
     - \frac{\gamma \gamma'}{2k^2 \left[K_\rho^\ast(k)\right]^2}
-    + \frac{1}{\left[K_\Omega^\ast(k)\right]^2}
-  \right]\ .
+    + \frac{1}{\left[K_\Omega^\ast(k)\right]^2} \ .
 %\equiv \Phi_I(k) I_0 \ .
 \end{equation}
 %{\bf STOPPED HERE}
 %
-For purely viscous relaxation, in the long-wavelength limit,
-expansions~(\ref{eq:krho-k=0}) and~(\ref{eq:komega-k=0}) yield:
+
+%Eqs.~(\ref{eq:iso-rho-reg}), (\ref{eq:iso-omega}) and
+%(\ref{eq:phi-iso-surf}) describe how the flow emitted by
+%the edge source~$I_0$ is scattered in the bulk.
+Let us discuss the behaviour of the flux given by Eq.~(\ref{eq:phi-iso-surf}).
+For purely viscous relaxation ($\gamma = \gamma'$),
+in the long-wavelength limit~$k \to 0$,
+the expansions~(\ref{eq:krho-k=0}) and~(\ref{eq:komega-k=0}) yield:
 \begin{equation}
   \label{eq:phi-I-low}
-  \Phi_I(k) = \frac{2|k|}{\gamma} \left(\frac{1}{\pi} + \frac{1}{2}
+  \Phi_I(k\to 0) \approx \frac{2|k|}{\gamma} \left(\frac{1}{\pi} + \frac{1}{2}
     - \sqrt{2}\right)
   - \frac{2k^2}{\gamma^2}
     %\left[
@@ -1473,91 +1485,213 @@ expansions~(\ref{eq:krho-k=0}) and~(\ref{eq:komega-k=0}) yield:
     + O(|k|^3)
 \ .
 \end{equation}
-Weak ohmicity relaxation introduces an extra contribution,
-$\Phi_I(k = 0) \approx \gamma'' / \gamma$.
-At large~$k$, the single-collision contribution (\ref{eq:kstar-k=inf}) gives
+Note that the flux is suppressed at~$k = 0$.
+Weak momentum relaxation, $\gamma'' \ll \gamma$,
+introduces an extra contribution,
+$\Phi_I(k = 0) \approx \gamma'' / \gamma$ which is responsible for
+the ohmic behaviour at long distances. This can be explained as follows:
+a uniform source placed on the boundary produces a uniform upward-going
+flow which cannot be backscattered if momentum conservation is obeyed. 
+
+At large~$k$, the single-collision contribution (\ref{eq:kstar-k=inf}) yields
 $\Phi_I(k\to \infty) = 2 (\gamma'' - \gamma')/(\pi |k|)$.
+This short-distance behaviour describes
+backscattering of ballistic particles emitted by the source: the
+momentum-conserving collisions ($\gamma'$) backscatter holes,
+while the ohmic relaxation ($\gamma''$) backscatter particles.
+The~$1/|k|$ behaviour describes logarithmic divergence in the
+respective fluxes. 
+
+\section{Self-consistent solution for the vicinity resistance geometry}
+\label{sec:vicinity}
 
 We are now ready to derive self-consistent solution to current-injection
-problem. A current source placed at the boundary induces secondary
-source of diffusely scattered particles.
-The intensity~$f_{s, k}$ of this source is to be determined from
-Eqs.(\ref{eq:phi-diff}) and~(\ref{eq:phi-iso-surf}):
+problem by combining together the flow from the injector described in the
+previous section with the flow emitted by the diffuse wall described in
+Sec.~\ref{sec:diffuse}. When the flux~$I_0 \Phi_I(k)$ of
+backscattered particles arrive at the diffuse wall at~$y = 0$,
+a secondary diffuse source of intensity~$f_s(k)$
+is induced. Since the particles emitted by the secondary source
+are backscattered, an extra flux~$\Phi_s(k) f_s(k)$ is produced,
+where~$\Phi_s(k)$ is given by Eq.(\ref{eq:phi-diff}).
+Hence  the intensity~$f_{s}(k)$ of this source is to be determined
+self-consistently, via
+%from Eqs.(\ref{eq:phi-diff}) and~(\ref{eq:phi-iso-surf}):
 \begin{equation}
-  \frac{f_{s, k}}{\pi} = \Phi_I(k) I_0 + \Phi_s(k) f_{s, k}
+  \frac{f_s(k)}{\pi} = \Phi_I(k) I_0 + \Phi_s(k) f_{s}(k)
+  \ , 
+\end{equation}
+which yields
+\begin{equation}
+  f_{s}(k) = \frac{\pi \Phi_I(k) I_0}{1 - \pi \Phi_s(k)}
   \ .
 \end{equation}
-Thus we find
+%where~$\Phi_s(k)$ is defined by Eq.(\ref{eq:phi-iso-surf}) and~$\Phi_I(k)$
+%is given by Eq.(\ref{eq:phi-diff}).
+(This relation is in fact true for an arbitary current source,
+if one replaces~$\Phi_I(k)$ given by Eq.~(\ref{eq:phi-iso-surf})
+by an appropriate expression.)
+%The solution can be employed to find the carrier density which is given by
+Then, the carrier density is to be found as
 \begin{equation}
-  f_{s, k} = \frac{\pi \Phi_I(k) I_0}{1 - \pi \Phi_s(k)}
-%  = I_0 \left\{- \frac{2\gamma}{|k|}
-%    + \frac{1 - 2/K_\rho^\ast(k)}{
-%           \gamma/(4|k|)/\left[k_\rho^\ast(k)\right]^2}
-%           + \frac{k}{2\gamma} \left\{1/K_\Omega^\ast(k)\right]^2 - 1\right\}
-%        }\right\}
+  \rho(k, q) =\dct{\rho}(k, q) + \delta\rho_{I,\mathrm{reg}}(k, q)
+  + f_{s}(k) \rho_{s}(k, q)
   \ ,
 \end{equation}
-where~$\Phi_s(k)$ is defined by Eq.(\ref{eq:phi-iso-surf}) and~$\Phi_I(k)$
-is given by Eq.(\ref{eq:phi-diff}). In particular, in the limit of~$k\to 0$,
+where~$\rho_{s}(k, q)$ and~$\delta\rho_{I,\mathrm{reg}}(k, q)$
+are given by Eq.(\ref{eq:rho-s})
+and~(\ref{eq:iso-rho-reg}) respectively. To perform the inverse
+Fourier transform with the factor~$\exp(-i q y)$ with~$y > 0$,
+it is convenient to shift the integration contour
+to the lower half-plane, as shown in Fig.~\ref{fig:contours}.
+Keeping in mind that the electric potential in the bulk is
+proportional to the induced density, we write
+\begin{align}
+  \phi({\bm r}) = \frac{I_0}{|\pi{\bm r}|} e^{-\gamma |{\bm r}|}
+  + \int\limits_{-\infty}^{\infty} \frac{dk e^{-ikx}}{2\pi}
+  \oint\limits_{C+} \frac{dq}{2\pi} e^{-iqy}
+  \left[\delta\rho_{I, \mathrm{reg}}(k, q)
+  + f_s(k) \rho_{s}(k, q) \right]\ . 
+\end{align}
+The vorticity takes a similar form:
+\begin{equation}
+  \Omega(k, q) = \Omega_{I}(k, q) + f_{s}(k) \Omega_{s}(k, q)
+\ ,
+\end{equation}
+in which the individual contributions are defined in Eqs.(\ref{eq:iso-omega})
+and~(\ref{eq:omega-s}). The current density can be found
+from Eqs.(\ref{eq:jxy}) with~$D_{\bm k} = i I_0$
+via the inverse Fourier transform. These relations
+can be also rewritten as follows. The
+contribution of divergence~$D_{\bm k}$ is simply isotropic
+radial current emitted by the source. Such a flow is described
+by the multivalued stream
+function~$\Psi_\mathrm{rad} = \pi^{-1}\tan^{-1} \frac{y}{x}$.
+The charge-conserving
+contribution of~$\Omega(k, q)$ can be rewritten in terms of
+the respective stream function~$\Psi_\Omega(x, y)$
+defined via~${\bm j} = \nabla \times \Psi$ if one defines
+the Fourier image~$\Psi_\Omega(k, q)$ via
+$i\Omega(k, q) = \Psi(k, q)(k^2 + q^2)$. Altogether, we find
+the stream function~$\Psi({\bm r})$ in the form
+\begin{align}
+  \Psi({\bm r}) = \frac{I_0}{\pi} \tan^{-1}\frac{y}{x}
+  + i\int\limits_{-\infty}^{\infty} \frac{dk e^{-ikx}}{2\pi}
+  \oint\limits_{C+} \frac{dq}{2\pi} \frac{e^{-iqy}}{q^2 + k^2}
+  \left[\Omega_{I, \mathrm{reg}}(k, q)
+  + f_s(k) \Omega_{s}(k, q) \right]\ .
+\end{align}
+Finally, the voltage~$V(x_P)$ on the probe attached to the edge at~$x = x_P$
+is given by
+\begin{align}
+  V(x_P) =  \int\limits{-\infty}^{\infty} \frac{dk}{2\pi} f_s(k) e^{-ik x_P}
+  \ .
+\end{align}
+%The current distribution can be also employed to obtain the stream
+%function~$\psi(x, y)$ defined by~$j_x = \partial_y \psi$,
+%$j_y = - \partial_x \psi$ via~$\psi_{\bm k} = j_{y, {\bm k}}/(ik)$.
+
+The solution that we have obtained describes the flow at all scales,
+from short scales $|{\bm r}| \ll \gamma^{-1}$ where the motion is
+purely ballistic to~$|{\bm r}| \gg \gamma^{-1}$ where fluid mechanics
+is applicable. To extract these behaviours, we analyse
+the function~$f_s(k)$ in the both limits. 
+%Let us analyse the behaviour of the function~$f_s(k)$.
+At large distances, $k\to 0$,
 Eqs.(\ref{eq:phi-I-low}) and~(\ref{eq:phi-s-low}) give
+the expansion
 \begin{equation}
   \label{eq:fs-k=0}
   \frac{f_{s, k}}{I_0}
-  = \frac{\gamma''}{|k|} + \frac{2}{\pi} + 1 - 2 \sqrt{2} + \frac{|k|}{\gamma} - 0.7065 \frac{k^2}{\gamma^2} + O(|k|^3)
-  \ .
+  = \frac{\gamma''}{|k|} +
+  % \frac{2}{\pi} + 1 - 2 \sqrt{2}
+  - C_0 
+  + \frac{|k|}{\gamma}
+  % - 0.7065
+  - C_2 
+  \frac{k^2}{\gamma^2} + O(|k|^3)
+  \ , 
 \end{equation}
-Thus, weak ohmicity always gives the dominant contribution at large
-distances, which is expected. Ignoring ohmic contribution, we
-note that the linear term~$|k|/\gamma$ defines the behaviour of~$f_s(x)$
-in real space at large distances:
-$f_s(|x| \gg l_\mathrm{ee}) \approx -I_0/(\pi \gamma x^2)$. This
-reproduces, both qualitatively and quantitatively, the viscous
-behaviour. Indeed, one can show that the long-wavelength behaviour
-of our model reproduces viscous fluid with dynamic
-viscosity~$\eta = l_\mathrm{ee}/4$, effective number density of~$n = 1/2$,
-and no-slip condition on the wall. (Recall that we have set dimensional
-parameters~$m = 1$, $p_F = 1$, $\nu = 1$.)
-Then, the electric potential at large distances
-is expected~\cite{bib:Levitov-Falkovich}
-to behave as $\phi(x) = - 2/\pi I_0 \eta / n^2 x^2$. The density
-corresponding to this potential is equal to~$f_s(x)$. This comparison
-demonstrates that our solution reproduces the hydrodynamical limit.
-The quadratic term, $-0.7065 k^2/\gamma^2$ gives the lowest-order
-correction to the hydrodynamical solution, due to finite slip length
-and other effects.
-At large~$k$, $f_{s, k} \approx (\gamma'' - \gamma') / |k|$.
-In real space, this
-corresponds to~$f_s(x) \approx  (\gamma'' - \gamma') / \pi \log(\gamma|x|)$,
+with~$C_0 = 2\sqrt{2} - 1 - 2/\pi \approx 1.192$,
+$C_2 = 0.7065$. (The expression for~$C_2$ is rather cumbersome,
+so we do not present it here.)
+Thus, finite ohmic relaxation rate
+always dominates at the longest 
+distances, which is expected. In a medium with conductivity~$\sigma$,
+one expects the potential of a point source to be positive and log-divergent
+at large distances:
+\begin{align}
+  \label{eq:V-ohmic}
+  V(x) = \frac{I_0}{\pi \sigma} \log |{\bm r}|\ . 
+\end{align}
+This matches our expression, if one applies Drude's formula
+for conductivity: $\sigma = ne^2 \tau_p/m$, where~$n$ is the carrier
+density, and~$\tau_p$ is momentum relaxation time.
+Since we are using dimensionless units (carrier mass~$m^\ast = 1$,
+Fermi momentum~$p_F = 1$, density of states~$\nu = 1$),
+the carrier density is~$n = \nu p_F^2 / (2m^\ast) = 1/2$,
+and the Drude formula takes the form~$\sigma^{-1} = 2 \gamma''$,
+and the relation~(\ref{eq:V-ohmic}) is recovered if
+one Fourier transforms the term~$\gamma'' / |k|$,
+so that~$V(\gamma'' x \gg 1) \approx (2\gamma''/\pi) \log(|x|)$.
+
+Let us now focus upon the purely viscous case, $\gamma'' = 0$.
+The constant term~$-C_0$ does not contribute to~$V(x)$ far away,
+so we ignore it here and discuss its role later in this Section.
+The linear term~$|k|/\gamma$ defines the behaviour
+of~$V(x)$ in real space at large distances:
+\begin{align}
+  V(x \gg l_\mathrm{ee}) \approx - \frac{I_0}{\pi \gamma x^2}\ , 
+\end{align}
+%$f_s(|x| \gg l_\mathrm{ee}) \approx -I_0/(\pi \gamma x^2)$. This
+%reproduces, both qualitatively and quantitatively, the viscous
+%behaviour.
+which describes the viscous behaviour if one introduces
+the dynamic viscosity~$\eta = 1/4 l_\mathrm{ee}$ and uses
+the effective number density~$n = 1/2$, as before. 
+%Indeed, one can show that the long-wavelength behaviour
+%of our model reproduces viscous fluid with dynamic
+%viscosity~$\eta = l_\mathrm{ee}/4$, effective number density of~$n = 1/2$,
+%and no-slip condition on the wall. (Recall that we have set dimensional
+%parameters~$m = 1$, $p_F = 1$, $\nu = 1$.)
+Indeed, the electric potential in e-fluid at large distances
+is expected~\cite{bib:Levitov-Falkovich} to behave as
+\begin{align}
+  \phi(x\gg l_\mathrm{ee})
+  \approx V(x) \approx - \frac{2}{\pi} \frac{I_0 \eta}{(ne)^2}
+  \frac{1}{x^2} 
+\end{align}
+if one assumes no-slip condition at the wall. 
+This comparison demonstrates that our solution faithfully
+reproduces the hydrodynamical limit.
+The next-order term, $-C_2 (k/\gamma)^2$ yields a contribution
+$\propto x^{-3}$, which represents the lowest-order 
+correction to the viscous flow and can be attributed
+to the finite slip length~$l_\mathrm{slip} = 2/\pi \gamma^{-1}$
+(see the discussion in Sec.~\ref{sec:stokeslet}),
+and other effects, e.g. the probe picking up higher harmonics
+of the carrier distribution function. 
+
+Let us now discuss the short-distance behaviour. 
+At large~$k$, the expansion yields
+$f_{s}(k) \approx (\gamma'' - \gamma') / |k|$, which yields
+the log-divergent negative probe potential
+\begin{align}
+  V(x) = \frac{\gamma'' - \gamma'}{\pi} \log(\gamma |x|)\ .
+\end{align}
 which
-reproduces the flux due to backscattered holes considered
-in~\cite{bib:Shytov-et-al}. We see therefore that our solution reproduces
-impeccably the short- and large distance limits, and hence provides
-full description of fluidity onset in this geometry.
+reproduces the flux due to backscattered holes analysed
+in~\cite{bib:Shytov-et-al} within  the single-collision approximation.
+We see therefore that the exac solution obtained here reproduces
+impeccably all important  limiting behaviours, and hence provides
+a comprehensive description of fluidity onset in this geometry
+valid at all scales. 
 
-
-The solution can be employed to find the carrier density which is given by
-\begin{equation}
-  \rho_{\bm k} = \rho_{I, {\bm k}} + f_{s, k} \rho_{s, {\bm k}}
-  \ ,
-\end{equation}
-where~$\rho_{s, {\bm k}}$ and~$\rho_{I, {\bm k}}$
-are given by Eq.(\ref{eq:rho-s})
-and~(\ref{eq:rho-I}) respectively. The vorticity takes a similar form:
-\begin{equation}
-  \Omega_{\bm k} = \Omega_{I, {\bm k}} + f_{s, k} \Omega_{s, {\bm k}}
-\ ,
-\end{equation}
-in which the individual contributions are defined in Eqs.(\ref{eq:omega-I})
-and~(\ref{eq:omega-s}). Then the current density can be found
-from Eqs.(\ref{eq:jxy}) with~$D_{\bm k} = i I_0$
-via the inverse Fourier transform.
-The current distribution can be also employed to obtain the stream
-function~$\psi(x, y)$ defined by~$j_x = \partial_y \psi$,
-$j_y = - \partial_x \psi$ via~$\psi_{\bm k} = j_{y, {\bm k}}/(ik)$.
+%%%%% Stopped here
 
 We have used this machinery to calculatee the resulting distribution
 of charge and current densities numerically.
-The resulting flow pattern (the stream lines) is shown in
+The resulting flow pattern (i.e. the stream lines) is shown in
 Fig.~\ref{fig:edge-stream}. One can see that the character of the flow
 changes from isotropic at short distances, ~$|{\bm r}| < l_\mathrm{ee}$ to
 no-slip pattern at large distances. This indicates crossover to the viscous
@@ -2318,11 +2452,11 @@ we can find~$\fminus{S}_\rho(k, q)$ and~$\fminus{S}_\Omega(k, q)$ directly:
 \end{align}
 We also give explicit expressions for density and vorticity:
 \begin{align}
-  \label{eq:rho-s}
+  \label{eq:rho-s-app}
   \rho_{s, {\bm k}} = \fplus{\rho}(k, q) &= f_{s, k} \left[\frac{-iq}{k^2 + q^2}
   + \frac{1}{2(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k, q)} \right]
   \\
-   \label{eq:omega-s}
+   \label{eq:omega-s-app}
   \Omega_{s, {\bm k}} = \fplus{\Omega}(k, q)
   &= \frac{k}{2\gamma}
      \left(\frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast} - 1\right)
