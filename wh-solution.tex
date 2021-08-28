@@ -2638,7 +2638,7 @@ this expression simplifies to~$f_s(k) / \pi$.
 %according to Eq.(\ref{eq:solution-D}).)
 
 
-\section{Factorization of the kernels near the poles}
+\section{Integral representations of the Wiener-Hopf kernels}
 
 The Wiener-Hopf analysis given in this text often involve the
 values of the kernels~$\fplus{K}_\rho(k, q)$ and~$\fplus{K}_\Omega(k, q)$ near
@@ -2712,8 +2712,9 @@ a standard integral:
 \end{align}
 Eventually, one finds
 \begin{align}
-  \frac{d}{ds} \log \fplus{\mathcal{K}}_{\alpha}(is) = 
-  -\frac{\kappa - {\tilde{\kappa}}}{2(\kappa + s) ({\tilde{\kappa}} + s)}
+  \frac{d}{ds} \log \fplus{\mathcal{K}}_{\alpha}(is) =
+  \frac{1}{2}\frac{d}{ds} \log\frac{s + \kappa}{s + \tilde{\kappa}} 
+  %-\frac{\kappa - {\tilde{\kappa}}}{2(\kappa + s) ({\tilde{\kappa}} + s)}
   - \frac{\alpha}{2\pi (s^2 -\tilde{\kappa}^2)}
   \left[\frac{s}{\sqrt{\kappa^2 - s^2}} \cos^{-1}\frac{s}{\kappa}
   - \frac{{\tilde{\kappa}}}{\alpha}
@@ -2728,6 +2729,8 @@ In particular, one finds at the singularity
   - \frac{\kappa^2}{2\pi{\tilde\kappa}^2 \alpha}
   \sin^{-1}\frac{\alpha}{\kappa} + \frac{1}{2\pi\alpha}\ .
 \end{align}
+
+\section{Asymptotic behaviour of the kernels at the pole~$q = i|k|$.}
 
 
 ...which can be found by first differentiating the expression over~$\alpha$
@@ -2818,6 +2821,7 @@ which can be verified by splitting the integration domain
 into two subintervals,~$[0, 1]$ and~$[1, x_\alpha]$ and
 then changing the integration variable as~$y = 1/x$ in the
 second contribution.
+
 
 Let us now apply these results to our kernels~$K_\rho(k, q)$
 and~$K_\omega(k, q)$. From the representation~(\ref{eq:appA-representation}),
