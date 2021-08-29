@@ -2650,25 +2650,32 @@ To this end, we first consider a more general kernel:
 \end{align}
 The kernel~$K_\rho(q)$ is obtained if one takes~$\kappa^2 = k^2 + \gamma^2$
 and~$\alpha = \gamma$, while the kernel~$K_\Omega$ is given by
-the product of two such kernels:
+the product of two instances of~$\mathcal{K}_\alpha(q)$:
 \begin{align}
   \label{eq:appA-representation}
   K_\rho(k, q) = \mathcal{K}_\gamma(q)\ , \qquad
-  K_\Omega(k, q) = \frac{q^2 + \kappa^2}{q^2 + k^2}
- \mathcal{K}_{\gamma}(q) \mathcal{K}_{\gamma' - \gamma''}(q)\ .
+  K_\Omega(k, q) = \frac{q^2 + \kappa^2}{q^2 + k^2}\,
+ \mathcal{K}_{\gamma}(q) \mathcal{K}_{\gamma' - \gamma''}(q)\ , 
+\end{align}
+so that
+\begin{align}
+  \fplus{K}_\Omega(k, q) = \frac{q + i|k|}{q + i \kappa}\, 
+  \fplus{\mathcal{K}}_\gamma(q)\,
+  \fplus{\mathcal{K}}_{\gamma' - \gamma''}(q)\ . 
 \end{align}
 The kernel~$\mathcal{K}_\alpha(q)$ has a zero at~$q = i {\tilde \kappa}$,
 with~${\tilde \kappa} = \sqrt{\kappa^2 - \alpha^2}$.
-Let us consider the kernel~$\fplus{\mathcal{K}}_\alpha$ at the imaginary axis.
+Let us consider its factor~$\fplus{\mathcal{K}}_\alpha(is)$
+at the imaginary axis.
 The respective Cauchy integral can be transformed as
 \begin{align}
-  \log \mathcal{K}_{\alpha}(is) = - \frac{1}{2\pi}
+  \log \fplus{\mathcal{K}}_{\alpha}(is) = - \frac{1}{2\pi}
   \int\limits_{-\infty}^{\infty}
   \frac{s dq}{s^2 + q^2} \, \log \mathcal{K}_{\alpha}(q)\ .
 \end{align}
-We are interested in the value of this integral at the point
-$s = {\tilde\kappa}$.
-This integral is hard to evaluate, so let us consider its derivatives
+%We are interested in the value of this integral at the point
+%$s = {\tilde\kappa}$.
+Since the integral is hard to evaluate, we consider its derivatives
 with respect to~$s$ and~$\alpha$.
 The Cauchy integral for the log derivative takes the form
 \begin{align}
@@ -2703,97 +2710,151 @@ two integrals of a similar structure:
   \left[\frac{s^2}{q^2 + s^2}
   - \frac{\tilde{\kappa}^2}{q^2 + {\tilde\kappa}^2}\right]\ . 
 \end{align}
-In the first term here, one may change the integration variable
-as~$q = s \tan \theta$, and then as~$u = \sin\theta$, which gives
-a standard integral:
+The integration is facilitated by changing the variable
+via~$q = \kappa \sinh t$ and then~$v = \tanh t$,
+which yields
+%In the first term here, one may change the integration variable
+%as~$q = s \tan \theta$, and then as~$u = \sin\theta$, which gives
+%a standard integral:
+%\begin{align}
+%  \int\limits_{-\infty}^{\infty} \frac{s^2 dq}{\sqrt{q^2 + \kappa^2} (q^2 + s^%2)} =
+%  \int\limits_{-1}^{1} \frac{sdu}{\sqrt{\kappa^2 - (\kappa^2 - s^2) u^2}}\ . 
+%\end{align}
+%Eventually, one finds
 \begin{align}
-  \int\limits_{-\infty}^{\infty} \frac{s^2 dq}{\sqrt{q^2 + \kappa^2} (q^2 + s^2)} =
-  \int\limits_{-1}^{1} \frac{sdu}{\sqrt{\kappa^2 - (\kappa^2 - s^2) u^2}}\ . 
-\end{align}
-Eventually, one finds
-\begin{align}
+  \label{eq:dK-ds-final}
   \frac{d}{ds} \log \fplus{\mathcal{K}}_{\alpha}(is) =
   \frac{1}{2}\frac{d}{ds} \log\frac{s + \kappa}{s + \tilde{\kappa}} 
   %-\frac{\kappa - {\tilde{\kappa}}}{2(\kappa + s) ({\tilde{\kappa}} + s)}
-  - \frac{\alpha}{2\pi (s^2 -\tilde{\kappa}^2)}
+  - \frac{\alpha}{\pi (s^2 -\tilde{\kappa}^2)}
   \left[\frac{s}{\sqrt{\kappa^2 - s^2}} \cos^{-1}\frac{s}{\kappa}
   - \frac{{\tilde{\kappa}}}{\alpha}
   \sin^{-1}\frac{\alpha}{\kappa}\right]
   \ . 
 \end{align}
-In particular, one finds at the singularity
+%At the singularity~$s = {\tilde\kappa}$, this reduces to
+%\begin{align}
+%  \label{eq:appA-2nd-half}
+%  \frac{d}{ds} \log \fplus{\mathcal{K}}_{\alpha}(i{\tilde\kappa})
+%  = - \frac{\kappa - {\tilde{\kappa}}}{4{\tilde \kappa} (\kappa + {\tilde\kappa})}
+%  - \frac{\kappa^2}{2\pi{\tilde\kappa} \alpha^2}
+%  \sin^{-1}\frac{\alpha}{\kappa} + \frac{1}{2\pi\alpha}\ .
+%\end{align}
+One can, in principle, integrate Eq.(\ref{eq:dK-ds-final})
+over~$s$ to infinity to obtain~$\log\mathcal{K}_\alpha(s)$,
+as~$\log\fplus{\mathcal{K}}_\alpha(i\infty) = 0$.
+
+Another representation of the factorized kernel is obtained if one
+differentiates it with respect to~$\alpha$:
 \begin{align}
-  \label{eq:appA-2nd-half}
-  \frac{d}{ds} \log \fplus{\mathcal{K}}_{\alpha}(i{\tilde\kappa})
-  = - \frac{\kappa - {\tilde{\kappa}}}{4{\tilde \kappa} (\kappa + {\tilde\kappa})}
-  - \frac{\kappa^2}{2\pi{\tilde\kappa}^2 \alpha}
-  \sin^{-1}\frac{\alpha}{\kappa} + \frac{1}{2\pi\alpha}\ .
+  \frac{d}{d\alpha}\log \fplus{\mathcal{K}}_{\alpha} (s)
+  = \int\limits_{-\infty}^{\infty}
+  \frac{s (\alpha + \sqrt{q^2 + \kappa^2})}{
+  \left(q^2 + {\tilde \kappa}\right)(q^2 + s^2)} \frac{dq}{2\pi}
+  \ .  
 \end{align}
+The integrals can be computed as before, and one finds
+%be computed via the substitution~$q = \kappa \sinh t$,
+%and then~$v = \tanh t$. This yields
+\begin{align}
+  \label{eq:dK-da-final}
+  \frac{d}{d\alpha}\log \fplus{\mathcal{K}}_{\alpha}(s)
+  = \frac{\alpha}{2{\tilde{\kappa}} (s + {\tilde{\kappa}})}
+ - \frac{1}{\pi} \frac{s}{s^2 - \tilde{\kappa}^2}
+  \left[
+  \frac{\sqrt{\kappa^2 - s^2}}{s} \cos^{-1}\frac{s}{\kappa}
+  - \frac{\alpha}{\tilde{\kappa}} \sin^{-1}\frac{\alpha}{\kappa}
+  \right]\ . 
+\end{align}
+%Evaluating this at~$s = {\tilde{\kappa}}$, one finds
+%\begin{align}
+%  \left.\frac{d}{d\alpha}\log \fplus{\mathcal{K}}_{\alpha}
+%  \right|_{s = {\tilde\kappa}}
+%  = \frac{\alpha}{4{\tilde{\kappa}}}
+%  + \frac{\kappa^2}{2\pi \alpha \tilde{\kappa}^2}
+%  \sin^{-1}\frac{\alpha}{\kappa} + \frac{1}{2\pi \tilde{\kappa}}
+%  \ . 
+%\end{align}
+At~$\alpha = 0$, $\fplus{\mathcal{K}}_\alpha(is) = 0$, and one can
+obtain the kernel by integrating Eq.(\ref{eq:dK-da-final}) over~$\alpha$
+starting from~$\alpha = 0$.
 
-\section{Asymptotic behaviour of the kernels at the pole~$q = i|k|$.}
-
-
-...which can be found by first differentiating the expression over~$\alpha$
-and then over~$s$ to accomodate for the pole changing its position:
+These representations can be employed to find the
+value~$\mathcal{K}_\alpha^\ast$  of~$\mathcal{K}_\alpha^\ast(q)$
+at~$s = i\tilde{\kappa}$. To this end,
+we consider its derivative with respect to~$\alpha$. Since the position
+of the singularity moves when~$\alpha$ is varied, the derivative
+can be found by first differentiating the expression over~$\alpha$
+at fixed position, 
+and then over~$s$ to accomodate for the change in position:
 \begin{align}
   \label{eq:appA-two-contribs}
   \frac{d}{d\alpha} [\log \fplus{\mathcal{K}}_\alpha(i{\tilde \kappa})] =
-  \frac{d}{d\alpha} \log \fplus{\mathcal{K}}_\alpha(i{\tilde \kappa})
+  \left.\frac{d}{d\alpha} \log \fplus{\mathcal{K}}_\alpha(is)
+  \right|_{s = {\tilde{\kappa}}}
   + \frac{d{\tilde \kappa}}{d\alpha}
   \frac{d}{ds} \log \fplus{\mathcal{K}}_\alpha (i{\tilde \kappa}) \ .
 \end{align}
 % with respect to~$\alpha$, and evaluate this derivative at~$\tilde{\kappa}$:
-
-The differentiation with respect to~$\alpha$ yields
-\begin{align}
-  \left.\frac{d}{d\alpha}\log \mathcal{K}_{\alpha}
-  \right|_{s = {\tilde\kappa}}
-  = \int\limits_{-\infty}^{\infty}
-  \frac{{\tilde\kappa} (\alpha + \sqrt{q^2 + \kappa^2})}{
-  \left(q^2 + {\tilde \kappa}\right)^2} \frac{dq}{2\pi}
-  \ .
-\end{align}
-The first term yields~$\alpha /(4{\tilde\kappa}^3)$, while in
-the second term one can first change the integraion variable
-as~$q = {\tilde\kappa}\cos\theta$, and then as~$u = \alpha \sin\theta$.
-This yields
-\begin{align}
-  \left.\frac{d}{d\alpha}\log \mathcal{K}_{\alpha}
-  \right|_{s = {\tilde\kappa}}
-  = \frac{\alpha}{4{\tilde\kappa}^2} + \frac{1}{\pi\alpha^2 {\tilde\kappa}}
-  \int\limits_{0}^{\alpha} \sqrt{\kappa^2 - u^2} du\ .
-\end{align}
-Computing the remaining standard integral, one evantually finds
+Evaluating Eqs.(\ref{eq:dK-da-final}) and~(\ref{eq:dK-ds-final}), one finds
+%
+%The differentiation with respect to~$\alpha$ yields
+%\begin{align}
+%  \left.\frac{d}{d\alpha}\log \mathcal{K}_{\alpha}
+%  \right|_{s = {\tilde\kappa}}
+%  = \int\limits_{-\infty}^{\infty}
+%  \frac{{\tilde\kappa} (\alpha + \sqrt{q^2 + \kappa^2})}{
+%  \left(q^2 + {\tilde \kappa}\right)^2} \frac{dq}{2\pi}
+%  \ .
+%\end{align}
+%The first term yields~$\alpha /(4{\tilde\kappa}^3)$, while in
+%the second term one can first change the integraion variable
+%as~$q = {\tilde\kappa}\cos\theta$, and then as~$u = \alpha \sin\theta$.
+%This yields
+%\begin{align}
+%  \left.\frac{d}{d\alpha}\log \mathcal{K}_{\alpha}
+%  \right|_{s = {\tilde\kappa}}
+%  = \frac{\alpha}{4{\tilde\kappa}^2} + \frac{1}{\pi\alpha^2 {\tilde\kappa}}
+%  \int\limits_{0}^{\alpha} \sqrt{\kappa^2 - u^2} du\ .
+%\end{align}
+%Computing the remaining standard integral, one evantually finds
 \begin{align}
   \label{eq:appA-1st-half}
-  \left.\frac{d}{d\alpha}\log \mathcal{K}_{\alpha}
+  \left.\frac{d}{d\alpha}\log \fplus{\mathcal{K}}_{\alpha}(s)
   \right|_{s = {\tilde\kappa}}
-  = \frac{\alpha}{4{\tilde\kappa}^2}
+  &= \frac{\alpha}{4{\tilde\kappa}^2}
   + \frac{\kappa^2}{2\pi\alpha{\tilde\kappa}^2} \sin^{-1}\frac{\alpha}{\kappa}
-  + \frac{1}{2\pi{\tilde\kappa}}\ .
+  + \frac{1}{2\pi{\tilde\kappa}}\ , \\ 
+%\end{align}
+%At the singularity~$s = {\tilde\kappa}$, this reduces to
+%\begin{align}
+  \label{eq:appA-2nd-half}
+  %\left.
+  \frac{d}{ds} \log \fplus{\mathcal{K}}_{\alpha}(i{\tilde{\kappa}})
+  %\right|_{s={\tilde{\kappa}}}
+  &= - \frac{\kappa - {\tilde{\kappa}}}{4{\tilde \kappa} (\kappa + {\tilde\kappa})}
+  - \frac{\kappa^2}{2\pi{\tilde\kappa} \alpha^2}
+  \sin^{-1}\frac{\alpha}{\kappa} + \frac{1}{2\pi\alpha}\ .
 \end{align}
-
-
-Substituting Eqs.(\ref{eq:appA-1st-half}) and~(\ref{eq:appA-2nd-half})
-into Eq.~(\ref{eq:appA-two-contribs}) and taking into account
-that~$d{\tilde \kappa}{d\alpha} =  - \alpha/{\tilde\kappa}$,
-one can obtain the derivative of the value of~$\fplus{\mathcal{K}}_\alpha$
-at the moving pole:
+Using Eqs.(\ref{eq:appA-1st-half}) and~(\ref{eq:appA-2nd-half})
+and taking into account
+that~$d{\tilde \kappa}/{d\alpha} =  - \alpha/{\tilde\kappa}$,
+%  one can obtain the derivative of the value of~$\fplus{\mathcal{K}}_\alpha$
+one may reduce Eq.~(\ref{eq:appA-two-contribs}) to the form
 \begin{align}
-  \frac{d}{d\alpha} [\log \fplus{\mathcal{K}}_\alpha(i{\tilde \kappa})] =
-  \frac{\alpha}{2{\tilde\kappa}} \frac{\kappa}{{\tilde\kappa}^2}
+  \frac{d}{d\alpha} [\log \mathcal{K}_\alpha^\ast] =
+  \frac{\alpha}{2{\tilde\kappa}^2} \frac{\kappa}{(\kappa + {\tilde\kappa})}
   + \frac{\kappa^2}{\pi\alpha{\tilde\kappa}^2} \sin^{-1}\frac{\alpha}{\kappa}
-  \ .
+  \  , 
 \end{align}
-Let us integrate this expression with respect to~$\alpha$
-from zero to a finite value. (Obviously, the kernel~$\mathcal{K}_\alpha(q)$
-degenerates into unity at~$\alpha = 0$.)
+which can be integrate over~$\alpha$.
 The first term is evaluated via elementary methods:
 \begin{align}
-  \frac{\kappa}{2} \int \frac{\alpha d\alpha}{(\kappa^2 - \alpha^2)
+  \frac{\kappa}{2} \int\limits_{0}^{\alpha}
+  \frac{\alpha d\alpha}{(\kappa^2 - \alpha^2)
   (\kappa + \sqrt{\kappa^2 - \alpha^2})}
   = \frac{1}{2} \log\frac{\kappa + \sqrt{\kappa^2 - \alpha^2}}{
-    \sqrt{\kappa^2 - \alpha^2}}\ .
+    2\sqrt{\kappa^2 - \alpha^2}}\ .
 \end{align}
 In the second term, we change the integration variable via
 $\alpha = \kappa x / \sqrt{1 + x^2}$,
@@ -2804,211 +2865,297 @@ so that~$\sin^{-1} \alpha/\kappa = \tan^{-1} x$. This yields
   = \frac{1}{\pi} \int\limits_{0}^{x_\alpha} \frac{dx}{x} \tan^{-1} x\ ,
 \end{align}
 where~$x_\alpha = \alpha/\sqrt{\kappa^2 - \alpha^2}$.
-Thus, we finally obtain the desired expression
+Thus, we finally obtain the desired expression:
 \begin{align}
+  \label{eq:Ka-star-final}
   \log \fplus{\mathcal{K}}_\alpha(i{\tilde \kappa})
   = \frac{1}{2}\log\frac{\kappa + \sqrt{\kappa^2 - \alpha^2}}{
-  \sqrt{\kappa^2 - \alpha^2}}
-  + \int\limits_{0}^{x_\alpha}\frac{dx}{\pi x} \tan^{-1} x\ .
+  2\sqrt{\kappa^2 - \alpha^2}}
+  + I(x_\alpha)\ , \qquad
+  I(x_\alpha) \equiv \int\limits_{0}^{x_\alpha}\frac{dx}{\pi x} \tan^{-1} x\ .
 \end{align}
 The remaining integral~$I(x_\alpha)$
 can be expressed in terms of the dilogarithm
 $\mathop{\mathrm{Li}}_2(x)$. It has an interesting property
 \begin{align}
-I(x_\alpha) = I(x_\alpha^{-1}) + \frac{1}{2} \log\frac{1}{x_\alpha}\ ,
+I(x_\alpha) = I(x_\alpha^{-1}) + \frac{1}{2} \log{x_\alpha}\ ,
 \end{align}
 which can be verified by splitting the integration domain
 into two subintervals,~$[0, 1]$ and~$[1, x_\alpha]$ and
 then changing the integration variable as~$y = 1/x$ in the
-second contribution.
-
-
-Let us now apply these results to our kernels~$K_\rho(k, q)$
-and~$K_\omega(k, q)$. From the representation~(\ref{eq:appA-representation}),
-one finds
+second contribution. This way, one may rewrite Eq.(\ref{eq:Ka-star-final})
+in an alternative form:
 \begin{align}
-  \log K_\rho^\ast(k) =  \frac{1}{2} \log\frac{k + \sqrt{k^2 + \gamma^2}}{2|k|}
-  + \frac{1}{\pi}\int\limits_{0}^{\gamma/|k|}
-  \frac{dx}{x} \tan^{-1}x
-\ ,
+  \label{eq:Ka-star-alt}
+  \log \fplus{\mathcal{K}}_\alpha(i{\tilde \kappa})
+  = \frac{1}{2}\log\frac{
+  \alpha(\kappa + \sqrt{\kappa^2 - \alpha^2})}{
+   2(\kappa^2 - \alpha^2)}
+  + \int\limits_{0}^{1/x_\alpha}\frac{dx}{\pi x} \tan^{-1} x\ , 
 \end{align}
-and
-\begin{align}
-  \log K_\Omega^\ast =  \frac{2}{\pi}
-  \int\limits_{0}^{x_0} \frac{dx}{x}\tan^{-1}x
-\ .
-\end{align}
+which is more suitable if~$x_\alpha \gg 1$.
 
-\textbf{INCOMPLETE: not discussed poles away.}
 
-\section{OLD: Factorized kernels near the poles~$q = \pm i|k|$ and~$q = \pm i {\tilde \kappa}$.}
+\section{Asymptotic behaviour of the kernels at the pole~$q = i|k|$.}
 \label{sec:appendix-kstar}
-Wiener-Hopf solutions described in this text often include the values of the
-factorised kernels~$\fplus{K}_\rho(k, q)$ and~$\fplus{K}_\Omega(k, q)$ near
-the points~$q = \pm i|k|$. Here we derive analytic expressions for these kernels
-and discuss their behaviour at~$k \ll \gamma$. Let us begin
-with~$K_\rho^\ast \equiv \fplus{K}_\rho(q = i|k|)$. The Cauchy
-integral~(\ref{eq:factor-cauchy}) takes the form
-\begin{equation}
-  \log K_\rho^\ast = - \int\limits_{-\infty}^{\infty}\frac{dq}{2\pi} \frac{k}{k^2 + q^2}
-  \, \log\left(1 - \frac{\gamma}{\sqrt{k^2 + q^2 + \gamma^2}}\right)
-  \ .
-\end{equation}
-To calculate it, consider its derivative with respect to~$\gamma$:
-\begin{equation}
-  \frac{\partial}{\partial \gamma} \log K_\rho^\ast
-  = \int\limits_{-\infty}^{\infty}
-  \frac{\gamma + \sqrt{\gamma^2 + k^2 + q^2}}{(k^2 + q^2)(\gamma^2 + k^2 + q^2)}
-  \frac{kdq}{2\pi}
-  \ .
-\end{equation}
-The first integral here is well-known:
-\begin{equation}
-\int\limits_{-\infty}^{\infty} \frac{k dq}{2\pi} \frac{\gamma}{(q^2 + k^2)(q^2 + k^2 + \gamma^2)}
- = \frac{1}{2} \frac{\gamma}{\sqrt{k^2 + \gamma^2}(|k| + \sqrt{k^2 + \gamma^2})}
- \ ,
-\end{equation}
-while the other can be found by first changing the integration variable
-to~$q = |k|\tan\theta$, and then to~$u = \sin\theta$:
-\begin{equation}
-  \int\limits_{-\infty}^{\infty} \frac{kdq}{2\pi}
-  \frac{1}{(q^2 + k^2)\sqrt{q^2 + k^2 + \gamma^2}}
-  = \frac{1}{2\pi}\int\limits_{-1}^{1} \frac{du}{\sqrt{\gamma^2 + k^2 - \gamma^2 u^2}}
-   = \frac{1}{\pi\gamma} \tan^{-1}\frac{\gamma}{|k|}
-  \ .
-\end{equation}
-Hence we find
-\begin{equation}
-  \frac{\partial}{\partial \gamma} \log K_\rho^\ast =
-  \frac{\gamma}{2\sqrt{\gamma^2 + k^2}(|k| + \sqrt{k^2 + \gamma^2})}
-  + \frac{1}{\pi} \tan^{-1}\frac{\gamma}{|k|}
-  \ .
-\end{equation}
-Integrating over~$\gamma$ and employing the fact that~$K_\rho (\gamma \to 0) = 1$,
-we write
-\begin{equation}
-  \log K_\rho^\ast(k) =  \frac{1}{2} \log\frac{k + \sqrt{k^2 + \gamma^2}}{2|k|}
-  + \frac{1}{\pi}\int\limits_{0}^{\gamma/|k|}
+
+Let us now apply the results of the previous section
+to kernels~$K_\rho(k, q)$
+and~$K_\omega(k, q)$.
+We begin by considering the long-wavelength limit, $|k|\ll \gamma$,
+which corresponds to hydrodynamical behaviour. 
+Applying Eq.(\ref{eq:Ka-star-alt}) to
+the representation~(\ref{eq:appA-representation})
+one finds for the density kernel
+\begin{align}
+  \log K_\rho^\ast(k)
+  =  \frac{1}{2} \log\frac{\gamma(k + \sqrt{k^2 + \gamma^2})}{2 k^2}
+  + \frac{1}{\pi}\int\limits_{0}^{|k|/\gamma}
   \frac{dx}{x} \tan^{-1}x
 \ .
-\end{equation}
-(The remaining integral can be related to the dilogaritmic
-function~$\mathrm{Li}_2(z)$.)
-Similar reasoning yields for~$K_\Omega^\ast$:
-\begin{equation}
-  \log K_\Omega^\ast = \log K_\rho^\ast + \log\frac{2|k|}{|k| + \kappa}
-  + I_\Omega \ ,
-\end{equation}
-with
-\begin{equation}
-  I_\Omega = - \frac{|k|}{2\pi}\int\limits_{-\infty}^{\infty}
-  \frac{dq}{q^2 + k^2}
-  \log \left(1 - \frac{\xi \gamma}{\sqrt{k^2 + q^2 + \gamma^2}}\right)
+\end{align}
+In the purely viscous limit, $\gamma'' = 0$, one may also
+obtain the vorticity kernel in the form
+\begin{align}
+  \log K_\Omega^\ast(k, \gamma'' = 0) =
+   \log\frac{\gamma}{|k|}
+  + \frac{2}{\pi}
+  \int\limits_{0}^{|k|/\gamma} \frac{dx}{x}\tan^{-1}x
 \ .
-\end{equation}
-Here we introduce~$\xi = (\gamma' - \gamma'')/\gamma$.
-The remaining integral can be calculated in a similar fashion. This yields
-\begin{equation}
-  \log K_\Omega^\ast = \frac{1}{2} \log \frac{2|k|}{|k| + {\tilde \kappa}}
-  + \int\limits_{0}^{\gamma/|k|} \frac{dx}{\pi x}
-  \left[\tan^{-1}x
-    + \frac{1}{\sqrt{x^2 (1 - \xi^2) + 1}}
-     \sin^{-1}\frac{\xi x}{\sqrt{1 + x^2}}
-  \right]
-  \ .
-  \label{eq:ko-star-xi}
-\end{equation}
-For~$\xi = 1$, the second term in the integral is equal to the firs term,
-and Eq.(\ref{eq:ko-star-xi}) simplifies to
-\begin{equation}
-  \log K_\Omega^\ast =
-  \int\limits_{0}^{\gamma/|k|} \frac{dx}{\pi x}\tan^{-1}x
-\ .
-\end{equation}
-%One can use this result to estimate
-%\begin{equation}
-%  \log K_\Omega^\ast =
-%  \log\left\{\left[K_\rho^\ast\right]^2 \frac{2|k|}{|k| + \sqrt{k^2 + \gamma^2}%}\right\}
-%= \frac{2}{\pi}\int\limits_{0}^{\gamma} \frac{d\gamma}{\gamma} \tan^{-1}\frac{\%gamma}{|k|}
-% \ .
-%\end{equation}
-To analyse the behaviour of these expressions in the long-wavelength limit,
-~$k \ll \gamma$,
-one can split the integration range into two subintervals,
-$[0, |k|]$ and~$[|k|, \gamma]$.
-The integral of arctangent can then be transformed by employing
-the change of variable~$\gamma = 1/x$.
-Hence one can show that at large~$\gamma / |k|$
-\begin{equation}
-  \int\limits_{0}^{\gamma/|k|} \frac{\tan^{-1}x}{x}\, dx =
-  \frac{\pi}{2} \log(x) + \frac{|k|}{\gamma} - \frac{|k|^3}{9\gamma^3} +  O(|k|^5)
-\end{equation}
-Thus, at~$k \to 0$
-\begin{equation}
+\end{align}
+This way, $K_{\rho,\Omega}^\ast(k)$
+can be expanded into Taylor's series in~$|k|$, by writing
+\begin{align}
+  \int\limits_{0}^{x \ll 1} \frac{dx'}{x'}\, \tan^{-1} x' =
+  x - \frac{x^3}{9} + \frac{x^5}{25} + \ldots
+\end{align}
+Hence one finds
+\begin{align}
   \label{eq:krho-k=0}
-  \log  K_\rho^\ast(k) = \log\frac{\gamma}{|k|\sqrt{2}}
+  \log  K_\rho^\ast(k\to 0) &= \log\frac{\gamma}{|k|\sqrt{2}}
         + \frac{|k|}{\gamma} \left(\frac{1}{\pi} + \frac{1}{2}\right)
         - \frac{|k|^3}{9\gamma^3} \left(\frac{1}{\pi} + \frac{3}{4}\right)
-        + O(|k|^5)
-\end{equation}
-Analysis of large-distance behaviour~$K_\Omega^\ast$ is cumbersome
-in general, but is facilitated
-for viscous and Ohmic cases.
-In the viscous limit ($\xi = 1$), one finds
-\begin{equation}
+        + O(|k|^5) \ , \\
   \label{eq:komega-k=0}
-  \log  K_\Omega^\ast(k) = \log\frac{\gamma}{|k|} + \frac{2|k|}{\pi\gamma}
+  \log  K_\Omega^\ast(k \to 0, \gamma'' = 0)
+  &= \log\frac{\gamma}{|k|} + \frac{2|k|}{\pi\gamma}
                            - \frac{2|k|^3}{9\pi\gamma^3}
                          +   O(|k|^5)
 \ .
-\end{equation}
-In the Ohmic limit ($\xi = -1$), $K_\Omega^\ast = 1$.
-%For~$\gamma'' \ll \gamma'$,
-%one finds, to the lowest order,
-%\begin{equation}
-%  \log K_\Omega^\ast \approx
-%\end{equation}
-%At~$k\to 0$, this results in a similar behaviour:
-%$K_\Omega^\ast \approx  C_\Omega \gamma / |k|$.
-At short distances, $|k| \gg \gamma$, we find
-\begin{equation}
+\end{align}
+For weak ohmic relaxation, $\gamma'' \ll \gamma$,
+one may approximate~$\log K_\Omega^\ast(k)$
+as follows. The factor~$\mathcal{K}_{\gamma' - \gamma''}(is)$
+in Eq.(\ref{eq:appA-representation})
+is to be evaluated at~$s = |k|$ instead of the pole
+at~$\tilde{\kappa} = \sqrt{k^2 + 4\gamma' \gamma''}$.
+For small~$\gamma''$, the change
+in $\log \mathcal{K}_{\gamma' - \gamma''}(is)$ can be
+written in terms of the logarithmic derivative given by
+Eq.(\ref{eq:appA-2nd-half}). 
+%\begin{align}
+%  \log \mathcal{K}_{\gamma' - \gamma''}(k, i|k|)
+%  = \log\mathcal{K}_{\gamma' - \gamma''}^\ast(k)
+%  + (k - \tilde{\kappa})
+%  \frac{d}{ds} \log \mathcal{K}_{\gamma' - \gamma''}(k, is) \ . 
+%\end{align}
+%     The latter is given by Eq.(\ref{eq:appA-2nd-half}).
+The respective
+correction is of the order of $(k - \tilde{\kappa})/\gamma$, which
+can be often neglected. Ignoring this, one can retain~$\gamma''$
+only in the leading logarithmic term:
+\begin{align}
+  \log  K_\Omega^\ast(k\to 0, \gamma'')
+  \approx \frac{1}{2} \log\frac{\gamma (\gamma' - \gamma'')}{k^2
+  + 4\gamma'\gamma''} + \frac{2|k|}{\pi\gamma} + \ldots
+\end{align}
+
+To obtain the expressions for~$K_{\rho, \Omega}^\ast(k)$
+at short distances, $|k| \gg \gamma$, one can employ
+Eq.(\ref{eq:Ka-star-final}).
+The logarithm yields a quadratic in~$\gamma/k$,
+while the integral term yields a first-order term:
+\begin{align}
   \label{eq:kstar-k=inf}
-  K_\rho^\ast \approx 1 + \frac{\gamma}{\pi |k|}
-  \ ,
-  \qquad
-  K_\Omega^\ast \approx 1 + \frac{2\gamma'}{\pi |k|}
-  \  .
-\end{equation}
+  \log K_\rho^\ast(k \to \infty) &\approx \frac{\gamma}{|k|}
+                                   + \frac{\gamma^2}{8k^2} + O(|k|^{-3})\ ,
+  \\ \nonumber
+  \log K_\Omega^\ast(k\to\infty) &\approx \frac{2\gamma'}{|k|}
+                                           + O(k^{-2})\ . 
+\end{align}
 
-Calculations of current distributions involving~$K_\Omega$ often involve
-a double pole at~$q = \pm i |k|$ and hence include the logarithmic derivative
-of~$K_\Omega$ at this point. This quantity can be found via a similar
-calculation applied to the log-derivative of~$K_\Omega$:
-\begin{equation}
-  K_\Omega' \equiv \frac{d}{ds} \log \fplus{K}_\Omega(is) =
-  \int\limits_{-\infty}^{\infty} \frac{dq}{2\pi} \frac{1}{i|k| - q}
-   \frac{d}{dq} \log K_\Omega(k, q)
-  \ .
-\end{equation}
-Simplifying the integrand, one finds
-\begin{equation}
-  K_\Omega' = - \frac{\gamma}{\pi} \int\limits_{-\infty}^{\infty} dq
-  \frac{q^2}{(q^2 + k^2)^2\sqrt{k^2 + q^2 + \gamma^2}}
-  \ .
-\end{equation}
-This integral can be also found by changing the integration variable
-via~$u = q / \sqrt{k^2 + q^2}$:
-\begin{equation}
-  K_\Omega' = - \frac{\gamma}{\pi|k|}
-  \int\limits_{-1}^{1} \frac{u^2 du}{\sqrt{k^2 + \gamma^2 - \gamma^2 u^2}} =
-  \frac{1}{\pi\gamma} \left[
-       1
-      - \frac{k^2 + \gamma^2}{\gamma|k|} \tan^{-1}\frac{\gamma}{|k|}
-    \right]
-    \ .
-  \end{equation}
+%\textbf{INCOMPLETE: not discussed poles away.}
 
-\section{The~$k = 0$ limit.}
+% \section{OLD: Factorized kernels near the poles~$q = \pm i|k|$ and~$q = \pm i {\tilde \kappa}$.}
+% \label{sec:appendix-kstar}
+% The Wiener-Hopf solutions described in this text
+% often include the values of the
+% factorised kernels~$\fplus{K}_\rho(k, q)$ and~$\fplus{K}_\Omega(k, q)$ near
+% the points~$q = \pm i|k|$. Here we derive analytic expressions for
+% these kernels
+% and discuss their behaviour at~$k \ll \gamma$. Let us begin
+% with~$K_\rho^\ast \equiv \fplus{K}_\rho(q = i|k|)$. The Cauchy
+% integral~(\ref{eq:factor-cauchy}) takes the form
+% \begin{equation}
+%   \log K_\rho^\ast = - \int\limits_{-\infty}^{\infty}\frac{dq}{2\pi} \frac{k}{k^2 + q^2}
+%   \, \log\left(1 - \frac{\gamma}{\sqrt{k^2 + q^2 + \gamma^2}}\right)
+%   \ .
+% \end{equation}
+% To calculate it, consider its derivative with respect to~$\gamma$:
+% \begin{equation}
+%   \frac{\partial}{\partial \gamma} \log K_\rho^\ast
+%   = \int\limits_{-\infty}^{\infty}
+%   \frac{\gamma + \sqrt{\gamma^2 + k^2 + q^2}}{(k^2 + q^2)(\gamma^2 + k^2 + q^2)}
+%   \frac{kdq}{2\pi}
+%   \ .
+% \end{equation}
+% The first integral here is well-known:
+% \begin{equation}
+% \int\limits_{-\infty}^{\infty} \frac{k dq}{2\pi} \frac{\gamma}{(q^2 + k^2)(q^2 + k^2 + \gamma^2)}
+%  = \frac{1}{2} \frac{\gamma}{\sqrt{k^2 + \gamma^2}(|k| + \sqrt{k^2 + \gamma^2})}
+%  \ ,
+% \end{equation}
+% while the other can be found by first changing the integration variable
+% to~$q = |k|\tan\theta$, and then to~$u = \sin\theta$:
+% \begin{equation}
+%   \int\limits_{-\infty}^{\infty} \frac{kdq}{2\pi}
+%   \frac{1}{(q^2 + k^2)\sqrt{q^2 + k^2 + \gamma^2}}
+%   = \frac{1}{2\pi}\int\limits_{-1}^{1} \frac{du}{\sqrt{\gamma^2 + k^2 - \gamma^2 u^2}}
+%    = \frac{1}{\pi\gamma} \tan^{-1}\frac{\gamma}{|k|}
+%   \ .
+% \end{equation}
+% Hence we find
+% \begin{equation}
+%   \frac{\partial}{\partial \gamma} \log K_\rho^\ast =
+%   \frac{\gamma}{2\sqrt{\gamma^2 + k^2}(|k| + \sqrt{k^2 + \gamma^2})}
+%   + \frac{1}{\pi} \tan^{-1}\frac{\gamma}{|k|}
+%   \ .
+% \end{equation}
+% Integrating over~$\gamma$ and employing the fact that~$K_\rho (\gamma \to 0) = 1$,
+% we write
+% \begin{equation}
+%   \log K_\rho^\ast(k) =  \frac{1}{2} \log\frac{k + \sqrt{k^2 + \gamma^2}}{2|k|}
+%   + \frac{1}{\pi}\int\limits_{0}^{\gamma/|k|}
+%   \frac{dx}{x} \tan^{-1}x
+% \ .
+% \end{equation}
+% (The remaining integral can be related to the dilogaritmic
+% function~$\mathrm{Li}_2(z)$.)
+% Similar reasoning yields for~$K_\Omega^\ast$:
+% \begin{equation}
+%   \log K_\Omega^\ast = \log K_\rho^\ast + \log\frac{2|k|}{|k| + \kappa}
+%   + I_\Omega \ ,
+% \end{equation}
+% with
+% \begin{equation}
+%   I_\Omega = - \frac{|k|}{2\pi}\int\limits_{-\infty}^{\infty}
+%   \frac{dq}{q^2 + k^2}
+%   \log \left(1 - \frac{\xi \gamma}{\sqrt{k^2 + q^2 + \gamma^2}}\right)
+% \ .
+% \end{equation}
+% Here we introduce~$\xi = (\gamma' - \gamma'')/\gamma$.
+% The remaining integral can be calculated in a similar fashion. This yields
+% \begin{equation}
+%   \log K_\Omega^\ast = \frac{1}{2} \log \frac{2|k|}{|k| + {\tilde \kappa}}
+%   + \int\limits_{0}^{\gamma/|k|} \frac{dx}{\pi x}
+%   \left[\tan^{-1}x
+%     + \frac{1}{\sqrt{x^2 (1 - \xi^2) + 1}}
+%      \sin^{-1}\frac{\xi x}{\sqrt{1 + x^2}}
+%   \right]
+%   \ .
+%   \label{eq:ko-star-xi}
+% \end{equation}
+% For~$\xi = 1$, the second term in the integral is equal to the firs term,
+% and Eq.(\ref{eq:ko-star-xi}) simplifies to
+% \begin{equation}
+%   \log K_\Omega^\ast =
+%   \int\limits_{0}^{\gamma/|k|} \frac{dx}{\pi x}\tan^{-1}x
+% \ .
+% \end{equation}
+% %One can use this result to estimate
+% %\begin{equation}
+% %  \log K_\Omega^\ast =
+% %  \log\left\{\left[K_\rho^\ast\right]^2 \frac{2|k|}{|k| + \sqrt{k^2 + \gamma^2}%}\right\}
+% %= \frac{2}{\pi}\int\limits_{0}^{\gamma} \frac{d\gamma}{\gamma} \tan^{-1}\frac{\%gamma}{|k|}
+% % \ .
+% %\end{equation}
+% To analyse the behaviour of these expressions in the long-wavelength limit,
+% ~$k \ll \gamma$,
+% one can split the integration range into two subintervals,
+% $[0, |k|]$ and~$[|k|, \gamma]$.
+% The integral of arctangent can then be transformed by employing
+% the change of variable~$\gamma = 1/x$.
+% Hence one can show that at large~$\gamma / |k|$
+% \begin{equation}
+%   \int\limits_{0}^{\gamma/|k|} \frac{\tan^{-1}x}{x}\, dx =
+%   \frac{\pi}{2} \log(x) + \frac{|k|}{\gamma} - \frac{|k|^3}{9\gamma^3} +  O(|k|^5)
+% \end{equation}
+% Thus, at~$k \to 0$
+% \begin{equation}
+%   \label{eq:krho-k=0}
+%   \log  K_\rho^\ast(k) = \log\frac{\gamma}{|k|\sqrt{2}}
+%         + \frac{|k|}{\gamma} \left(\frac{1}{\pi} + \frac{1}{2}\right)
+%         - \frac{|k|^3}{9\gamma^3} \left(\frac{1}{\pi} + \frac{3}{4}\right)
+%         + O(|k|^5)
+% \end{equation}
+% Analysis of large-distance behaviour~$K_\Omega^\ast$ is cumbersome
+% in general, but is facilitated
+% for viscous and Ohmic cases.
+% In the viscous limit ($\xi = 1$), one finds
+% \begin{equation}
+%   \label{eq:komega-k=0}
+%   \log  K_\Omega^\ast(k) = \log\frac{\gamma}{|k|} + \frac{2|k|}{\pi\gamma}
+%                            - \frac{2|k|^3}{9\pi\gamma^3}
+%                          +   O(|k|^5)
+% \ .
+% \end{equation}
+% In the Ohmic limit ($\xi = -1$), $K_\Omega^\ast = 1$.
+% %For~$\gamma'' \ll \gamma'$,
+% %one finds, to the lowest order,
+% %\begin{equation}
+% %  \log K_\Omega^\ast \approx
+% %\end{equation}
+% %At~$k\to 0$, this results in a similar behaviour:
+% %$K_\Omega^\ast \approx  C_\Omega \gamma / |k|$.
+% At short distances, $|k| \gg \gamma$, we find
+% \begin{equation}
+%   \label{eq:kstar-k=inf}
+%   K_\rho^\ast \approx 1 + \frac{\gamma}{\pi |k|}
+%   \ ,
+%   \qquad
+%   K_\Omega^\ast \approx 1 + \frac{2\gamma'}{\pi |k|}
+%   \  .
+% \end{equation}
+
+% Calculations of current distributions involving~$K_\Omega$ often involve
+% a double pole at~$q = \pm i |k|$ and hence include the logarithmic derivative
+% of~$K_\Omega$ at this point. This quantity can be found via a similar
+% calculation applied to the log-derivative of~$K_\Omega$:
+% \begin{equation}
+%   K_\Omega' \equiv \frac{d}{ds} \log \fplus{K}_\Omega(is) =
+%   \int\limits_{-\infty}^{\infty} \frac{dq}{2\pi} \frac{1}{i|k| - q}
+%    \frac{d}{dq} \log K_\Omega(k, q)
+%   \ .
+% \end{equation}
+% Simplifying the integrand, one finds
+% \begin{equation}
+%   K_\Omega' = - \frac{\gamma}{\pi} \int\limits_{-\infty}^{\infty} dq
+%   \frac{q^2}{(q^2 + k^2)^2\sqrt{k^2 + q^2 + \gamma^2}}
+%   \ .
+% \end{equation}
+% This integral can be also found by changing the integration variable
+% via~$u = q / \sqrt{k^2 + q^2}$:
+% \begin{equation}
+%   K_\Omega' = - \frac{\gamma}{\pi|k|}
+%   \int\limits_{-1}^{1} \frac{u^2 du}{\sqrt{k^2 + \gamma^2 - \gamma^2 u^2}} =
+%   \frac{1}{\pi\gamma} \left[
+%        1
+%       - \frac{k^2 + \gamma^2}{\gamma|k|} \tan^{-1}\frac{\gamma}{|k|}
+%     \right]
+%     \ .
+%   \end{equation}
+
+\section{The uniform-flow limit.}
 \label{sec:k=0-limit}
 
 Uniform flows, such as Poiseuille flow, are described by the limit~$k = 0$.
