@@ -159,7 +159,7 @@ class Stokeslet(Flow):
         #print ("first term in flux:", flux)
         #flux += 1.0/self.Komega_star * self.psi_inf() 
         #print ("first two terms in flux", flux)
-        flux += - 1.0/self.Komega_star * self.psi_star()
+        flux += - 1.0/self.Komega_star * self.psi_star() * np.sign(k)
         #print ("correction: ", self.psi_star() / self.Komega_star)
         #print ("correction: ", self.psi_star1() / self.Komega_star)
         #print ("total: ", flux)

@@ -1,6 +1,45 @@
 import numpy as np
 from flows import Flow
 from cauchy import cauchy_integral_array
+from scipy import linalg
+from scipy import optimize
+
+def re_to_complex(p):
+    return p[::2] + 1j * p[1::2]
+
+def do_fit(f_fit, q, chi, n):
+
+    n_fit = 10
+    i_fit = list([t for t in range(len(q)) if t < n_fit or t > len(q) - n_fit])
+    q_fit = np.array([q[t] for t in i_fit])
+    chi_fit = np.array([chi[t] for t in i_fit])
+    #print ("i_fit", i_fit, "q_fit = ", q_fit, "chi_fit = ", chi_fit)
+    def mismatch(p):
+        #p_re = p[0::2]
+        #p_im = p[1::2]
+        #p_complex = p_re + 1j * p_im
+        return linalg.norm(f_fit(q_fit, *re_to_complex(p)) - chi_fit)**2
+
+    p0 = np.zeros((2 * n))
+    res = optimize.minimize(mismatch, p0)
+    p = res['x']
+    p_complex = re_to_complex(p)
+    print ("fit: p_opt = ", p_complex, 'mismatch:', mismatch(p))
+    print (res['message'], "success = ", res['success'])
+    #print ("res = ", res)
+    return tuple(p_complex)
+
+
+def fit_const_inv(q, chi):
+    def f_fit(q, A, B, C):
+        return A + B / q + C / q**2
+    return do_fit(f_fit, q, chi, 3)
+
+def fit_lin_const_inv(q, psi):
+    def f_fit(q, A, B, C, D):
+        return A * q + B + C / q +D / q**2
+    return do_fit(f_fit, q, psi, 4)
+    
 
 class GenericFlow(Flow):
     def __init__ (self, k,  K_up, path_up, K_dn, path_dn):
@@ -85,11 +124,65 @@ class GenericFlow(Flow):
         Komega_up = self.K_up.omega(self.q_up) 
        
         # Determine the functions chi and psi on the contours
+        #
+        #  rho_p / K_p + rho_m / K_m = chi = rho_dct / K_m
+        #
         self._chi_up = rho_dct_up / Krho_m_up
         self._chi_dn = rho_dct_dn / Krho_m_dn
+
+        # Determine the behaviour at infinity.
+        # Normally, chi should tend to zero at q->infty.
+        # If it does not, this indicates a delta-like singularity in
+        # the density.
+        #self.chi_inf  = 0.5 * (self._chi_up[0] + self._chi_up[-1])
+        self.chi_inf, B, C = fit_const_inv(self.q_up, self._chi_up)
+        self.chi_inf, B, C = fit_const_inv(self.q_up, rho_dct_up)
+        #self.chi_inf += 0.25 * (self._chi_dn[0] + self._chi_dn[-1])
+        print ("chi_inf = ", self.chi_inf)
+        #self.chi_inf = 0.0
+        #
+        # Subtract the delta-like singularity
+        #
+        self._chi_up -= self.chi_inf
+        self._chi_dn -= self.chi_inf
+
+        #
+        # The same for vorticity
+        #        
+        #  Omega_p / K_p + Omega_m / K_m = chi = Omega_dct / K_m
+        #
         self._psi_up = Omega_dct_up / Komega_m_up
         self._psi_dn = Omega_dct_dn / Komega_m_dn
 
+        #
+        # Psi should tend to const at infinity, but sometimes there is
+        # a linear term which indicates delta' contribution to Omega,
+        # i.e. a delta-like contribution to the current
+        #
+        dq_up1 = self.q_up[-1] - self.q_up[-2]
+        dpsi_lin_up1 = (self._psi_up[-1] - self._psi_up[-2]) / dq_up1
+        dq_up0 = self.q_up[1] - self.q_up[0]
+        dpsi_lin_up0 = (self._psi_up[1] - self._psi_up[0]) / dq_up0
+        dq_dn1 = self.q_dn[-1] - self.q_dn[-2]
+        dpsi_lin_dn1 = (self._psi_dn[-1] - self._psi_dn[-2]) / dq_dn1
+        dq_dn0 = self.q_dn[1] - self.q_dn[0]
+        dpsi_lin_dn0 = (self._psi_dn[1] - self._psi_dn[0]) / dq_dn0
+        #dpsi_inf  = 0.5 * (dpsi_lin_up1 + dpsi_lin_up0)
+        #dpsi_inf += 0.25 * (dpsi_lin_dn1 + dpsi_lin_dn0)
+        #dpsi_inf, psi_inf, C, D = fit_lin_const_inv(self.q_up, self._psi_up)
+        dpsi_inf, psi_inf, C, D = fit_lin_const_inv(self.q_up, Omega_dct_up)
+
+        # Subtract the delta'-function
+        self._psi_up -= dpsi_inf * self.q_up
+        self._psi_dn -= dpsi_inf * self.q_dn
+
+        # Behaviour at infinity: hard to integrate, single it out
+        #psi_inf  = 0.5 * (self._psi_up[0] + self._psi_up[-1])
+        print ("dpsi_inf = ", dpsi_inf, "psi_inf = ", psi_inf)
+        dpsi_inf = 0.0
+        psi_inf  = 0.0
+        #psi_inf += 0.25 * (self._psi_dn[0] + self._psi_dn[-1]) 
+        
         # Obtain chi+ above and chi- below
         self.chi_m_dn = - cauchy_integral_array(self.path_up,
                                                 self._chi_up, self.q_dn)
@@ -99,9 +192,8 @@ class GenericFlow(Flow):
         # automagically, so the code below may be not necessary.
         # But if chi tends to a finite limit instead, here
         # is how we subtract the relevant constant:
-        self.chi_inf = 0.0
-        self.chi_p_up -= self.chi_inf
-        self.chi_m_dn += self.chi_inf
+        #self.chi_p_up -= self.chi_inf # * 0.5
+        #self.chi_m_dn += self.chi_inf # * 0.5
 
         # Analytically continue via difference
         self.chi_m_up = self._chi_up - self.chi_p_up
@@ -109,19 +201,31 @@ class GenericFlow(Flow):
         # Needed for flux calculations
         self.chi_m_star = - cauchy_integral_array(self.path_up,
                                                   self._chi_up, -1j * abs_k)
-        self.chi_m_star += self.chi_inf
+        #self.chi_m_star += self.chi_inf
 
-        # The same with psi
+        
+
+        # The same with psi, but subtract the value at infinity
         self.psi_m_dn = - cauchy_integral_array(self.path_up,
-                                                self._psi_up, self.q_dn)
+                                                self._psi_up - psi_inf,
+                                                self.q_dn)
+        self.psi_m_dn += 0.5 * psi_inf
         self.psi_p_up =   cauchy_integral_array(self.path_dn,
-                                                self._psi_dn, self.q_up)
+                                                self._psi_dn - psi_inf,
+                                                self.q_up)
+        self.psi_p_up += 0.5 * psi_inf
 
+        
+        #self.psi_m_dn += dpsi_inf * self.q_dn
+        #self.psi_p_up -= dpsi_inf * self.q_up
         # We need to determine the constant in the WH decomposition
         # via the consistency requirement at q = i|k|. Let us find
         # psi at this point.
-        self.psi_p_star = cauchy_integral_array(self.path_up, self._psi_up,
+        self.psi_p_star = cauchy_integral_array(self.path_up,
+                                                self._psi_up - psi_inf,
                                                  1j * abs_k)
+        self.psi_p_star += 0.5 * psi_inf
+        #self.psi_p_star -=  dpsi_inf * 1j * abs_k
         # If we subtract psi* from psi+ and add it to psi-,
         # we obtain the solution with Omega* = 0.
         #
@@ -146,7 +250,9 @@ class GenericFlow(Flow):
 
         # Needed psi- (-i|k|), for the flux calculation
         self.psi_m_star = - cauchy_integral_array(self.path_up,
-                                                  self._psi_up, -1j * abs_k)
+                                                  self._psi_up - psi_inf,
+                                                  -1j * abs_k)
+        self.psi_m_star += 0.5 * psi_inf
         self.psi_m_star += self.psi_p_star
 
         # Now we can determine the vorticity and density.
@@ -181,8 +287,8 @@ class GenericFlow(Flow):
         #
         # Eqs for D+ and D- are solved automagically
         #
-        self._Dplus_dn  = 1j * J_dn
-        self._Dplus_up  = 1j * J_up
+        self._Dplus_dn  =  1j * J_dn
+        self._Dplus_up  =  1j * J_up
         self._Dminus_dn = -1j * self.gamma * self.rho_m_dn
         self._Dminus_up = -1j * self.gamma * self.rho_m_up
 
@@ -191,7 +297,9 @@ class GenericFlow(Flow):
         self._flux  = gamma * self.chi_m_star / self.Krho_star
         self._flux -= J_star * gamma_01 / (2.0 * abs_k**2) / self.Krho_star**2
         self._flux -= self.psi_m_star / self.Komega_star * np.sign(self.k)
+        #self._flux += J_star / self.Komega_star**2  # already in psi!
         self._flux -= flux_down
+        
 
         
     def wall_flux(self):
