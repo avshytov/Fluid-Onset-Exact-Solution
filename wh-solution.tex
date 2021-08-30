@@ -6,6 +6,8 @@
 \renewcommand{\Re}{\mathop{\mathrm{Re}}\nolimits}
 \renewcommand{\Im}{\mathop{\mathrm{Im}}\nolimits}
 \newcommand{\sgn}{\mathop{\mathrm{sgn}}\nolimits}
+\newcommand{\argg}{\mathop{\mathrm{arg}}\nolimits} % not needed
+\newcommand{\const}{\mathop{\mathrm{const}}\nolimits}
 \newcommand{\dct}[1]{{#1}_\mathrm{dct}}
 \captionsetup[subfigure]{justification=justified,singlelinecheck=false}
 \captionsetup{justification=centerlast,singlelinecheck=false}
@@ -327,9 +329,9 @@ also shown\cite{bib:Measuring-Psi}
 that the current distribution~${\bm j}({\bm r})$
 can be measured indirectly, by applying
 a weak magnetic field and registering the change in the local electric
-potential: $\phi_B({\bm r}) = \phi(r) - eB \psi({\bm r})$,
-where~$\psi({\bm r})$ is the stream function defined
-by~$j_x = \partial_y \psi$, $j_y= -\partial_x \psi$.
+potential: $\phi_B({\bm r}) = \phi(r) - eB \Psi({\bm r})$,
+where~$\Psi({\bm r})$ is the stream function defined
+by~$j_x = \partial_y \Psi$, $j_y= -\partial_x \Psi$.
 
 Another important probe of fluidity is provided by
 vicinity resistance measurements~\cite{bib:Bandurin, bib:Ensslin}:
@@ -792,7 +794,7 @@ Eq.~(\ref{eq:factorisation}). This yields e.g. \begin{equation}
   = - \frac{\gamma^2}{|k|(|k| - i q) K_\rho^\ast(k)}
   \ ,
   \qquad
-  \fplus{K}_{\rho}(q \approx i |k|) = - \frac{\gamma^2}{|k|(|k| + iq)
+  \fminus{K}_{\rho}(q \approx i |k|) = - \frac{\gamma^2}{|k|(|k| + iq)
     K_\rho^\ast(k)}
   \ ,
 \end{equation}
@@ -865,7 +867,7 @@ ${\bm E} = \sigma^{-1}  {\bm j} - \eta (ne)^{-2} \nabla^2 {\bm j}$,
 where~$\eta$ is the viscosity, $\sigma$ is the resistivity, $n$
 is the carrier density, and~$e$ is the elementary charge.
 This yields
-the  crossover `between the viscous and Ohmic behaviour at the
+the  crossover between the viscous and Ohmic behaviour at the
 length scale given
 by~$l_\ast = \sqrt{\eta \sigma} / ne$. In the dimensionless units
 employed throughout this paper,
@@ -992,8 +994,8 @@ by the requirement~$\fplusminus{S}_{\rho}(q\to \infty) = 0$.)
 
 In general, when particles
 are emitted by point sources, one should expect a singularity
-at the source. To single out this singularity,
-it may be also helpful to express~$\fplus{\rho}_{\bm k}$
+at the source. To single it out,
+one may express~$\fplus{\rho}_{\bm k}$
 in terms of~$\fminus{S}_\rho(k, q)$:
 \begin{equation}
   \label{eq:solution-rho-plus}
@@ -1005,14 +1007,14 @@ in terms of~$\fminus{S}_\rho(k, q)$:
   \  .
 \end{equation}
 The first two terms in this solution give the induced
-density~$\rho_\infty({\bm k})$  had the source~$\dct{\rho}(k, q)$
-been placed in an infinite space:
+density~$\rho_\infty(k, q)$  had the source~$\dct{\rho}(k, q)$
+been placed in an infinite medium:
 \begin{align}
 \rho_\infty(k, q) \equiv \frac{\dct{\rho}(k, q)}{K_\rho(k, q)}
 - \frac{2\gamma'}{k^2 + q^2} \langle J_\mathrm{ext}(k, q)\rangle\ ,
 \end{align}
  while the last two terms represent
-the effect of the wall which is expected to be regular.
+the effect of the wall which is expected to be regular near the source.
 Thus, one may write
 \begin{align}
   \delta\fplus{\rho}(k, q) = \rho_{\infty}(k, q) + \delta\rho_\mathrm{reg}(k, q)
@@ -1026,11 +1028,11 @@ where the regular part~$\delta\rho_\mathrm{reg}(k, q)$ is gven by
 \fminus{S}_\rho(k, q) + \frac{\gamma'J_\mathrm{ext}^\ast}{|k|(|k| + iq)}
 \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)}\ .
 \end{align}
-Thhus, the infinite-space solution~$\rho_\infty(k, q)$ can be found
-via a simple Fourier transform.
+The infinite-space solution~$\rho_\infty(k, q)$ can be found
+by solving the kinetic equation in the Fourier space.
 Another representation of~$\fplus{\rho}(k, q)$ can be obtained by noticing that
 the real-space singularity of~$\fplus{\rho}(x, y)$ is given by
-$\dct{\rho}(x, y)$. Singling out this term, one may write
+$\dct{\rho}(x, y)$. Singling out this term, one may also write
 \begin{align}
   \label{eq:rho-decomp}
 \fplus{\rho}(k, q) = \dct{\rho}(k, q)
@@ -1044,10 +1046,13 @@ due to rescattered particles is given by
 \dct{\rho}(k, q)
 - \frac{2\gamma' J_\mathrm{ext}(k, q)}{k^2 + q^2}\ .
 \end{align}
-The advantage of using this representation to transform the soluton
-to the real space~$(x, y)$ is that the
-form of~$\dct{\rho}(x, y)$ is often self-evident, as will be discussed
-later.
+(In the real space, this contribution exhibits a weaker logarithmic
+singularity at the current source.)
+The advantage of using the representation~(\ref{eq:drho-inf})
+%to transform the soluton
+%to the real space~$(x, y)$
+is that the form of~$\dct{\rho}(x, y)$ in the real space
+is often self-evident, as will be discussed later.
 
 We now see that the density behaviour both above and below the
 boundary is described in terms of a single unknown
@@ -1062,9 +1067,10 @@ the decomposition~(\ref{eq:chi-def})  can be achieved via the Cauchy integral:
 in which one may shift the contour to the upper half-space so that
 it encloses the pole at~$q = i |k|$ and the cut originating
 at~$q = i \kappa$, see Fig.\ref{fig:contours}.
-For the boundary sources, however, it can be found by inspecting
-the relevant quantities as will be discussed,
-see Secs.~\ref{sec:diffuse} and~\ref{sec:boundary-src}.
+For the boundary sources, however, it can be found by inspecting the
+complex-analytic properties of 
+the source~$\dct{\rho}(k, q)$ as will be
+shown in Secs.~\ref{sec:diffuse} and~\ref{sec:boundary-src}.
 %The integral can be transformed by pulling the contour into the upper half-plane
 %so that it encloses the pole of $1/\fminus{K}_\rho$ at~$q' = i|k|$ and the branch
 %cut from~$q' = i \kappa$ to~$+i\infty$:
@@ -1151,8 +1157,9 @@ and the regular term
 Here we absorbed the constant~$S_\Omega^\ast(k)$
 into the function~$\fminus{S}_\Omega$ by introducing
 ${\tilde S}_\Omega(k, q) = \fminus{S}_\Omega(k, q) + S_\omega^\ast(k)$.
-The latter can be obtained as a difference of  two  Cauchy integrals.
-This yields
+The latter can be obtained as a difference between  the
+respective Cauchy integrals:
+%This yields
 \begin{align}
   \label{eq:solution-psi}
   {\tilde{S}}_\Omega(k, q) = \int\limits_{-\infty}^{\infty}
@@ -1216,6 +1223,7 @@ This can be seen from the Wiener-Hopf equations: the extra sources
 would give rise to an extra contribution to $\dct{\rho}({\bm k})$
 and~$\Omega_\mathrm{dct}({\bm k})$:
 \begin{align}
+  \label{eq:extra-sources}
 \Delta \dct{\fminus{\rho}}({\bm k}) =
 \int\limits_{-\pi}^{0} \frac{\fminus{J}_k(\alpha)}{\gamma - i {\bm k}\cdot{\bm v}}
 \frac{d\alpha}{2\pi}\ ,
@@ -1225,12 +1233,12 @@ and~$\Omega_\mathrm{dct}({\bm k})$:
             \gamma - i {\bm k}\cdot{\bm v}}
 \frac{d\alpha}{2\pi}\ .
 \end{align}
-(These contributions are indeed complex-analytic in the lower half-plane,
-as all the poles of the integrand lie in the upper half plane.)
-The extra sources can be easily incorporated
-into the solution by a trivial  shift: $\fminus{\rho}({\bm k})
-\to \fminus{\rho}({\bm k}) + \Delta\dct{\fminus{\rho}}({\bm k})$, etc,
-so that the physial distributions at $y \geq 0$ are unaffected.
+These contributions are indeed complex-analytic in the lower half-plane
+as all the poles of the integrand lie in the upper half plane.
+Thus, the extra sources~(\ref{eq:extra-sources}) can be easily incorporated
+into the solution by making a trivial  shift: $\fminus{\rho}({\bm k})
+\to \fminus{\rho}({\bm k}) + \Delta\dct{\fminus{\rho}}({\bm k})$ etc,
+which does not affect the distributions at $y \geq 0$.
 However, such a change modifies the expression for the down-going flux
 due to the particles produced by the source. This yields
 the expression for the flux~$\Phi_{k}$ that should be employed
@@ -1263,15 +1271,19 @@ see in the following two sections.
 %The relations presented in the previous section
 %are significantly simplified for diffuse scattering contribution
 We can now discuss the explicit form of the diffuse contribution.
-To this end, we extend the source antisymmetrically to down-going angles,
-writing the source in the form
-$J_{s}(\alpha, x, y) =  f_s(x) \sin\alpha \delta(y)$.
+To this end, we extend the Lambertian
+source antisymmetrically to down-going angles,
+writing the source in Eq.~(\ref{eq:boltzmann-main}) the form
+$J_{s}(\alpha, x, y) =  f_s(x) \sin\alpha \delta(y)$,
+which is rewritten in the Fourier space
+as~$J_{s}(\alpha, k, q) = f_s(k) \sin\alpha$. 
 Evaluating the integrals~(\ref{eq:rho-direct}) and~(\ref{eq:omega-direct}),
 one may express the results in terms of the kernels~$K_{\rho, \Omega}(k, q)$:
 \begin{align}
 \dct{\rho}^\mathrm{(diff)}(k, q) = \frac{iq f_s(k)}{k^2 + q^2} K_\rho(k, q)\ ,
 \qquad
-\dct{\Omega}^\mathrm{(diff)}(k, q) = \frac{k f_s(k)}{2\gamma'} \left[1 - K_\Omega(k, q)\right] \ .
+\dct{\Omega}^\mathrm{(diff)}(k, q)
+  = \frac{k f_s(k)}{2\gamma'} \left[1 - K_\Omega(k, q)\right] \ .
 \end{align}
 The extra flux~$\Delta\Phi_{k}$
 supplied by the extended source in the downward direction
@@ -1321,7 +1333,7 @@ Thus, one finds for the physical density and vorticity:
   \rho^\mathrm{(diff)}(k, q) &= f_s(k) \rho_s(k, q)\ ,
                                \qquad \rho_s(k, q) \equiv
   \left[\frac{iq}{q^2 + k^2} + \frac{1}{2(|k| + iq)}
-   \frac{\fplus{K}_{+}(k, q)}{K_\rho^\ast(k)}
+   \frac{\fplus{K}_{\rho}(k, q)}{K_\rho^\ast(k)}
   \right]
   \ , \\
   \label{eq:omega-s}
@@ -1421,7 +1433,7 @@ yields, with the help of Eq.(\ref{eq:angular-integrals}):
   \qquad
   \dct{\Omega}(k, q) = 0\ .
 \end{align}
-The external current distribution is of course
+The external current distribution is
 given by~$\langle J_\mathrm{ext}(k, q) \rangle = I_0$.
 %\end{align}
 The functions~$\fplusminus{S}_\rho(k, q)$ can be determined from
@@ -1448,17 +1460,29 @@ to the density in Eq.(\ref{eq:rho-decomp}) takes the form
   \delta\rho_\infty(k, q) + \delta\rho_\mathrm{reg}(k, q) =
   \frac{\gamma' I_0}{|k|(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{
   K^\ast_{\rho}(k)}
-  - \frac{2\gamma'}{k^2 + q^2}
+  - \frac{2\gamma' I_0}{k^2 + q^2}
   + I_0 \left[K_\rho(k, q) + \fplus{K}_\rho(k, q) - 2\right] \ .
 \end{align}
 As before, we have subtracted the singular direct-flight contribution,
-which takes a particularly simple form in the real space:
+which can be obtained by noticing that the particles isotropically emitted by
+the source propagate along straight lines and becoming extinct due
+to the decay rate~$\gamma$. Hence their distribution is given by
+\begin{align}
+  \label{eq:f-direct}
+  \dct{f}({\bm r}, \alpha) = \frac{2I_0}{|{\bm r}|} e^{-\gamma|{\bm r}|}
+  \delta \left[\alpha - \arg({\bm r})\right]\ , 
+\end{align}
+where~$\arg({\bm r}) \equiv \tan^{-1}(y/x)$ is the polar angle.
+The resulting space-charge distribution  
+% takes a particularly simple form in the real space:
+is given by
 \begin{align}
   \label{eq:rho-direct-edge}
-  \dct{\rho}({\bm r}) = \frac{I_0}{\pi|{\bm r}|} e^{-\gamma |{\bm r}|}\ .
+  \dct{\rho}({\bm r}) = \left\langle \dct{f}({\bm r}, \alpha) \right\rangle
+  = \frac{I_0}{\pi|{\bm r}|} e^{-\gamma |{\bm r}|}\ .
 \end{align}
-This relation describes radial propagation of particles emitted from
-the current source~$2I_0$ decaying with rate~$\gamma$.
+%This relation describes radial propagation of particles emitted from
+%the current source~$2I_0$ decaying with rate~$\gamma$.
 
 The vorticity equation is trivial, so that~$\fplusminus{S}_\Omega(k, q) = 0$,
 and the vorticity in Eq.~(\ref{eq:solution-omega-plus}) includes
@@ -1532,7 +1556,7 @@ while the ohmic relaxation ($\gamma''$) backscatter particles.
 The~$1/|k|$ behaviour describes logarithmic divergence in the
 respective fluxes.
 
-\section{Self-consistent solution for the vicinity resistance geometry}
+\section{The self-consistent solution for the vicinity-resistance geometry}
 \label{sec:vicinity}
 
 We are now ready to derive self-consistent solution to current-injection
@@ -1553,6 +1577,7 @@ self-consistently, via
 \end{equation}
 which yields
 \begin{equation}
+  \label{eq:fs}
   f_{s}(k) = \frac{\pi \Phi_I(k) I_0}{1 - \pi \Phi_s(k)}
   \ .
 \end{equation}
@@ -1601,25 +1626,25 @@ defined by~${\bm j} = \nabla \times \Psi$. The
 contribution of divergence~$D_{\bm k}$ is simply an isotropic
 radial current emitted by the source. Such a flow is described
 by the multivalued stream
-function~$\Psi_\mathrm{rad}(x, y) = I_0 \pi^{-1}\tan^{-1} \frac{y}{x}$.
+function~$\Psi_\mathrm{rad}(x, y) = I_0 \pi^{-1}\arg(x, y)$.
 The charge-conserving
 contribution of~$\Omega(k, q)$ can be rewritten in terms of
 the respective stream function~$\Psi_\Omega(x, y)$
 defined via~${\bm j} = \nabla \times \Psi$ if one defines
 the Fourier image~$\Psi_\Omega(k, q)$ via
 $i\Omega(k, q) = \Psi(k, q)(k^2 + q^2)$. Altogether, we find
-the stream function~$\Psi({\bm r})$ in the form
+the stream function~$\Psi(x, y)$ in the form
 \begin{align}
-  \Psi({\bm r}) = \frac{I_0}{\pi} \tan^{-1}\frac{y}{x}
-  + i\int\limits_{-\infty}^{\infty} \frac{dk e^{-ikx}}{2\pi}
+  \Psi(x, y) = \frac{I_0}{\pi} \arg(x, y)
+  + i\int\limits_{-\infty}^{\infty} \frac{dk\, e^{-ikx}}{2\pi}
   \oint\limits_{C+} \frac{dq}{2\pi} \frac{e^{-iqy}}{q^2 + k^2}
   \left[\Omega_{I, \mathrm{reg}}(k, q)
   + f_s(k) \Omega_{s}(k, q) \right]\ .
 \end{align}
-Finally, the voltage~$V(x_P)$ on the probe attached to the edge at~$x = x_P$
+Finally, the voltage~$V(x)$ on the probe attached to the edge at position~$x$
 is given by
 \begin{align}
-  V(x_P) =  \int\limits{-\infty}^{\infty} \frac{dk}{2\pi} f_s(k) e^{-ik x_P}
+  V(x) =  \int\limits_{-\infty}^{\infty} \frac{dk}{2\pi} f_s(k) e^{-ik x}
   \ .
 \end{align}
 %The current distribution can be also employed to obtain the stream
@@ -1633,12 +1658,13 @@ is applicable. To extract these behaviours, we analyse
 the function~$f_s(k)$ in the both limits.
 %Let us analyse the behaviour of the function~$f_s(k)$.
 At large distances, $k\to 0$,
-Eqs.(\ref{eq:phi-I-low}) and~(\ref{eq:phi-s-low}) give
+substituting Eqs.(\ref{eq:phi-I-low}) and~(\ref{eq:phi-s-low})
+into Eq.(\ref{eq:fs}) yields
 the expansion
 \begin{equation}
   \label{eq:fs-k=0}
   \frac{f_{s, k}}{I_0}
-  = \frac{\gamma''}{|k|} +
+  = \frac{\gamma''}{|k|} 
   % \frac{2}{\pi} + 1 - 2 \sqrt{2}
   - C_0
   + \frac{|k|}{\gamma}
@@ -1648,8 +1674,7 @@ the expansion
   \ ,
 \end{equation}
 with~$C_0 = 2\sqrt{2} - 1 - 2/\pi \approx 1.192$,
-$C_2 = 0.7065$. (The expression for~$C_2$ is rather cumbersome,
-so we do not present it here.)
+$C_2 \approx 0.7065$. (We omit a cumbersome expression for~$C_2$.)
 Thus, finite ohmic relaxation rate
 always dominates at the longest
 distances, which is expected. In a medium with conductivity~$\sigma$,
@@ -1676,7 +1701,7 @@ so we ignore it here and discuss its role later in this Section.
 The linear term~$|k|/\gamma$ defines the behaviour
 of~$V(x)$ in real space at large distances:
 \begin{align}
-  V(x \gg l_\mathrm{ee}) \approx - \frac{I_0}{\pi \gamma x^2}\ ,
+  V(\gamma x \gg 1) \approx - \frac{I_0}{\pi \gamma x^2}\ ,
 \end{align}
 %$f_s(|x| \gg l_\mathrm{ee}) \approx -I_0/(\pi \gamma x^2)$. This
 %reproduces, both qualitatively and quantitatively, the viscous
@@ -1701,11 +1726,11 @@ negative as its gradient must compensate the drag force acting
 upon the stationary fluid at the no-slip edge from the moving fluid
 away from the edge. 
 This comparison demonstrates that our solution faithfully
-reproduces the hydrodynamical limit in purely ohmic case.
+reproduces the hydrodynamical limit in the purely viscous case.
 For weak momentum relaxation rate, $\gamma'' \ll \gamma$,
 the viscous term~$|k|/\gamma$ dominates over the ohmic term
-$\gamma''/|k|$ at length scales~$x \ll (\gamma \gamma'')^{-1/2}$.
-The next-order term, $-C_2 (k/\gamma)^2$ yields a contribution
+$\gamma''/|k|$ at length scales~$x \sim k^{-1} \ll (\gamma \gamma'')^{-1/2}$.
+The next-order term, $-C_2 (k/\gamma)^2$, yields a contribution
 $\propto x^{-3}$, which represents the lowest-order
 correction to the viscous flow and can be partially attributed
 to the finite slip length~$l_\mathrm{slip} = 2/\pi \gamma^{-1}$
@@ -1716,7 +1741,7 @@ of the carrier distribution.
 Let us now discuss the short-distance behaviour.
 At large~$k$, the expansion yields
 $f_{s}(k) \approx (\gamma'' - \gamma') / |k|$, which yields
-the log-divergent negative probe potential
+the negative log-divergent probe potential
 \begin{align}
   V(x) = \frac{\gamma'' - \gamma'}{\pi} \log(\gamma |x|)\ .
 \end{align}
@@ -1724,10 +1749,10 @@ which
 reproduces the flux due to backscattered holes analysed
 in~\cite{bib:Shytov-et-al} within  the single-collision approximation.
 We note that the ballistic contribution probed by an edge contact
-remains negative for~$\gamma'' < 1/2 \gamma$, i.e. even in the
+remains negative for~$\gamma'' <  \gamma / 2$, i.e. even in the
 regime where ohmic relaxation is strong, and one cannot observe
 fluidity in the bulk. 
-We see therefore that the exac solution obtained here reproduces
+We see therefore that the exact solution obtained here reproduces
 impeccably all important  limiting behaviours, and hence provides
 a comprehensive description of fluidity onset in this geometry
 valid at all scales.
@@ -2106,7 +2131,8 @@ the pole at~$q' = i |k|$ and the branch cut, as shown in Fig.~\ref{fig:contours}
 Evaluating the flux as usual, we write
 \begin{equation}
   \Phi_F(k) = \frac{\gamma}{2|k|}\frac{i F_x \sgn k - F_y}{\left[K_\rho^\ast(k)\right]^2}
-  e^{-|k| h} - \frac{1}{K_\Omega^\ast(k)} \left[\fminus{S}_\Omega(k, -i|k|) + S_\Omega^\ast(k)\right]
+  e^{-|k| h} - \frac{\sgn k}{K_\Omega^\ast(k)}
+  \left[\fminus{S}_\Omega(k, -i|k|) + S_\Omega^\ast(k)\right]
   \ .
 \end{equation}
 This expression can be rewritten as
