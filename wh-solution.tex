@@ -90,7 +90,7 @@ equations for an arbitrary source configuration.
 %In Sec.~\ref{sec:sources} we derive
 %representing different configurations of interest,
 %and discuss their properties that facilitate solving the WH problem.
-We then analyse in detail several sources of physical interest. 
+We then analyse in detail several sources of physical interest.
 The explicit form of the contributions of the secondary
 Lambertian source is derived in Sec.~\ref{sec:diffuse}.
 In Sec.~\ref{sec:boundary-src} we construct a solution describing current
@@ -100,7 +100,7 @@ is obtained and discussed in Sec.~\ref{sec:vicinity}.
 Current and momentum injection in the bulk
 are analysed in Secs.~\ref{sec:bulk-src} and~\ref{sec:stokeslet}, respectively.
 Conclusions and outlook are given in Sec.~\ref{sec:conclusion}.
-Technical details are also discussed in Appendices. 
+Technical details are also discussed in Appendices.
 
 
 \section{The model and its kinetic equation}
@@ -1068,7 +1068,7 @@ in which one may shift the contour to the upper half-space so that
 it encloses the pole at~$q = i |k|$ and the cut originating
 at~$q = i \kappa$, see Fig.\ref{fig:contours}.
 For the boundary sources, however, it can be found by inspecting the
-complex-analytic properties of 
+complex-analytic properties of
 the source~$\dct{\rho}(k, q)$ as will be
 shown in Secs.~\ref{sec:diffuse} and~\ref{sec:boundary-src}.
 %The integral can be transformed by pulling the contour into the upper half-plane
@@ -1276,7 +1276,7 @@ source antisymmetrically to down-going angles,
 writing the source in Eq.~(\ref{eq:boltzmann-main}) the form
 $J_{s}(\alpha, x, y) =  f_s(x) \sin\alpha \delta(y)$,
 which is rewritten in the Fourier space
-as~$J_{s}(\alpha, k, q) = f_s(k) \sin\alpha$. 
+as~$J_{s}(\alpha, k, q) = f_s(k) \sin\alpha$.
 Evaluating the integrals~(\ref{eq:rho-direct}) and~(\ref{eq:omega-direct}),
 one may express the results in terms of the kernels~$K_{\rho, \Omega}(k, q)$:
 \begin{align}
@@ -1354,7 +1354,7 @@ the scattered flux is, according to Eq.(\ref{eq:flux-rho-Omega}),
 \end{align}
 We rewrite this as~$f_s(k) \Phi_s(k)$, where
 \begin{align}
-  \Phi_s(k) &\equiv 
+  \Phi_s(k) &\equiv
                        \frac{1}{\pi}
    - \frac{\gamma}{4|k| \left[K_\rho^\ast(k)\right]^2}
                 - \frac{|k|}{2\gamma'}
@@ -1402,10 +1402,10 @@ $f' \to f' + \delta\mu$, $f_s \to f_s +  \delta\mu$. This causes
 %a proportional increase in the flux: $\Phi \to \Phi + \delta\mu/\pi$.
 In the opposite limit, $k \gg \gamma$, one
 may use Eq.(\ref{eq:kstar-k=inf}), writing~$K^\ast_\rho(k) \approx 1$,
-$K_\Omega^\ast(k) \approx 1 + 2\gamma'/|k|$, 
+$K_\Omega^\ast(k) \approx 1 + 2\gamma'/|k|$,
 so that~$\Phi(k \to\infty) = - 1/\pi$.
 The change in sign reflects that the excitation scattered back via a single
-collision event arrives as a hole rather than a particle. 
+collision event arrives as a hole rather than a particle.
 %At short distances, $k \gg \gamma$, one finds~$\Phi_s(k\to0) \approx - 1/\pi$,
 %which represents single-collision backscattering.
 
@@ -1428,7 +1428,7 @@ yields, with the help of Eq.(\ref{eq:angular-integrals}):
 \begin{align}
   \label{eq:I-src-rho-omega}
   \dct{\rho}(k, q) = \frac{2I_0}{\sqrt{\gamma^2 + k^2 + q^2}} =
-  \frac{\dct{\rho}(k, q)}{\fminus{K}_\rho(k, q)} = 
+  \frac{\dct{\rho}(k, q)}{\fminus{K}_\rho(k, q)} =
   \frac{2I_0}{\gamma} \left[1 - K_\rho(k, q)\right]\ ,
   \qquad
   \dct{\Omega}(k, q) = 0\ .
@@ -1470,10 +1470,10 @@ to the decay rate~$\gamma$. Hence their distribution is given by
 \begin{align}
   \label{eq:f-direct}
   \dct{f}({\bm r}, \alpha) = \frac{2I_0}{|{\bm r}|} e^{-\gamma|{\bm r}|}
-  \delta \left[\alpha - \arg({\bm r})\right]\ , 
+  \delta \left[\alpha - \arg({\bm r})\right]\ ,
 \end{align}
 where~$\arg({\bm r}) \equiv \tan^{-1}(y/x)$ is the polar angle.
-The resulting space-charge distribution  
+The resulting space-charge distribution
 % takes a particularly simple form in the real space:
 is given by
 \begin{align}
@@ -1603,6 +1603,7 @@ Keeping in mind that the electric potential in the bulk is
 proportional to the induced density, we write, in dimensionless
 units:
 \begin{align}
+  \label{eq:rho-final}
   \phi({\bm r}) = \frac{I_0}{\pi |{\bm r}|} e^{-\gamma |{\bm r}|}
   + \int\limits_{-\infty}^{\infty} \frac{dk e^{-ikx}}{2\pi}
   \oint\limits_{C+} \frac{dq}{2\pi} e^{-iqy}
@@ -1612,7 +1613,7 @@ units:
 
 To determine the current distribution, we use vorticity~$\Omega(k, q)$
 which is a linear combination of the isotropic and diffuse flows found
-above: 
+above:
 \begin{equation}
   \Omega(k, q) = \Omega_{I}(k, q) + f_{s}(k) \Omega_{s}(k, q)
 \ ,
@@ -1635,6 +1636,7 @@ the Fourier image~$\Psi_\Omega(k, q)$ via
 $i\Omega(k, q) = \Psi(k, q)(k^2 + q^2)$. Altogether, we find
 the stream function~$\Psi(x, y)$ in the form
 \begin{align}
+\label{eq:psi-final}
   \Psi(x, y) = \frac{I_0}{\pi} \arg(x, y)
   + i\int\limits_{-\infty}^{\infty} \frac{dk\, e^{-ikx}}{2\pi}
   \oint\limits_{C+} \frac{dq}{2\pi} \frac{e^{-iqy}}{q^2 + k^2}
@@ -1664,7 +1666,7 @@ the expansion
 \begin{equation}
   \label{eq:fs-k=0}
   \frac{f_{s, k}}{I_0}
-  = \frac{\gamma''}{|k|} 
+  = \frac{\gamma''}{|k|}
   % \frac{2}{\pi} + 1 - 2 \sqrt{2}
   - C_0
   + \frac{|k|}{\gamma}
@@ -1719,12 +1721,12 @@ is expected~\cite{bib:Levitov-Falkovich} to behave as
 \begin{align}
   \phi(x\gg l_\mathrm{ee})
   \approx V(x) \approx - \frac{2}{\pi} \frac{I_0 \eta}{(ne)^2}
-  \frac{1}{x^2}\ . 
+  \frac{1}{x^2}\ .
 \end{align}
 if one assumes no-slip condition at the wall. The potential is
 negative as its gradient must compensate the drag force acting
 upon the stationary fluid at the no-slip edge from the moving fluid
-away from the edge. 
+away from the edge.
 This comparison demonstrates that our solution faithfully
 reproduces the hydrodynamical limit in the purely viscous case.
 For weak momentum relaxation rate, $\gamma'' \ll \gamma$,
@@ -1751,7 +1753,7 @@ in~\cite{bib:Shytov-et-al} within  the single-collision approximation.
 We note that the ballistic contribution probed by an edge contact
 remains negative for~$\gamma'' <  \gamma / 2$, i.e. even in the
 regime where ohmic relaxation is strong, and one cannot observe
-fluidity in the bulk. 
+fluidity in the bulk.
 We see therefore that the exact solution obtained here reproduces
 impeccably all important  limiting behaviours, and hence provides
 a comprehensive description of fluidity onset in this geometry
@@ -1989,6 +1991,7 @@ unsuitable for numerical calculations. To resolve this difficulty, one can
 transform the integration contour by pulling it to
 the upper half-plane~$\Im q > 0$, as shown in Fig.~\ref{fig:contours}.
 Interestingly, the pole contribution cancels the first term in Eq.(\ref{eq:phi-j-prev}) in the purely viscous case ($\gamma = \gamma'$).
+
 
 {\bf ANALYZE/COMMENT on non-cancelling case?}
 
@@ -2394,7 +2397,7 @@ satisfies the identity
   F_m(k, q) + F_m(k, -q) = \frac{1 - K_\rho(k, q)}{\gamma} \ ,
   %\qquad
 \end{align}
-in which the right-hand side describes a fully isotropic current source, 
+in which the right-hand side describes a fully isotropic current source,
 cf. Eq.(\ref{eq:I-src-rho-omega}), while the two terms on the
 left-hand side describe upward-going and downward-going particles.
 The function~$F_m(k, -q)$ is complex-analytic in the lower half-plane.
@@ -2544,7 +2547,7 @@ matching Eq.(\ref{eq:phi-s-low}).
 The Wiender-Hopf equations are solved in the same manner as before.
 The function~$\fminus{\rho}(k, q)$ acquires an extra contribution
 $\Delta \fminus{\rho}(k, q) = f_s F_\rho(k, -q)$, while
-the function~$\fplus{\rho}(k, q)$ is again determined 
+the function~$\fplus{\rho}(k, q)$ is again determined
 by Eq.~(\ref{eq:rho-s}). Similarly, $\fplus{\Omega}(k, q)$
 remains the same as in Eq.(\ref{eq:omega-s}),
 while $\fminus{\Omega}(k, q)$
@@ -2557,7 +2560,7 @@ The respective change in flux is given by
 \end{align}
 Using Eqs.(\ref{eq:source-frho-def})
 and(\ref{eq:source-diff-omega}),
-this expression simplifies to~$f_s(k) / \pi$. 
+this expression simplifies to~$f_s(k) / \pi$.
 
 
 
@@ -2681,13 +2684,13 @@ the product of two instances of~$\mathcal{K}_\alpha(q)$:
   \label{eq:appA-representation}
   K_\rho(k, q) = \mathcal{K}_\gamma(q)\ , \qquad
   K_\Omega(k, q) = \frac{q^2 + \kappa^2}{q^2 + k^2}\,
- \mathcal{K}_{\gamma}(q) \mathcal{K}_{\gamma' - \gamma''}(q)\ , 
+ \mathcal{K}_{\gamma}(q) \mathcal{K}_{\gamma' - \gamma''}(q)\ ,
 \end{align}
 so that
 \begin{align}
-  \fplus{K}_\Omega(k, q) = \frac{q + i|k|}{q + i \kappa}\, 
+  \fplus{K}_\Omega(k, q) = \frac{q + i|k|}{q + i \kappa}\,
   \fplus{\mathcal{K}}_\gamma(q)\,
-  \fplus{\mathcal{K}}_{\gamma' - \gamma''}(q)\ . 
+  \fplus{\mathcal{K}}_{\gamma' - \gamma''}(q)\ .
 \end{align}
 The kernel~$\mathcal{K}_\alpha(q)$ has a zero at~$q = i {\tilde \kappa}$,
 with~${\tilde \kappa} = \sqrt{\kappa^2 - \alpha^2}$.
@@ -2725,7 +2728,7 @@ into primitive fractions:
   \frac{q^2 dq}{(q^2 + s^2) (q^2 + \kappa^2)
   (q^2 + {\tilde{\kappa}^2)}} =
   -\frac{\alpha^2}{2(\kappa + s) ({\tilde{\kappa}} + s)
-  (\kappa + {\tilde\kappa})}\ . 
+  (\kappa + {\tilde\kappa})}\ .
 \end{align}
 The second term can be recast as a difference between
 two integrals of a similar structure:
@@ -2734,7 +2737,7 @@ two integrals of a similar structure:
   \int\limits_{-\infty}^{\infty}
   \frac{dq}{\sqrt{q^2 + \kappa^2}}
   \left[\frac{s^2}{q^2 + s^2}
-  - \frac{\tilde{\kappa}^2}{q^2 + {\tilde\kappa}^2}\right]\ . 
+  - \frac{\tilde{\kappa}^2}{q^2 + {\tilde\kappa}^2}\right]\ .
 \end{align}
 The integration is facilitated by changing the variable
 via~$q = \kappa \sinh t$ and then~$v = \tanh t$,
@@ -2744,19 +2747,19 @@ which yields
 %a standard integral:
 %\begin{align}
 %  \int\limits_{-\infty}^{\infty} \frac{s^2 dq}{\sqrt{q^2 + \kappa^2} (q^2 + s^%2)} =
-%  \int\limits_{-1}^{1} \frac{sdu}{\sqrt{\kappa^2 - (\kappa^2 - s^2) u^2}}\ . 
+%  \int\limits_{-1}^{1} \frac{sdu}{\sqrt{\kappa^2 - (\kappa^2 - s^2) u^2}}\ .
 %\end{align}
 %Eventually, one finds
 \begin{align}
   \label{eq:dK-ds-final}
   \frac{d}{ds} \log \fplus{\mathcal{K}}_{\alpha}(is) =
-  \frac{1}{2}\frac{d}{ds} \log\frac{s + \kappa}{s + \tilde{\kappa}} 
+  \frac{1}{2}\frac{d}{ds} \log\frac{s + \kappa}{s + \tilde{\kappa}}
   %-\frac{\kappa - {\tilde{\kappa}}}{2(\kappa + s) ({\tilde{\kappa}} + s)}
   - \frac{\alpha}{\pi (s^2 -\tilde{\kappa}^2)}
   \left[\frac{s}{\sqrt{\kappa^2 - s^2}} \cos^{-1}\frac{s}{\kappa}
   - \frac{{\tilde{\kappa}}}{\alpha}
   \sin^{-1}\frac{\alpha}{\kappa}\right]
-  \ . 
+  \ .
 \end{align}
 %At the singularity~$s = {\tilde\kappa}$, this reduces to
 %\begin{align}
@@ -2777,7 +2780,7 @@ differentiates it with respect to~$\alpha$:
   = \int\limits_{-\infty}^{\infty}
   \frac{s (\alpha + \sqrt{q^2 + \kappa^2})}{
   \left(q^2 + {\tilde \kappa}\right)(q^2 + s^2)} \frac{dq}{2\pi}
-  \ .  
+  \ .
 \end{align}
 The integrals can be computed as before, and one finds
 %be computed via the substitution~$q = \kappa \sinh t$,
@@ -2790,8 +2793,27 @@ The integrals can be computed as before, and one finds
   \left[
   \frac{\sqrt{\kappa^2 - s^2}}{s} \cos^{-1}\frac{s}{\kappa}
   - \frac{\alpha}{\tilde{\kappa}} \sin^{-1}\frac{\alpha}{\kappa}
-  \right]\ . 
+  \right]\ .
 \end{align}
+At~$\alpha = 0$, $\fplus{\mathcal{K}}_\alpha(is) = 0$, and one can
+obtain the kernel by integrating Eq.(\ref{eq:dK-da-final}) over~$\alpha$
+starting from~$\alpha = 0$.
+Employing the relation~$\tilde{\kappa}d\tilde{\kappa}  = - \alpha d\alpha$,
+one obtains a representation of the kernel
+\begin{align}
+\label{eq:logK-integral}
+\log \fplus{K}_\alpha(is) &=
+\frac{1}{2} \log\frac{s + \kappa}{s + \tilde{\kappa}}
++ \frac{1}{\pi} \cos^{-1}\frac{s}{\kappa}
+     \tanh^{-1}\frac{\alpha}{\sqrt{\kappa^2 - s^2}}
+-\frac{1}{\pi} \sin^{-1}\frac{\alpha}{\tilde{\kappa}}
+     \tanh^{-1} \frac{s}{\tilde{\kappa}}
+\\\nonumber
+&+ \frac{1}{\pi}\int\limits_{0}^{\alpha}
+     \tanh^{-1}\frac{s}{\sqrt{\kappa^2 - \beta^2}}
+      \frac{d\beta}{\sqrt{\kappa^2 - \beta^2}}\ .
+\end{align}
+
 %Evaluating this at~$s = {\tilde{\kappa}}$, one finds
 %\begin{align}
 %  \left.\frac{d}{d\alpha}\log \fplus{\mathcal{K}}_{\alpha}
@@ -2799,19 +2821,18 @@ The integrals can be computed as before, and one finds
 %  = \frac{\alpha}{4{\tilde{\kappa}}}
 %  + \frac{\kappa^2}{2\pi \alpha \tilde{\kappa}^2}
 %  \sin^{-1}\frac{\alpha}{\kappa} + \frac{1}{2\pi \tilde{\kappa}}
-%  \ . 
+%  \ .
 %\end{align}
-At~$\alpha = 0$, $\fplus{\mathcal{K}}_\alpha(is) = 0$, and one can
-obtain the kernel by integrating Eq.(\ref{eq:dK-da-final}) over~$\alpha$
-starting from~$\alpha = 0$.
 
 These representations can be employed to find the
 value~$\mathcal{K}_\alpha^\ast$  of~$\mathcal{K}_\alpha^\ast(q)$
-at~$s = i\tilde{\kappa}$. To this end,
-we consider its derivative with respect to~$\alpha$. Since the position
-of the singularity moves when~$\alpha$ is varied, the derivative
+at~$s = i\tilde{\kappa}$. Instead of applying the general relations,
+it is more convenient to consider the change of this quantity
+under a change in~$\alpha$. Since the position
+of the singularity moves when~$\alpha$ is varied, the derivative of
+$\log \fplus{K}_\alpha(i \tilde{\kappa})$
 can be found by first differentiating the expression over~$\alpha$
-at fixed position, 
+at fixed position,
 and then over~$s$ to accomodate for the change in position:
 \begin{align}
   \label{eq:appA-two-contribs}
@@ -2850,7 +2871,7 @@ Evaluating Eqs.(\ref{eq:dK-da-final}) and~(\ref{eq:dK-ds-final}), one finds
   \right|_{s = {\tilde\kappa}}
   &= \frac{\alpha}{4{\tilde\kappa}^2}
   + \frac{\kappa^2}{2\pi\alpha{\tilde\kappa}^2} \sin^{-1}\frac{\alpha}{\kappa}
-  + \frac{1}{2\pi{\tilde\kappa}}\ , \\ 
+  + \frac{1}{2\pi{\tilde\kappa}}\ , \\
 %\end{align}
 %At the singularity~$s = {\tilde\kappa}$, this reduces to
 %\begin{align}
@@ -2871,7 +2892,7 @@ one may reduce Eq.~(\ref{eq:appA-two-contribs}) to the form
   \frac{d}{d\alpha} [\log \mathcal{K}_\alpha^\ast] =
   \frac{\alpha}{2{\tilde\kappa}^2} \frac{\kappa}{(\kappa + {\tilde\kappa})}
   + \frac{\kappa^2}{\pi\alpha{\tilde\kappa}^2} \sin^{-1}\frac{\alpha}{\kappa}
-  \  , 
+  \  ,
 \end{align}
 which can be integrate over~$\alpha$.
 The first term is evaluated via elementary methods:
@@ -2917,7 +2938,7 @@ in an alternative form:
   = \frac{1}{2}\log\frac{
   \alpha(\kappa + \sqrt{\kappa^2 - \alpha^2})}{
    2(\kappa^2 - \alpha^2)}
-  + \int\limits_{0}^{1/x_\alpha}\frac{dx}{\pi x} \tan^{-1} x\ , 
+  + \int\limits_{0}^{1/x_\alpha}\frac{dx}{\pi x} \tan^{-1} x\ ,
 \end{align}
 which is more suitable if~$x_\alpha \gg 1$.
 
@@ -2929,7 +2950,7 @@ Let us now apply the results of the previous section
 to kernels~$K_\rho(k, q)$
 and~$K_\omega(k, q)$.
 We begin by considering the long-wavelength limit, $|k|\ll \gamma$,
-which corresponds to hydrodynamical behaviour. 
+which corresponds to hydrodynamical behaviour.
 Applying Eq.(\ref{eq:Ka-star-alt}) to
 the representation~(\ref{eq:appA-representation})
 one finds for the density kernel
@@ -2978,12 +2999,12 @@ at~$\tilde{\kappa} = \sqrt{k^2 + 4\gamma' \gamma''}$.
 For small~$\gamma''$, the change
 in $\log \mathcal{K}_{\gamma' - \gamma''}(is)$ can be
 written in terms of the logarithmic derivative given by
-Eq.(\ref{eq:appA-2nd-half}). 
+Eq.(\ref{eq:appA-2nd-half}).
 %\begin{align}
 %  \log \mathcal{K}_{\gamma' - \gamma''}(k, i|k|)
 %  = \log\mathcal{K}_{\gamma' - \gamma''}^\ast(k)
 %  + (k - \tilde{\kappa})
-%  \frac{d}{ds} \log \mathcal{K}_{\gamma' - \gamma''}(k, is) \ . 
+%  \frac{d}{ds} \log \mathcal{K}_{\gamma' - \gamma''}(k, is) \ .
 %\end{align}
 %     The latter is given by Eq.(\ref{eq:appA-2nd-half}).
 The respective
@@ -3007,7 +3028,7 @@ while the integral term yields a first-order term:
                                    + \frac{\gamma^2}{8k^2} + O(|k|^{-3})\ ,
   \\ \nonumber
   \log K_\Omega^\ast(k\to\infty) &\approx \frac{2\gamma'}{|k|}
-                                           + O(k^{-2})\ . 
+                                           + O(k^{-2})\ .
 \end{align}
 
 %\textbf{INCOMPLETE: not discussed poles away.}
@@ -3185,7 +3206,58 @@ while the integral term yields a first-order term:
 \label{sec:k=0-limit}
 
 Uniform flows, such as Poiseuille flow, are described by the limit~$k = 0$.
-Let us find~$\fplus{K}_\Omega(0, is)$ at small~$s \to 0$. The Cauchy
+Let us find~$\fplus{K}_\Omega(k, is)$ at small but finite~$s \to 0$,
+i.e., $|k| \ll s \ll \gamma$. Using the representation~(\ref{eq:logK-integral}) and the factorisation~(\ref{eq:appA-representation}) and setting
+$\kappa = \alpha = \gamma$, $\tilde{\kappa} = k = 0$, we write
+\begin{align}
+\log \fplus{K}_\Omega(0, s) = \frac{2}{\pi} \cos^{-1}\frac{s}{\gamma}
+\log\frac{\gamma + \sqrt{\gamma^2 - s^2}}{\gamma - \sqrt{\gamma^2 - s^2}}
++ \frac{1}{2\pi} \int\limits_{0}^{\gamma}
+      \frac{d\alpha}{\sqrt{\gamma^2 - \alpha^2}}
+       \log\frac{\sqrt{\gamma^2 - \alpha^2} + s}{
+                     \sqrt{\gamma^2 - \alpha^2 } - s}\ .
+\end{align}
+In the first two terms one can make Taylor expansion in~$s/\gamma$. As to the
+remaining integral,  $s$ can be treated as a small parameter almost
+everywhere in the integration domain except for
+ small region~$\gamma \approx\alpha$. Hence we split the integration
+ variable~$x = \sqrt{\gamma^2 - \alpha^2}$:
+ \begin{align}
+ \log \fplus{K}_\Omega(0, s) = \frac{1}{\pi} \left(\frac{\pi}{2} - \frac{s}{\gamma}\right) \log\frac{4 \gamma^2}{s^2}
+ + \frac{1}{2\pi} \int\limits_{0}^{\gamma}
+ \frac{dx}{\sqrt{\gamma^2 - x^2}} \log\frac{x + s}{x - s}\ ,
+ \end{align}
+ and split the integration range~$(0, \gamma)$ into two segments: $(0, x_0)$
+ and~$(x_0, \gamma)$, choosing the split point~$x_0$ such that
+ $s \ll x_0 \ll \gamma$. In the integral over~$(0, x_0)$ one may
+ neglect the square root, while in the integral over~$(x_0, \gamma)$
+ one may make an expansion in~$s/\gamma$:
+ \begin{align}
+ log \fplus{K}_\Omega(0, s) = \left(1 - \frac{2s}{\pi\gamma}\right)
+ \log\frac{2\gamma}{s}  + \frac{1}{2\pi} \int\limits_{0}^{x_0}
+ dx \, \log\frac{x + s}{x - s} + \frac{s}{\pi} \int\limits_{x_0}^{\gamma}
+ \frac{dx}{x\sqrt{\gamma^2 - x^2}}\ .
+\end{align}
+Computing the integrals and making the approximations~$s \gg x_0$
+and~$x_0 \ll \gamma$, one finds
+\begin{align}
+\log \fplus{K}_\Omega(0, s) = \left(1 - \frac{2s}{\pi\gamma}\right)
+\log\frac{2\gamma}{s}  +  \frac{s}{\pi\gamma} \log \frac{x_0}{s}
++ \frac{s}{\pi\gamma} + \frac{s}{\pi\gamma} \log\frac{2\gamma}{x_0}\ .
+\end{align}
+We now see that the split point~$x_0$ drops out, and one obtains
+\begin{align}
+\log \fplus{K}_\Omega(0, s) = \log\frac{2\gamma}{s} + \frac{s}{\pi\gamma}
++ O(s^2)\ .
+\end{align}
+Exponentiating this expression, we finally write
+\begin{align}
+\log\fplus{K}_\Omega(0, s) = \frac{2\gamma}{s} + \frac{2}{\pi}\ .
+\end{align}
+
+\textbf{Check factors of two!}
+
+The Cauchy
 integral takes the form
 \begin{equation}
   \log\fplus{K}_\Omega(is) = - \frac{2}{\pi}\int\limits_{0}^{\infty}
@@ -3236,7 +3308,119 @@ Hence
  \ .
 \end{equation}
 
-Add: determine rho(y)
+\section{Expressions for potential and stream function}
+
+Expressions~(\ref{eq:rho-final}) and~(\ref{eq:psi-final}) can be
+rewritten by explicitly separating the contribution of long-lived
+hydrodynamical modes and short-lived higher-order harmonics. This
+is achieved by deforming the contour~$C_{+}$ shown in Fig.~\ref{fig:contours}
+into two contours enclosing the pole and the cut. Evaluating
+the integrand, one can make use of the following facts.
+Firstly,
+it is possible to express all quantities in terms of a single function,
+since~$\fminus{K}_\rho(k, -is) = 1/\fplus{K}_\rho(k, is)$.  Secondly,
+the behaviour near the poles can be extracted from
+Eq.~(\ref{eq:factorisation}). This yields e.g. \begin{equation}
+ \fplus{K}_\rho (q \approx -i |k|)
+ = - \frac{\gamma^2}{|k|(|k| - i q) K_\rho^\ast(k)}
+ \ ,
+ \qquad
+ \fminus{K}_{\rho}(q \approx i |k|) = - \frac{\gamma^2}{|k|(|k| + iq)
+   K_\rho^\ast(k)}
+ \ ,
+\end{equation}
+where~$K_\rho^\ast(k) \equiv \fplus{K}_\rho(k, i|k|)$.
+With this in mind, one can write the pole contribution
+to the density by employing Eqs.(\ref{eq:rho-s}) and (\ref{eq:iso-rho-reg}):
+\begin{align}
+\delta \rho_\mathrm{pole}(x, y)
+= \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi} e^{-ikx - |k| y}
+\left\{
+\frac{-\gamma'\gamma^2}{2k^4 \left[K_\rho^\ast(k)\right]^2}
+- \frac{\gamma' I_0}{|k|}
+- \frac{\gamma^2 I_0}{|k| K_\rho^\ast(k)}
++ \frac{f_s(k)}{2} \left[1 - \frac{1}{K_\rho^\ast(k)} \right]
+\right\} \ .
+\end{align}
+To compute the branch cut contribution,  we note that
+the  integrals over the branch cut are only sensitive
+to the square root singularity, as the contributions continuous
+across the cut cancel.
+Hence, at the branch cut one can retain only singular contributions
+to the kernels, making the replacement
+\begin{equation}
+ \frac{1}{\fplus{K}_\rho (-is)} \to
+  \frac{\gamma\sqrt{s^2 - \kappa^2}}{(s^2 - k^2) \fplus{K}_\rho(is)}
+ \ .
+ %\qquad
+ %\frac{1}{\fplus{K}_\Omega(-is)} \to
+ %\frac{2 \gamma' \sqrt{s^2 - \kappa^2}}{(s^2 - {\tilde \kappa}^2)
+ %\fplus{K}_\Omega(is)}
+ %\ .
+\end{equation}
+This transforms the respective density terms to the form
+\begin{align}
+\delta\rho_\mathrm{cut}(x, y) &= \int\limits_{-\infty}^{\infty}{dk}{2\pi}
+\, e^{-ikx}
+\int\limits_{\sqrt{k^2 + \gamma^2}}^{\infty} e^{-sy}\frac{ds}{\pi}
+\frac{1}{\sqrt{s^2 - k^2 - \gamma^2}}
+\left\{
+\frac{\gamma f_s(k)}{2(|k| + s)\fplus{K}_\rho(k, is) K_\rho^\ast(k)}
+\right. \\ \nonumber
+&+ \left. \frac{\gamma\gamma' I_0}{|k|(|k| + s) K_\rho^\ast(k)
+\fplus{K}_\rho(k, is)} + \gamma I_0
++ \frac{\gamma I_0}{\fplus{K}_\rho(k, is)} \right\}  \ .
+\end{align}
+At large scales, $k\to 0$, the pole contribution produces
+the slow-decaying pole contribution, while  the terms due
+to the cut decay as~$\exp(-\gamma y)$ or faster.
+
+To the stream function~(\ref{eq:psi-final}) into a similar form,
+one can make use of 
+
+ A similar expression
+for~$\fplus{K}_\Omega$ is often needed to the next order, due to the double poles in the expression for the current components~$j_{x, y}$:
+\begin{equation}
+\fplus{K}_\Omega(q \approx -i {\tilde \kappa})
+= - \frac{2 \gamma' (\gamma' - \gamma'') }{{\tilde \kappa}
+    {\tilde K}_\Omega^\ast}
+     % \left[
+     \frac{1}{{\tilde \kappa} - i q}
+     % + \frac{1}{2|k|} + \frac{|k|}{\gamma^2} - K_\Omega'\right]
+\ ,
+\end{equation}
+with~${\tilde K}_\Omega^\ast \equiv \fplus{K}_\Omega(k, i{\tilde \kappa})$.
+In the viscous limit, the next leading term in the expansion
+is also to be retained:
+\begin{equation}
+\fplus{K}_\Omega(q \approx -i |k|)
+= - \frac{2 \gamma^2 }{|k| K_\Omega^\ast}
+     \left[
+     \frac{1}{|k| - i q}
+      + \frac{1}{2|k|} + \frac{|k|}{\gamma^2} - K_\Omega'\right]
+\ ,
+\end{equation}
+where~$K_\Omega'$ is the log-derivative,
+$K_\Omega' \equiv \frac{d}{ds} \log \fplus{K}_\Omega(is)$ at~$s = |k|$,
+and~$K_\Omega^\ast \equiv \fplus{K}_\Omega(k, i|k|)$.
+The quantities~$K_{\rho,\Omega}^\ast(k)$ and~$K'_\Omega(k)$ are discussed
+in Appendix~\ref{sec:appendix-kstar}.
+
+Finally, integrals over the branch cut are only sensitive
+to the square root singularity, as the contributions continuous
+across the cut cancel.
+Hence, at the branch cut one can retain only singular contributions
+to the kernels, making the replacement
+\begin{equation}
+ \frac{1}{\fplus{K}_\rho (-is)} \to
+  \frac{\gamma\sqrt{s^2 - \kappa^2}}{(s^2 - k^2) \fplus{K}_\rho(is)}
+ \ , \qquad
+ \frac{1}{\fplus{K}_\Omega(-is)} \to
+ \frac{2 \gamma' \sqrt{s^2 - \kappa^2}}{(s^2 - {\tilde \kappa}^2)
+ \fplus{K}_\Omega(is)}
+ \ .
+\end{equation}
+
 
 \begin{thebibliography}{99}
 \bibitem{bib:momentum-relaxation} Ref to collision integral
