@@ -3335,11 +3335,11 @@ to the density by employing Eqs.(\ref{eq:rho-s}) and (\ref{eq:iso-rho-reg}):
 \begin{align}
 \delta \rho_\mathrm{pole}(x, y)
 = \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi} e^{-ikx - |k| y}
-\left\{
-\frac{-\gamma'\gamma^2}{2k^4 \left[K_\rho^\ast(k)\right]^2}
-- \frac{\gamma' I_0}{|k|}
-- \frac{\gamma^2 I_0}{|k| K_\rho^\ast(k)}
-+ \frac{f_s(k)}{2} \left[1 - \frac{1}{K_\rho^\ast(k)} \right]
+\left\{I_0 \left[
+\frac{\gamma'\gamma^2}{2k^3 \left[K_\rho^\ast(k)\right]^2}
+- \frac{\gamma'}{|k|}
++ \frac{\gamma}{|k| K_\rho^\ast(k)}\right]
++ \frac{f_s(k)}{2} \left[1 + \frac{\gamma^2}{2 k^2                            \left[K_\rho^\ast(k)\right]^2} \right]
 \right\} \ .
 \end{align}
 To compute the branch cut contribution,  we note that
@@ -3376,7 +3376,7 @@ the slow-decaying pole contribution, while  the terms due
 to the cut decay as~$\exp(-\gamma y)$ or faster.
 
 To the stream function~(\ref{eq:psi-final}) into a similar form,
-one can make use of 
+one can make use of
 
  A similar expression
 for~$\fplus{K}_\Omega$ is often needed to the next order, due to the double poles in the expression for the current components~$j_{x, y}$:
