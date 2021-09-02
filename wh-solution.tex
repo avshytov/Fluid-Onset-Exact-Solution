@@ -1457,11 +1457,12 @@ vanishing at~$q\to\infty$.) Thus, the regular contribution
 to the density in Eq.(\ref{eq:rho-decomp}) takes the form
 \begin{align}
   \label{eq:iso-rho-reg}
-  \delta\rho_\infty(k, q) + \delta\rho_\mathrm{reg}(k, q) =
+  \delta\rho_\infty(k, q) + \delta\rho_\mathrm{reg}(k, q) &=
   \frac{\gamma' I_0}{|k|(|k| + iq)} \frac{\fplus{K}_\rho(k, q)}{
   K^\ast_{\rho}(k)}
-  - \frac{2\gamma' I_0}{k^2 + q^2}
-  + I_0 \left[K_\rho(k, q) + \fplus{K}_\rho(k, q) - 2\right] \ .
+  - \frac{2\gamma' I_0}{k^2 + q^2} \\ \nonumber
+   & + \frac{2I_0}{\gamma}
+     \left[\fplus{K}_\rho(k, q) + K_rho(k, q) - 2\right] \ .
 \end{align}
 As before, we have subtracted the singular direct-flight contribution,
 which can be obtained by noticing that the particles isotropically emitted by
@@ -3333,13 +3334,15 @@ where~$K_\rho^\ast(k) \equiv \fplus{K}_\rho(k, i|k|)$.
 With this in mind, one can write the pole contribution
 to the density by employing Eqs.(\ref{eq:rho-s}) and (\ref{eq:iso-rho-reg}):
 \begin{align}
+  \label{eq:rho-pole}
 \delta \rho_\mathrm{pole}(x, y)
-= \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi} e^{-ikx - |k| y}
+&= \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi} e^{-ikx - |k| y}
 \left\{I_0 \left[
 \frac{\gamma'\gamma^2}{2k^3 \left[K_\rho^\ast(k)\right]^2}
 - \frac{\gamma'}{|k|}
-+ \frac{\gamma}{|k| K_\rho^\ast(k)}\right]
-+ \frac{f_s(k)}{2} \left[1 + \frac{\gamma^2}{2 k^2                            \left[K_\rho^\ast(k)\right]^2} \right]
++ \frac{2\gamma}{|k| K_\rho^\ast(k)}\right] \right. \\\nonumber
+  &+ \left.\frac{f_s(k)}{2} \left[1 + \frac{\gamma^2}{2 k^2
+  \left[K_\rho^\ast(k)\right]^2} \right]
 \right\} \ .
 \end{align}
 To compute the branch cut contribution,  we note that
@@ -3360,16 +3363,17 @@ to the kernels, making the replacement
 \end{equation}
 This transforms the respective density terms to the form
 \begin{align}
-\delta\rho_\mathrm{cut}(x, y) &= \int\limits_{-\infty}^{\infty}{dk}{2\pi}
+\delta\rho_\mathrm{cut}(x, y) &= \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi}
 \, e^{-ikx}
 \int\limits_{\sqrt{k^2 + \gamma^2}}^{\infty} e^{-sy}\frac{ds}{\pi}
-\frac{1}{\sqrt{s^2 - k^2 - \gamma^2}}
+\frac{\sqrt{s^2 - k^2 - \gamma^2}}{(s^2 - k^2) \fplus{K}_\rho(k, is)}
 \left\{
-\frac{\gamma f_s(k)}{2(|k| + s)\fplus{K}_\rho(k, is) K_\rho^\ast(k)}
+\frac{\gamma f_s(k)}{2(|k| + s)K_\rho^\ast(k)}
 \right. \\ \nonumber
-&+ \left. \frac{\gamma\gamma' I_0}{|k|(|k| + s) K_\rho^\ast(k)
-\fplus{K}_\rho(k, is)} + \gamma I_0
-+ \frac{\gamma I_0}{\fplus{K}_\rho(k, is)} \right\}  \ .
+     &+ \left. I_0 \left[\frac{\gamma\gamma'}{|k|(|k| + s) K_\rho^\ast(k)}
+       + 2 - \frac{2(s^2 - k^2) \fplus{K}_\rho(k, is)}{s^2
+                             - \gamma^2 - k^2} \right]
+       \right\}  \ .
 \end{align}
 At large scales, $k\to 0$, the pole contribution produces
 the slow-decaying pole contribution, while  the terms due
