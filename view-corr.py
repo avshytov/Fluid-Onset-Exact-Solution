@@ -351,6 +351,8 @@ def readData(fname):
     drho = d['corr_tot:rho']
     djx  = d['corr_tot:jx']
     djy  = d['corr_tot:jy']
+    djy_I = d['corr_I:jy']
+    djy_s = d['corr_diff:jy']
     jx  = d['orig:jx']
     jy  = d['orig:jy']
     rho = d['orig:rho']
@@ -362,6 +364,20 @@ def readData(fname):
     #drho0 = d['orig:drho'] 
 
     print ("df_s = ", df_s)
+
+    if True:
+        pl.figure()
+        i0 = np.argmin(np.abs(y)) + 1
+        pl.plot(k, djy_I[:, i0].real, label='Re djy_I')
+        pl.plot(k, djy_I[:, i0].imag, label='Im djy_I')
+        pl.plot(k, djy_s[:, i0].real, label='Re djy_s')
+        pl.plot(k, djy_s[:, i0].imag, label='Im djy_s')
+        pl.legend()
+        pl.figure()
+        pl.loglog(np.abs(k), np.abs(djy_I[:, i0]), label='|djy_I|')
+        pl.loglog(np.abs(k), np.abs(djy_s[:, i0]), label='|djy_s|')
+        pl.legend()
+        #pl.show()
 
     def fit_inv(k, A, B, C):
         return A / k + B * np.sign(k) + C * k
@@ -455,6 +471,15 @@ def readData(fname):
     DRHO = np.dot(F, drho - f_invk[:, None]) + f_invk_x[:, None]
     RHO  = np.dot(F, rho)
 
+    if True:
+        djy_Ix = np.dot(F, djy_I[:, i0])
+        djy_sx = np.dot(F, djy_s[:, i0])
+        pl.figure()
+        pl.plot(x, djy_Ix.real, label='djy_I(x)')
+        pl.plot(x, djy_sx.real, label='djy_s(x)')
+        pl.legend()
+        pl.show()
+
     if type(drho0) == type(None): #'orig:drho' not in d.keys():
        print ("calculate drho from K0")
        kappa = np.sqrt(k**2 + gamma**2)
@@ -539,10 +564,11 @@ def readData(fname):
     #        y_seg = np.array([t[1] for t in poly])
     #        pl.plot(x_seg, y_seg, 'k-')
 
-    #pl.figure()
-    #pl.contour(X, Y, DPSI.real, 31, cmap='jet')
-    #pl.colorbar()
-    #pl.gca().set_aspect('equal', 'box')
+    pl.figure()
+    pl.contour(X, Y, DPSI.real, 31, cmap='jet')
+    pl.colorbar()
+    pl.gca().set_aspect('equal', 'box')
+    pl.title("Hall contribution to the stream function")
 
 
     pl.figure()
@@ -563,6 +589,10 @@ def readData(fname):
     pl.plot(x, DJX[:, i_zero].real, label=r'$\delta j_x(x)$')
     #pl.plot(x, DJX[:, i_zero].imag, label='Im dj_x')
     pl.plot(x, DJY[:, i_zero].real, label=r'$\delta j_y(x)$')
+    #pl.plot(x, DJY[:, i_zero].imag, label='Im dj_y')
+    pl.plot(x, JX[:, i_zero].real, label=r'$j_x(x)$')
+    #pl.plot(x, DJX[:, i_zero].imag, label='Im dj_x')
+    pl.plot(x, JY[:, i_zero].real, label=r'$j_y(x)$')
     #pl.plot(x, DJY[:, i_zero].imag, label='Im dj_y')
     pl.legend()
     pl.xlabel(r"$x/l_\mathrm{ee}$")
