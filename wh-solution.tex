@@ -1443,7 +1443,7 @@ The functions~$\fplusminus{S}_\rho(k, q)$ can be determined from
   = \frac{2I_0}{\gamma} \left[\frac{1}{\fminus{K}_\rho(k, q)}
   - \frac{1}{\fplus{K}_\rho(k, q)}\right]\ ,
 \end{align}
-which suggests the trivial decomposition
+which suggests the straightforward decomposition
 \begin{align}
   \label{eq:iso-chi}
   \fplus{S}_\rho(k, q) = \frac{2I_0}{\gamma}
@@ -1462,7 +1462,7 @@ to the density in Eq.(\ref{eq:rho-decomp}) takes the form
   K^\ast_{\rho}(k)}
   - \frac{2\gamma' I_0}{k^2 + q^2} \\ \nonumber
    & + \frac{2I_0}{\gamma}
-     \left[\fplus{K}_\rho(k, q) + K_rho(k, q) - 2\right] \ .
+     \left[\fplus{K}_\rho(k, q) + K_\rho(k, q) - 2\right] \ .
 \end{align}
 As before, we have subtracted the singular direct-flight contribution,
 which can be obtained by noticing that the particles isotropically emitted by
@@ -3211,9 +3211,9 @@ Let us find~$\fplus{K}_\Omega(k, is)$ at small but finite~$s \to 0$,
 i.e., $|k| \ll s \ll \gamma$. Using the representation~(\ref{eq:logK-integral}) and the factorisation~(\ref{eq:appA-representation}) and setting
 $\kappa = \alpha = \gamma$, $\tilde{\kappa} = k = 0$, we write
 \begin{align}
-\log \fplus{K}_\Omega(0, s) = \frac{2}{\pi} \cos^{-1}\frac{s}{\gamma}
+\log \fplus{K}_\Omega(0, s) = \frac{1}{\pi} \cos^{-1}\frac{s}{\gamma}
 \log\frac{\gamma + \sqrt{\gamma^2 - s^2}}{\gamma - \sqrt{\gamma^2 - s^2}}
-+ \frac{1}{2\pi} \int\limits_{0}^{\gamma}
++ \frac{1}{\pi} \int\limits_{0}^{\gamma}
       \frac{d\alpha}{\sqrt{\gamma^2 - \alpha^2}}
        \log\frac{\sqrt{\gamma^2 - \alpha^2} + s}{
                      \sqrt{\gamma^2 - \alpha^2 } - s}\ .
@@ -3225,7 +3225,7 @@ everywhere in the integration domain except for
  variable~$x = \sqrt{\gamma^2 - \alpha^2}$:
  \begin{align}
  \log \fplus{K}_\Omega(0, s) = \frac{1}{\pi} \left(\frac{\pi}{2} - \frac{s}{\gamma}\right) \log\frac{4 \gamma^2}{s^2}
- + \frac{1}{2\pi} \int\limits_{0}^{\gamma}
+ + \frac{1}{\pi} \int\limits_{0}^{\gamma}
  \frac{dx}{\sqrt{\gamma^2 - x^2}} \log\frac{x + s}{x - s}\ ,
  \end{align}
  and split the integration range~$(0, \gamma)$ into two segments: $(0, x_0)$
@@ -3235,25 +3235,25 @@ everywhere in the integration domain except for
  one may make an expansion in~$s/\gamma$:
  \begin{align}
  log \fplus{K}_\Omega(0, s) = \left(1 - \frac{2s}{\pi\gamma}\right)
- \log\frac{2\gamma}{s}  + \frac{1}{2\pi} \int\limits_{0}^{x_0}
- dx \, \log\frac{x + s}{x - s} + \frac{s}{\pi} \int\limits_{x_0}^{\gamma}
+ \log\frac{2\gamma}{s}  + \frac{1}{\pi} \int\limits_{0}^{x_0}
+ dx \, \log\frac{x + s}{x - s} + \frac{2s}{\pi} \int\limits_{x_0}^{\gamma}
  \frac{dx}{x\sqrt{\gamma^2 - x^2}}\ .
 \end{align}
 Computing the integrals and making the approximations~$s \gg x_0$
 and~$x_0 \ll \gamma$, one finds
 \begin{align}
 \log \fplus{K}_\Omega(0, s) = \left(1 - \frac{2s}{\pi\gamma}\right)
-\log\frac{2\gamma}{s}  +  \frac{s}{\pi\gamma} \log \frac{x_0}{s}
-+ \frac{s}{\pi\gamma} + \frac{s}{\pi\gamma} \log\frac{2\gamma}{x_0}\ .
+\log\frac{2\gamma}{s}  +  \frac{2s}{\pi\gamma} \log \frac{x_0}{s}
++ \frac{2s}{\pi\gamma} + \frac{2s}{\pi\gamma} \log\frac{2\gamma}{x_0}\ .
 \end{align}
 We now see that the split point~$x_0$ drops out, and one obtains
 \begin{align}
-\log \fplus{K}_\Omega(0, s) = \log\frac{2\gamma}{s} + \frac{s}{\pi\gamma}
+\log \fplus{K}_\Omega(0, s) = \log\frac{2\gamma}{s} + \frac{2s}{\pi\gamma}
 + O(s^2)\ .
 \end{align}
 Exponentiating this expression, we finally write
 \begin{align}
-\log\fplus{K}_\Omega(0, s) = \frac{2\gamma}{s} + \frac{2}{\pi}\ .
+\log\fplus{K}_\Omega(0, s) = \frac{2\gamma}{s} + \frac{4}{\pi}\ .
 \end{align}
 
 \textbf{Check factors of two!}
@@ -3321,21 +3321,27 @@ Firstly,
 it is possible to express all quantities in terms of a single function,
 since~$\fminus{K}_\rho(k, -is) = 1/\fplus{K}_\rho(k, is)$.  Secondly,
 the behaviour near the poles can be extracted from
-Eq.~(\ref{eq:factorisation}). This yields e.g. \begin{equation}
+Eq.~(\ref{eq:factorisation}):
+\begin{align}
+  \fplus{K}_\rho(k, -is) = \frac{1}{K_\rho(k, -is) \fminus{K}(k, -is)}
+  = \frac{1}{K_\rho(k, -is) \fplus{K}_\rho(k, is)}\ . 
+\end{align}
+Near the pole~$q = -i|k|$, one finds
+This yields e.g. \begin{equation}
  \fplus{K}_\rho (q \approx -i |k|)
  = - \frac{\gamma^2}{|k|(|k| - i q) K_\rho^\ast(k)}
  \ ,
- \qquad
- \fminus{K}_{\rho}(q \approx i |k|) = - \frac{\gamma^2}{|k|(|k| + iq)
-   K_\rho^\ast(k)}
- \ ,
+% \qquad
+% \fminus{K}_{\rho}(q \approx i |k|) = - \frac{\gamma^2}{|k|(|k| + iq)
+%   K_\rho^\ast(k)}
+% \ ,
 \end{equation}
-where~$K_\rho^\ast(k) \equiv \fplus{K}_\rho(k, i|k|)$.
+where~$K_\rho^\ast(k) \equiv \fplus{K}_\rho(k, i|k|)$ as usual.
 With this in mind, one can write the pole contribution
-to the density by employing Eqs.(\ref{eq:rho-s}) and (\ref{eq:iso-rho-reg}):
+to the potential by employing Eqs.(\ref{eq:rho-s}) and (\ref{eq:iso-rho-reg}):
 \begin{align}
   \label{eq:rho-pole}
-\delta \rho_\mathrm{pole}(x, y)
+\delta \phi_\mathrm{pole}(x, y)
 &= \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi} e^{-ikx - |k| y}
 \left\{I_0 \left[
 \frac{\gamma'\gamma^2}{2k^3 \left[K_\rho^\ast(k)\right]^2}
@@ -3350,10 +3356,11 @@ the  integrals over the branch cut are only sensitive
 to the square root singularity, as the contributions continuous
 across the cut cancel.
 Hence, at the branch cut one can retain only singular contributions
-to the kernels, making the replacement
+to the kernels, replacing~$\fplus{K}_\rho(k, -is)$ by
+its discontinuity across the cut
 \begin{equation}
- \frac{1}{\fplus{K}_\rho (-is)} \to
-  \frac{\gamma\sqrt{s^2 - \kappa^2}}{(s^2 - k^2) \fplus{K}_\rho(is)}
+ \Delta \frac{1}{\fplus{K}_\rho (-is)} = 
+  \frac{2\gamma\sqrt{s^2 - \kappa^2}}{(s^2 - k^2) \fplus{K}_\rho(is)}
  \ .
  %\qquad
  %\frac{1}{\fplus{K}_\Omega(-is)} \to
@@ -3361,9 +3368,9 @@ to the kernels, making the replacement
  %\fplus{K}_\Omega(is)}
  %\ .
 \end{equation}
-This transforms the respective density terms to the form
+This transforms the respective  terms in the potential to the form
 \begin{align}
-\delta\rho_\mathrm{cut}(x, y) &= \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi}
+\delta\phi_\mathrm{cut}(x, y) &= \int\limits_{-\infty}^{\infty}\frac{dk}{2\pi}
 \, e^{-ikx}
 \int\limits_{\sqrt{k^2 + \gamma^2}}^{\infty} e^{-sy}\frac{ds}{\pi}
 \frac{\sqrt{s^2 - k^2 - \gamma^2}}{(s^2 - k^2) \fplus{K}_\rho(k, is)}
@@ -3375,12 +3382,121 @@ This transforms the respective density terms to the form
                              - \gamma^2 - k^2} \right]
        \right\}  \ .
 \end{align}
-At large scales, $k\to 0$, the pole contribution produces
-the slow-decaying pole contribution, while  the terms due
-to the cut decay as~$\exp(-\gamma y)$ or faster.
+The resulting potential can be now written in the form
+\begin{align}
+  \phi({\bm r}) = \frac{I_0}{\pi|{\bm r}|} e^{-\gamma |{\bm r}|}
+  + \delta\phi_\mathrm{pole}({\bm r}) + \delta\phi_\mathrm{cut}({\bm r})\ . 
+\end{align}
+The pole contribution depends upon distance via the factor
+$\exp(-ikx - |k| y)$ and hence obeys Laplace's equation:
+$\nabla^2 \phi_\mathrm{pole}({\bm r}) = 0$. At large scale,
+it produces a slow-decaying contribution $\propto |{\bm r}|^{-2}$
+which represents hydrodynamical pressure. 
+%At large scales, $k\to 0$, the pole contribution produces
+%        the slow-decaying pole contribution, while
+The cut contribution~$\delta\phi_\mathrm{cut}({\bm r})$
+decays as~$\exp(-\gamma y)$ or faster,
+and hence represent short-lived ballistic modes. 
 
-To the stream function~(\ref{eq:psi-final}) into a similar form,
-one can make use of
+To recast the stream function~(\ref{eq:psi-final}) into a similar form,
+one can rewrite~$\fplus{K}_\Omega(k, -is)$ in a similar form:
+\begin{align}
+  \fplus{K}_\Omega(k, -is) = \frac{k^2 - s^2 + 2i\gamma' \sqrt{s^2 - \gamma^2 - k^2} + 2\gamma\gamma'}{(k^2 + 4\gamma' \gamma'' - s^2) \fplus{K}_\Omega(k, is)}
+  \ . 
+\end{align}
+The integrand in Eq.~(\ref{eq:psi-final}) therefore has two poles:
+at~$q = -i|k|$ and at~$q = -i \tilde{\kappa}
+=   -i \sqrt{k^2 + 4\gamma'\gamma''}$.
+Near the poles, one finds
+\begin{align}
+  \fplus{K}_\Omega(k, i|k|) = \frac{\gamma}{\gamma'' K_\Omega^\ast(k)}
+  \ ,
+  \qquad
+  \fplus{K}_{\Omega}(k, q \approx -i \tilde{\kappa})
+  = \frac{1}{q + i \tilde{\kappa}} \frac{2i \gamma' (\gamma' - \gamma'')}{
+       {\tilde \kappa} \fplus{K}_\Omega(k, i\tilde{\kappa})
+  }
+  \ . 
+\end{align}
+Therefore, the pole contribution takes the form
+\begin{align}
+  \Psi_\mathrm{pole}(x, y) &= \int\limits_{-\infty}^{\infty}
+  \frac{dk}{2\pi}\, e^{-ikx} \left\{ 
+  \frac{i \sgn k}{4\gamma'' \gamma'}
+  \left[f_s(k) + \frac{2\gamma'}{|k|} I_0 \right]
+  % \frac{i \sgn k f_s(k)}{2\gamma'\gamma''}
+  e^{-|k|y} \right. \\ \nonumber
+  &\times \left.
+       \left[
+         \frac{\gamma}{\left[K_\Omega^\ast(k)\right]^2}
+        - \gamma''
+       - \frac{(\gamma' - \gamma'') |k|}{\sqrt{k^2 + 4\gamma'\gamma''}}
+             \frac{1}{K_\Omega^\ast(k) K_\Omega(k, i\tilde{\kappa})}
+             e^{-(\tilde{\kappa}-|k|)y}
+  \right]
+  \right\} \ . 
+\end{align}
+Using the discontinuity of~$\fplus{K}_\Omega(k, -is)$,
+\begin{align}
+  \Delta \fplus{K}_\Omega(k, -is)
+  = -\frac{4i\gamma' \sqrt{s^2 - k^2 - \gamma^2}}{
+     (s^2 - k^2 - 4 \gamma' \gamma'') \fplus{K}_\Omega(k, is)
+  }\ , 
+\end{align}
+one finds the cut contribution:
+\begin{align}
+  \Psi_\mathrm{cut}(x, y) = i \gamma'
+  \int\limits_{-\infty}^{\infty} \frac{dk}{2\pi}\, e^{-ikx}
+  \int\limits_{\sqrt{k^2 + \gamma^2}}^{\infty} \frac{ds}{\pi}
+  \left[\frac{k f_s}{\gamma'} + 2 I_0\right]
+  \frac{\sqrt{s^2 - k^2 - \gamma^2}}{(s^2 - k^2 - 4\gamma'\gamma'')}
+  \frac{e^{-sy}}{s^2 - k^2}\ . 
+\end{align}
+The full stream function is given by
+\begin{align}
+  \Psi({\bm r}) = \frac{I_0}{\pi} \tan^{-1}\frac{y}{x}
+  + \Psi_\mathrm{pole}({\bm r}) + \Psi_\mathrm{cut}({\bm r})\ . 
+\end{align}
+The pole contribution obeys the generalised Ohm-Stokes law,
+$\left[\nabla^4 - 4\gamma' \gamma'' \nabla^2 \right]
+\Psi_\mathrm{pole}(x, y) = 0$. In the purely viscous case ($\gamma'' = 0$)
+this equation is reduced to a biharmonic equation, and the two poles in
+$\Psi_\mathrm{pole}(x, y)$ merge together.  In this limit, one may
+expand~$\Psi_\mathrm{pole}(x,y)$ to the lowest order in~$\gamma''$, which
+yields
+\begin{align}
+  \Psi_\mathrm{pole}(x, y) &= \int\limits_{-\infty}^{\infty}
+  \frac{dk}{2\pi}\, e^{-ikx} \left\{ 
+  \frac{i \sgn k}{2\left[K_\Omega^\ast(k)\right]^2}
+  \left[f_s(k) + \frac{2\gamma'}{|k|} I_0 \right]
+  e^{-|k|y} \right. \\ \nonumber
+  &\times \left.
+    \left[
+         %\frac{\gamma}{\left[K_\Omega^\ast(k)\right]^2}
+    - \frac{1}{2}\left[K_\Omega^\ast(k)\right]^2
+    + 1 + \frac{\gamma^2}{k^2} + \frac{\gamma^2 y}{|k|}
+    + \frac{\gamma^2}{|k|}  K_\Omega'(k)
+  \right]
+  \right\} \ ,  
+\end{align}
+where~$K_\Omega'(k)$ is the logarithmic derivative of~$K_\Omega(k, q)$
+at~$q = i|k|$, which can be found from~(\ref{eq:appA-2nd-half}):
+\begin{align}
+  K_\Omega'(k) = \frac{1}{\pi\gamma} - \frac{k^2 + \gamma^2}{\pi k \gamma^2}
+  \tan^{-1}\frac{\gamma}{|k|}
+\end{align}
+
+%Using the discontinuity of~$\fplus{K}_\Omega(k, -is)$,
+%\begin{align}
+%  \Delta \fplus{K}_\Omega(k, -is)
+%  = -\frac{4i\gamma' \sqrt{s^2 - k^2 - \gamma^2}}{
+%     (s^2 - k^2 - 4 \gamma' \gamma'') \fplus{K}_\Omega(k, is)
+%  }\ , 
+%\end{align}
+
+  
+
+
 
  A similar expression
 for~$\fplus{K}_\Omega$ is often needed to the next order, due to the double poles in the expression for the current components~$j_{x, y}$:
