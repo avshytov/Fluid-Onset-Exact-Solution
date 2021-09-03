@@ -209,7 +209,7 @@ def solve_for_correction(gamma, gamma1, k, yvals, use_sym = False):
 def run(gamma, gamma1, kvals, yvals, use_sym, fname):
     data = DataSaver(gamma=gamma, gamma1=gamma1, y=yvals)
     for i_k, k in enumerate(kvals):
-        print ("run: k = ", k, "gamma1 = ", gamma1)
+        print ("run: k = ", k, "gamma = ", gamma, "gamma1 = ", gamma1)
         result = solve_for_correction(gamma, gamma1, k, yvals, use_sym)
         data.append_result(k, result)
         if i_k % 10 == 0:
@@ -247,11 +247,18 @@ if __name__ == '__main__':
     ver = "01f"
 
     suffix=""
-    if use_sym: suffix="-sym"
-    else:       suffix="-one" 
-    for gamma1 in [1.0, 0.999, 0.99, 0.98,   0.97, 0.96, 0.95,
-                   0.94, 0.93, 0.92, 0.91,   0.90, 0.88, 0.86,
-                   0.84, 0.82,  0.8,  0.75,  0.7,  0.65,  0.6,  0.5]:
+    if use_sym: suffix="-sym2"
+    else:       suffix="-one2"
+    for gamma1 in [1.0]: 
+    #for gamma1 in [0.989, 0.988, 0.987, 0.986, 0.985,
+    #              0.984, 0.983, 0.982, 0.981]:
+    #for gamma1 in [#0.9999, 0.9998, 0.9997, 0.9996, 0.9996,
+    #               0.9995,
+    #               0.9994, 0.9993, 0.9992, 0.9991, 0.998, 0.997,
+    #               0.996, 0.995, 0.994, 0.993, 0.992, 0.991]:
+    #for gamma1 in [1.0, 0.999, 0.99, 0.98,   0.97, 0.96, 0.95,
+    #               0.94, 0.93, 0.92, 0.91,   0.90, 0.88, 0.86,
+    #               0.84, 0.82,  0.8,  0.75,  0.7,  0.65,  0.6,  0.5]:
     #for gamma1 in [1.0,    0.9999, 0.9998, 0.9997, 0.9996,
     #               0.9995, 0.9994, 0.9993, 0.9992, 0.9991, 
     #               0.999,  0.9975, 0.995, 0.9925,
