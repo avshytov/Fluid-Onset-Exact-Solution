@@ -2029,6 +2029,7 @@ Thus,
 The solution for the density, however, cannot be obtained in an explicit form.
 As outlined previously, one has to solve the Riemann-Hilbert problem
 \begin{equation}
+  \label{eq:RH-rho}
   \fplus{S}_\rho(k, q) + \fminus{S}_\rho(k, q) =  
   \frac{\dct{\rho}(k, q)}{\fminus{K}_\rho(k, q)}  = 
   \frac{J_0}{\gamma} e^{iqh}
@@ -2169,8 +2170,8 @@ while~$\Omega_s(k, q)$ is again given by Eq.(\ref{eq:omega-s}).
 
 As in the previous section, the solution can be employed to obtain current
 and potential patterns. Stream function and potential distribution
-for~$h/l_\mathrm{ee} = 3$ are shown in Figs.~\ref{fig:bulk-stream}
-and~\ref{fig:bulk-rho}, respectively.
+for~$h/l_\mathrm{ee} = 3$ are shown in Fig.~\ref{fig:bulk-rho}.
+%and~\ref{fig:bulk-rho}, respectively.
 The downward flow emitted by the source is transformed
 when it hits the edge. This results in an extra broad component of
 the potential distribution.
@@ -2228,40 +2229,69 @@ and exhibits a weaker minimum at the onset of fluidity, $\gamma h \approx 1$.
 
 
 
-\section{Momentum source in the interior}
+\section{Momentum source in the interior (the Stokeslet)}
 \label{sec:stokeslet}
 
-{\bf STOPPED HERE}
-(iii) A point momentum source is described by
+%{\bf STOPPED HERE}
+%(iii) A point momentum source is described by
+We now consider the effect of a concentrated force~${\bm F} = (F_x, F_y)$
+applied to the fluid at some interior point~$(0, h)$. This can be
+described by the source term 
 \begin{equation}
   \label{eq:source-force-J}
-  J^\mathrm{(force)}(x, y, \alpha)
+  J^{(F)}(x, y, \alpha)
   = 2 (F_x \cos\alpha + F_y \sin\alpha) \delta(x) \delta(y - h)
-\ ,
+\  , 
 \end{equation}
-where~$F_{x, y}$ are the components of the force applied at~$(0, h)$.
-A straightforward application of Eq.~(\ref{eq:angular-integrals}) yields
+% where~$F_{x, y}$ are the components of the force applied at~$(0, h)$.
+so that the rate at which momentum is injected into the fluid
+is $\langle J(x, y) {\bm v}\rangle = {\bm F}$.
+In fluid mechanics, this quantity is known as the Stokeslet.
+In an infinite space, the pressure induced by the source at the origin
+is given only by the longitudinal component of the force, 
+$p({\bm r}) = {\bm F} \cdot \widehat{\bm r} / (2\pi |{\bm r}|)$,
+and is independent of viscosity. But in a restricted geometry
+the pressure becomes coupled to the vorticity and acquires
+a long-range component that depends upon the boundary conditions. It is
+therefore interesting to derive the Stokeslet near the fluidity onset. 
+
+The respective direct-flight contributions
+are computed with the help of Eq.~(\ref{eq:angular-integrals}), which
+yields
 \begin{equation}
   \label{eq:source-force-rho}
-  \dct{\rho}^\mathrm{(force)}(k, q)
-      =  i \frac{2(k F_x + q F_y)}{k^2 + q^2}
-               K_\rho(k, q)  e^{i q h}\ ,
-\end{equation}
-\begin{equation}
-  \label{eq:source-force-omega}
-  \dct{\Omega}^\mathrm{(force)} = \frac{kF_y - q F_x}{\gamma}
+  \dct{\rho}^{(F)}(k, q)
+      =  \frac{2i {\bm k} \cdot {\bm F}}{k^2 + q^2}
+               K_\rho(k, q)  e^{i q h}\ , \qquad
+%\end{equation}
+%\begin{equation}
+  %\label{eq:source-force-omega}
+  \dct{\Omega}^{(F)} = \frac{{\bm k}\times{\bm F}}{\gamma'}
                                     \left[1 - K_\Omega(k, q)\right] e^{i q h}
-  \ .
+  \ , 
 \end{equation}
-
-This problem is defined by Eqs.(\ref{eq:source-force-rho})
-and~(\ref{eq:source-force-omega}). Since the source does not inject particles,
-~$\fplus{D}(k, q) = 0$. Comparing this with the previous problem,
-one can notice certain duality: the density and vorticity interchange their
-roles. The density can be found straightforwardly via elimination of the pole
-at~$q = i|k|$:
+with~${\bm k}\cdot{\bm F} = k F_x + q F_y$,
+${\bm k}\times{\bm F} = k F_y - q F_x$. The source does not inject particles,
+so that~$\fplus{D}(k, q) = i \langle J \rangle =  0$.
+%
+%This problem is defined by Eqs.(\ref{eq:source-force-rho})
+%and~(\ref{eq:source-force-omega}). Since the source does not inject particles,
+%~$\fplus{D}(k, q) = 0$.
+Comparing this with the previous problem,
+one can notice the duality through which
+the density and vorticity interchange their roles.
+As  before, to determine the induced density, one has to decompose
 \begin{align}
-  \rho_F(k, q) &\equiv \fplus{\rho}(k, q) = \frac{2i(k F_x + q F_y)}{k^2 + q^2}
+  \frac{\dct{\rho}^(F)(k, q)}{\fminus{K}_\rho(k, q)} =
+  \frac{2i {\bm k} \cdot {\bm F}}{k^2 + q^2}
+  \frac{e^{i qh}}{\fplus{K}_\rho(k, q)}\ . 
+\end{align}
+The decomposition is achieved by eliminating the pole at~$q = i |k|$,
+which yields 
+\begin{align}
+  \label{eq:rho-F}
+  \rho_F(k, q) &\equiv \fplus{\rho}(k, q)
+  = \frac{2i {\bm k} \cdot{\bm F}}{k^2 + q^2}
   e^{iqh} - \frac{i\sgn k F_x - F_y}{|k| + i q}
    \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)} e^{-|k|h}
   \ ,
@@ -2270,44 +2300,126 @@ at~$q = i|k|$:
    \frac{\fminus{K}_\rho(k, q)}{K_\rho^\ast(k)} e^{-|k|h}
   \ .
 \end{align}
-The correction to the vorticity~$\fminus{S}_\Omega$ can be found
- by solving the Riemann-Hilbert problem
+To determine the vorticity, one has to solve the Riemann-Hilbert
+problem
 \begin{equation}
   \fplus{S}_\Omega(k, q) + \fminus{S}_\Omega(k, q) =
-  \frac{k F_y - qF_x}{\gamma} e^{iqh} \left[\frac{1}{\fminus{K}_\Omega(k, q)}
+  \frac{k F_y - qF_x}{\gamma'} e^{iqh} \left[\frac{1}{\fminus{K}_\Omega(k, q)}
    - \frac{1}{\fplus{K}_\Omega(k, q)} \right]
-  \ .
+  \ , 
 \end{equation}
- As usual, the solution is given
-by the Cauchy integral~(\ref{eq:solution-psi}):
+similar to Eq.~(\ref{eq:RH-rho}). The solution is again given
+by the Cauchy integral~(\ref{eq:solution-psi}), in which
+one can ignore the contribution~$\propto 1/\fplus{K}_\Omega(k, q)$.
+Following the discussion in Sec.~\ref{sec:wh-solution}, we incorporate
+the constant~$S_\Omega^\ast(k, i|k|)$ into~$\fminus{S}_\Omega(k, q)$ and write 
 \begin{equation}
-  \fminus{S}_\Omega(k, q) + S_\Omega^\ast(k) =  \int\limits_{-\infty}^{\infty}
+  \tilde{S}_\Omega(k, q) =
+  % \int\limits_{-\infty}^{\infty}
+  \oint\limits_{C_{-}}
   \frac{dq'}{2\pi i}
   \frac{(i|k| - q) e^{iq'h}}{(q - q' - i0)(i|k| - q' - i0)}
-  \frac{k F_y - q'F_x}{\gamma}
-  \left[\frac{1}{\fminus{K}_\Omega(k, q')}
-            - \frac{1}{\fplus{K}_\Omega(k, q')}\right]
-  \ .
+  \frac{k F_y - q'F_x}{\gamma'}
+  \left[\frac{1}{\fminus{K}_\Omega(k, q')} - 1 \right]
+  \ , 
 \end{equation}
-In this integral, the contour can be also transformed into a contribution of
-the pole at~$q' = i |k|$ and the branch cut, as shown in Fig.~\ref{fig:contours}.
-Evaluating the flux as usual, we write
+in which we again deform the integration contour into~$C_{-}$
+shown in Fig.~\ref{fig:contours}(c). 
+The vorticity is then given by the singular direct-flight contribution
+and a smoother background:
+\begin{align}
+  \label{eq:Omega-F}
+  \fplus{\Omega}(k, q) =  \dct{\Omega}(k, q)
+  + \delta\Omega_{F, \mathrm{reg}}(k, q)\ , 
+\end{align}
+with
+\begin{align}
+  \label{eq:dOmega-F}
+  \delta\Omega_{F, \mathrm{reg}}(k, q)
+  = - \fplus{K}_{\Omega}(k, q){\tilde S}_{\Omega}(k, q)
+  + \frac{{\bm k} \times {\bm F}}{\gamma'}
+  \left[K_\Omega(k, q) + K^{-1}_\Omega(k, q) - 2\right] e^{iqh}\ . 
+\end{align}
+%In this integral, the contour can be also transformed into a contribution of
+%the pole at~$q' = i |k|$ and the branch cut, as shown in Fig.~\ref{fig:contours}.
+Evaluating the downward flux~$\Phi_F(k)$ from Eq.(\ref{eq:flux-rho-Omega}),
+with~$\fminus{\Omega}(k, q) = - K_\Omega \tilde{S}_\Omega(k, q)$
+and~$\fminus{\rho}(k, q)$ given by Eq.(\ref{eq:rho-F}),
+we write
 \begin{equation}
-  \Phi_F(k) = \frac{\gamma}{2|k|}\frac{i F_x \sgn k - F_y}{\left[K_\rho^\ast(k)\right]^2}
-  e^{-|k| h} - \frac{\sgn k}{K_\Omega^\ast(k)}
-  \left[\fminus{S}_\Omega(k, -i|k|) + S_\Omega^\ast(k)\right]
-  \ .
+  \Phi_F(k) = \frac{\gamma}{2|k|}\frac{F^\ast(k)}{
+    \left[K_\rho^\ast(k)\right]^2}
+  e^{-|k| h} - \frac{\sgn k}{K_\Omega^\ast(k)} \tilde{S}_\Omega(k, -i|k|)
+  \ , 
 \end{equation}
-This expression can be rewritten as
+with~$F^\ast(k) \equiv i F_x \sgn k - F_y$. For~$q = -i|k|$
+the Cauchy integral simplifies to 
 \begin{equation}
   \Phi_F(k) =  (i F_x \sgn k - F_y)e^{-|k|h}
-  \left[\frac{\gamma}{2|k|\left[K_\rho^\ast(k)\right]^2} - \frac{|k|}{\gamma\left[K_\Omega^\ast(k)\right]^2 }\right]
-  -  \frac{|k|}{\gamma}\int\limits_C \frac{dq'}{\pi} \frac{e^{iq'h}}{q'^2 + k^2}
+  \left[\frac{\gamma}{2|k|\left[K_\rho^\ast(k)\right]^2}
+    - \frac{|k|}{\gamma'\left[K_\Omega^\ast(k)\right]^2 }\right]
+  -  \frac{|k|}{\gamma'}\oint\limits_{C_{-}}
+    \frac{dq'}{\pi} \frac{e^{iq'h}}{q'^2 + k^2}
      \frac{k F_y - q'F_x}{\fminus{K}_\Omega(k, q')}
-     \ .
+     \ , 
 \end{equation}
+where the remaining contour integral  can be further transformed into the
+sum of the contributions from the pole and the cut which we do not
+attempt here. 
 As before,~$f_s(k)$ is obtained from flux conservation condition,
-$f_s(k) = \pi \Phi_F(k)/(1 - \pi \Phi_s(k))$.
+$f_s(k) = \pi \Phi_F(k)/[1 - \pi \Phi_s(k)]$, and the
+full density and vorticity are given by
+\begin{align}
+  \rho(k, q) &= \rho_F(k, q) + f_s(k) \rho_s(k, q)\ , \\
+  \Omega(k, q) &= \dct{\Omega}(k, q) + \delta\Omega_F(k, q)
+                + f_s(k) \Omega_s(k, q)\ , 
+\end{align}
+with~$\rho_F(k, q)$ defined by Eq.(\ref{eq:rho-F}),
+$\rho_s(k, q)$ by~Eq.(\ref{eq:rho-s}),
+$\delta\Omega_F(k, q)$ by Eq.(\ref{eq:dOmega-F}),
+and $\Omega_s(k, q)$ by Eq.(\ref{eq:omega-s}). These can be used
+to determine the potential~$\phi({\bm r})$
+and the stream function~$\Psi({\bm r})$.
+As in the previous Section, for~$y < h$ one has to pay attention
+to the oscillating contributions~$\propto \exp\left[i q (h - y)\right]$,
+e.g. continuing these from~$y> h$. In the potential,
+the integral of the term proportional to~${\bm k}\cdot{\bm F}$
+gives the Stokeslet in an infinite space, while the rest gives
+the regular correction due to the scattered particles:
+\begin{align}
+  \phi({\bm r}) &=
+   \frac{1}{\pi}
+   \frac{x F_x + (y - h) F_y}{x^2 + (y - h)^2} \\ \nonumber
+ &+ 
+  \int\limits_{-\infty}^{\infty}
+  \frac{dk}{2\pi}\, e^{-ikx}
+  \oint\limits_{C_{+}} \frac{dq}{2\pi} e^{-iqy}
+  \left[ -\frac{i \sgn k F_x - F_y}{|k| + i q}
+  \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)} e^{-|k|h}
+  + f_s(k) \rho_s(k) \right]\ . 
+\end{align}
+The stream function is given by
+\begin{align}
+  \Psi({\bm r}) &= \dct{\Psi}({\bm r}) + \int\limits_{-\infty}^{\infty}
+  \frac{dk}{2\pi}\, e^{-ikx}
+  \oint\limits_{C_{+}}
+  \frac{dq}{2\pi}\,\frac{1}{q^2 + k^2}\left\{ 
+    \left[ - \fplus{K}_\Omega(k, q) {\tilde S}_\Omega(k, q)
+                  + f_s(k) \rho_s(k) \right] e^{i q y} \right. \\ \nonumber  
+   &+  \left.\frac{K_\Omega(k, q) + K^{-1}_\Omega(k, q) - 2}{\gamma'}
+      \left[k F_y  - q F_x \sgn (y - h)\right] e^{i q |y - h|} 
+  \right\}\ . 
+\end{align}
+The direct-flight contribution to the stream function can be found
+by integrating the respective current distribution
+\begin{align}
+  \dct{{\bm j}}({\bm r}) = \nabla \times \dct{\Psi}({\bm r}) = 
+  \frac{2 {\bm F} \cdot \left({\bm r} - {\bm r}_h\right) ({\bm r} - {\bm r}_h)}{
+                          |{\bm r} - {\bm r}_h|^3}
+  e^{-\gamma |{\bm r} - {\bm r}_h|}\ , 
+\end{align}
+where~${\bm r}_h = (0, h)$ is the position of the source.
+
 
 The stream pattern and the potential induced by a point momentum
 source acting in the $x$-direction (parallel to the edge)
