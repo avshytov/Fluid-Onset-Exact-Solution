@@ -169,6 +169,15 @@ class WHKernels:
         #self.Ko.star(k)
         return Krho_star * Ko_star * 2.0 * abs_k / (abs_k + kappa)
 
+    def omega_star_star(self, k):
+        kappa  = np.sqrt(self.gamma**2 + k**2)
+        gamma2 = self.gamma - self.gamma1
+        kappa1 = np.sqrt(k**2 + 4.0 * gamma2 * self.gamma1)
+        Krho_k1 = self.Krho.plus(k, 1j * kappa1)
+        Ko_star = self.Ko.star(k)
+        abs_k = np.abs(k)
+        return Krho_k1 * Ko_star * (abs_k + kappa1) / (kappa1 + kappa)
+
     #def rho_prime(self, k):
     #    return self.Krho.prime(k)
 
