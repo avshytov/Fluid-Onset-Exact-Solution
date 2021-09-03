@@ -853,7 +853,7 @@ def view_rho_comb(data, fname, sel, maxv = 0.05):
                    if np.abs(y_t) < 0.1: return True
                    return False
                print ("cut?", x_t, y_t)
-               if abs(x_t - 0.0) < max(0.02, 0.1*np.abs(y_t - data_h))  \
+               if abs(x_t - 0.0) < max(0.01, 0.1*np.abs(y_t - data_h))  \
                   and y_t > data.h: return True
                return False
            x_seg = [t[0] for t in poly if not cut(t)]
@@ -947,7 +947,7 @@ def view_rho(data, fname, sel, maxv = 0.05):
     pl.title(r"Electric potential  $\phi(x, y)$, $h = %gl_{ee}$" % data.h)
     #pl.show()
     
-def view_rho_comb2(data, fname, sel, maxv = 0.05):
+def view_rho_comb2(data, fname, sel, maxv = 0.05, minv=0.0):
     pl.figure()
     from matplotlib.colors import LogNorm
     Y, X = np.meshgrid(data.y, data.x)
@@ -970,7 +970,8 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
 
     print("rho: min = ", data.rho.min(), "max = ", data.rho.max())
     #maxv = 0.2
-    custom_norm = Custom_Norm(-maxv, 0.0, maxv)
+    if minv > -1e-6: minv = -maxv
+    custom_norm = Custom_Norm(minv, 0.0, maxv)
 
     Y, X = np.meshgrid(data.y, data.x)
     if data.h > 0.001 and data.sel == 'iso' or data.sel=='sin':
@@ -986,8 +987,9 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
        levs = np.linspace(min_lev, max_lev, 25)
        levs = 0.5 * (levs[1:] + levs[:-1])
     else:
-       levs = np.linspace(min_lev, max_lev, 26)[1:]
-       #levs = 0.5 * (levs[1:] + levs[:-1])
+       #levs = np.linspace(min_lev, max_lev, 26)[:-1]
+       #levs = np.linspace(min_lev, max_lev, 26)
+       levs = 0.5 * (levs[1:] + levs[:-1])
     print ("levels: ", list(levs))
     print ("levels = ", levs)
     cs = pl.contour(X, Y, psi_XY, levs,
@@ -1060,16 +1062,22 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
                if data.sel != 'iso' and data.sel != '': return False
                x_t = t[0]
                y_t = t[1]
-               if np.abs(data.h) < 0.001:
-                   if np.abs(y_t) < 0.05: return True
-                   return False
+               #if np.abs(data.h) < 0.001:
+               #    if np.abs(y_t) < 0.05: return True
+               #    return False
                #print ("cut?")
-               if abs(x_t - 0.0) < 0.02 and y_t > data.h: return True
-               if data.sel == 'iso' and data.h > 0.001:
-                   pass
+               #if abs(x_t - 0.0) < 0.02 and y_t > data.h: return True
+               #if data.sel == 'iso' and data.h > 0.001:
+               #    pass
                    #if np.abs(levs[i_lev]) > 0.499 and y_t > data.h:
                    #    if abs(x_t) < 0.03:
                    #        return True
+               i_x = np.argmin(np.abs(x_t - X[:, 0]))
+               i_y = np.argmin(np.abs(y_t - Y[0, :]))
+               print ("cut?: ", i_x, i_y)
+               i_x = max(2, min(i_x, len(X[:, 0])- 2))
+               if abs(psi_XY[i_x - 1, i_y] - psi_XY[i_x + 1, i_y]) > 0.4:
+                   return True
                return False
            x_seg = [t[0] for t in poly if not cut(t)]
            y_seg = [t[1] for t in poly if not cut(t)]
@@ -1140,9 +1148,15 @@ def view_rho_comb2(data, fname, sel, maxv = 0.05):
            dx_arr = x_seg[i_end] - x_arr
            dy_arr = y_seg[i_end] - y_arr
            print ("arr", x_arr, y_arr, dx_arr, dy_arr)
-           arr = ax_phi.arrow(x_arr, y_arr, dx_arr, dy_arr, color='black',
+           if data.sel != 'sin':
+              arr = ax_phi.arrow(x_arr, y_arr, dx_arr, dy_arr, color='black',
                                 shape='full', overhang=0.25,
                                 width=0.001, head_width=0.3)
+           else:
+              arr = ax_phi.arrow(x_arr, y_arr, dx_arr, dy_arr, color='black',
+                                shape='full', overhang=0.25,
+                                width=0.001, head_width=0.1)
+               
            arrows.append(arr)
     #nlist = c.trace()
     #print ("cs.colls = ", cs.collections)
@@ -1224,7 +1238,8 @@ def view_data(data, fname, sel):
     vmax = 0.02
     if data.sel == 'sin' or data.sel == 'cos':
         vmax = 0.05
-    view_rho_comb2(data, fname, sel, vmax)
+    #view_rho_comb2(data, fname, sel, vmax)
+    view_rho_comb2(data, fname, sel, vmax, -vmax)
     #view_psi(data, fname, sel)
     #view_psi_alt(data, fname, sel)
     #view_directivity(data, fname, sel)
