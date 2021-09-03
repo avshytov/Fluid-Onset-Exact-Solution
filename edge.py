@@ -54,7 +54,7 @@ class EdgeInjectedFlow(Flow):
         return rho
 
     def _D_plus(self, q):
-        return 1j + 0.0 * q
+        return 1 * 1j + 0.0 * q
     
     def _Omega_plus(self, q, Ko_p, psi_p):
         sgn_k = np.sign(self.k)
