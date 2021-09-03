@@ -1840,7 +1840,7 @@ explained as the effect of viscous drag.
   %\input{combined-phi-h=0.pdf_tex}
   % left bottom right top
   \centering
-  \includegraphics[trim= 2in 0.2in 3in 0.5in, width=0.5\textwidth]{combined-phi-h=0.png}
+  \includegraphics[width=0.5\textwidth, trim= 2in 0.2in 3in 0.5in]{combined-phi-h=0.png}
   %\includegraphics[width=0.4\textwidth]{stream-function-h=0.png}
   \caption{
     \label{fig:edge-stream}
@@ -2201,7 +2201,7 @@ and exhibits a weaker minimum at the onset of fluidity, $\gamma h \approx 1$.
 %  }
 %\end{figure}
 \begin{figure}
-  \includegraphics[width=0.5\textwidth, trim=2.0in 0in 3in 1in]{combined-phi-h=3-asym.png}
+  \includegraphics[width=0.5\textwidth, trim= 2.0in 0in 3in 1in]{combined-phi-h=3-asym.png}
   \caption{
     \label{fig:bulk-rho}
     Electric  potential distribution induced by a current injector
@@ -2423,14 +2423,16 @@ where~${\bm r}_h = (0, h)$ is the position of the source.
 
 The stream pattern and the potential induced by a point momentum
 source acting in the $x$-direction (parallel to the edge)
-are shown in Figs.~\ref{fig:cos-stream} and~\ref{fig:cos-rho}
-for~$h = 3l_\mathrm{ee}$. The flow and the potential for a source acting
-along the $y$ axis are showin in Figs.\ref{fig:sin-stream}
-and~\ref{fig:sin-rho}. The two stream patterns are affected by
-the edge even though the distance to the edge exceeds the mean free path.
+are shown in Fig.~\ref{fig:cos-stream}
+for~$h = 0.5l_\mathrm{ee}$. The flow and the potential for a source acting
+along the $y$ axis are showin in Fig.\ref{fig:sin-stream}.
+The two stream patterns are strongly affected by the edge.
 This can be seen e.g. by noting that \ref{fig:cos-stream}
 cannot be obtained from Fig.\ref{fig:sin-stream} via a $90^\circ$
 rotation, as one would expect in an infinite system.
+Paradoxically, this is true even when the source is moved away from the edge
+as can be seen in Fig.~\ref{fig:sin-stream-large} where the source
+is moved further away from the edge, $h = 5l_\mathrm{ee}$.
 To resolve this paradox, one can first calculate the Stokeslet in an infinite
 space starting either from the Stokes equation, or from the Boltzmann
 equation and taking the limit~$|{\bm k}| \ll \gamma$. This way, one can
@@ -2480,38 +2482,57 @@ conservation.) At large distances, the effect of the scatterer is dominated by t
 
 \begin{figure}
   \def\svgwidth{0.5\textwidth}
-  \input{stream-function-h=3-cos.pdf_tex}
+  %\input{stream-function-h=3-cos.pdf_tex}
   %\includegraphics[width=0.4\textwidth]{stream-function-h=3-cos.png}
+  \includegraphics[width=0.5\textwidth, trim= 0in 0in 0in 0in]{combined-cos-h=0.5.png}
   \caption{
     \label{fig:cos-stream}
-    Stream function for a flow induced by a point momentum source
-    acting parallel to the wall and placed at~$(0, 3l_\mathrm{ee})$.
+    \label{fig:cos-rho}
+    Stream lines and the potential distribution
+    for a flow induced by a point momentum source
+    acting parallel to the wall and placed at~$(0, 0.5l_\mathrm{ee})$.
   }
 \end{figure}
+%\begin{figure}
+%  \includegraphics[width=0.6\textwidth]{potential-h=3-cos.png}
+%  \caption{
+%    \label{fig:cos-rho}
+%    Potential distribution for the flow shown in Fig.~\ref{fig:cos-stream}.
+%  }
+%\end{figure}
 \begin{figure}
-  \includegraphics[width=0.6\textwidth]{potential-h=3-cos.png}
+  \def\svgwidth{0.5\textwidth}
+  %\input{stream-function-h=3-sin.pdf_tex}
+  %\includegraphics[width=0.4\textwidth]{stream-function-h=3-sin.svg}
+  \includegraphics[width=0.5\textwidth, trim= 0in 0in 0in 0in]{combined-sin-h=0.5.png}
   \caption{
-    \label{fig:cos-rho}
-    Potential distribution for the flow shown in Fig.~\ref{fig:cos-stream}.
+    \label{fig:sin-stream}
+    \label{fig:sin-rho}
+    Stream lines and the potential distributoin
+    for a flow induced by a point momentum source
+    acting perpendicular to the wall and placed at~$(0, 0.5l_\mathrm{ee})$.
   }
 \end{figure}
 \begin{figure}
   \def\svgwidth{0.5\textwidth}
-  \input{stream-function-h=3-sin.pdf_tex}
+  %\input{stream-function-h=3-sin.pdf_tex}
   %\includegraphics[width=0.4\textwidth]{stream-function-h=3-sin.svg}
+  \includegraphics[width=0.5\textwidth, trim=0in 0in 0in 0in]{combined-sin-h=5.png}
   \caption{
-    \label{fig:sin-stream}
-    Stream function for a flow induced by a point momentum source
-    acting perpendicular to the wall and placed at~$(0, 3l_\mathrm{ee})$.
+    \label{fig:sin-stream-large}
+    \label{fig:sin-rho-large}
+    Stream lines and the potential distributoin
+    for a flow induced by a point momentum source
+    acting perpendicular to the wall and placed at~$(0, 5l_\mathrm{ee})$.
   }
 \end{figure}
-\begin{figure}
-  \includegraphics[width=0.4\textwidth]{potential-h=3-sin.png}
-  \caption{
-    \label{fig:sin-rho}
-    Potential distribution for the flow shown in Fig.~\ref{fig:sin-stream}.
-  }
-\end{figure}
+%\begin{figure}
+%  \includegraphics[width=0.4\textwidth]{potential-h=3-sin.png}
+%  \caption{
+%    \label{fig:sin-rho}
+%    Potential distribution for the flow shown in Fig.~\ref{fig:sin-stream}.
+%  }
+%\end{figure}
 
 \begin{figure}
   \def\svgwidth{0.5\textwidth}
@@ -2591,7 +2612,7 @@ of the density near the edge at distances~$y\sim\gamma^{-1}$.
 \section{Conclusion}
 \label{sec:conclusion}
 
-
+Mention Landauer's dipoles
 
 Analytical treatment of fluidity onset in this article can be employed
 to provide detailed answers to many questions, to make connections with
