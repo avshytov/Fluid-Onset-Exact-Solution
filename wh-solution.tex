@@ -1448,7 +1448,6 @@ collision event arrives as a hole rather than a particle.
 %At short distances, $k \gg \gamma$, one finds~$\Phi_s(k\to0) \approx - 1/\pi$,
 %which represents single-collision backscattering.
 
-\textbf{VERIFY}
 
 \section{An isotropic current emitter at the edge}
 \label{sec:boundary-src}
@@ -1987,6 +1986,13 @@ o describe contact resistance for a different distribution.
 % \end{figure}                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+One may also study a vicinity geometry with an anisotropic source.
+In particular, the diffuse solution presented in Sec.~\ref{sec:diffuse}
+can be readily modified to describe a current source with
+sinusoidal directivity diagram, as shown in Appendix~\ref{sec:app-sin-source}.
+The comparison indicates that the viscous flow established at large scales
+is universal and is independent of the source directivity. The latter
+mostly affect phenomena at scales~$|{\bm r}| \lesssim l_\mathrm{ee}$.
 
 \section{Current injection in the interior}
 \label{sec:bulk-src}
@@ -2831,29 +2837,30 @@ The function~$F_\Omega(k, q)$ obeys the identity
 \begin{align}
 \label{eq:fomega-identity}
 F_\Omega(k, q) & + F_\Omega(k, -q)
-        = \frac{k}{2\gamma} \left[1 - K_\Omega(k, q)\right]
+        = \frac{k}{2\gamma'} \left[1 - K_\Omega(k, q)\right]
 \ ,
 \end{align}
 which has the same interpretation as Eqs.(\ref{eq:fm-identity})
 and~(\ref{eq:frho-identity}), with the right-hand side
 matching Eq.(\ref{eq:phi-s-low}).
-The Wiender-Hopf equations are solved in the same manner as before.
+The Wiener-Hopf equations are solved in the same manner as before.
 The function~$\fminus{\rho}(k, q)$ acquires an extra contribution
-$\Delta \fminus{\rho}(k, q) = f_s F_\rho(k, -q)$, while
+$\Delta \fminus{\rho}(k, q) = f_s(k) F_\rho(k, -q)$, while
 the function~$\fplus{\rho}(k, q)$ is again determined
 by Eq.~(\ref{eq:rho-s}). Similarly, $\fplus{\Omega}(k, q)$
 remains the same as in Eq.(\ref{eq:omega-s}),
 while $\fminus{\Omega}(k, q)$
-is shifted by~$\Delta\fminus{\Omega}(k, q) = - f_s F_\Omega(k, -q)$.
+is shifted by~$\Delta\fminus{\Omega}(k, q) = - f_s(k) F_\Omega(k, -q)$.
 The respective change in flux is given by
 \begin{align}
 \Delta \Phi(k)
 = f_s(k) \left[F_\rho(k, i|k|) + \sgn k F_\Omega(k, i|k|)\right]
 \ .
 \end{align}
-Using Eqs.(\ref{eq:source-frho-def})
-and(\ref{eq:source-diff-omega}),
-this expression simplifies to~$f_s(k) / \pi$.
+%Using Eqs.(\ref{eq:source-frho-def})
+%and(\ref{eq:source-diff-omega}),
+This simplifies to~$f_s(k) / \pi$ with the help of
+Eqs.(\ref{eq:source-frho-def})  and(\ref{eq:source-diff-omega}).
 
 
 
@@ -2958,6 +2965,80 @@ this expression simplifies to~$f_s(k) / \pi$.
 %\end{align}
 %(Note that the diffuse scattering does not contribute to~$\fplus{D}_{\bm k}$,
 %according to Eq.(\ref{eq:solution-D}).)
+
+% \textbf{VERIFY}
+
+\section{A source with sinusoidal directivity}
+\label{sec:app-sin-source}
+
+In our analysis in Sec.~\ref{sec:diffuse}, we have
+treated the Lambertian source as a secondary source that
+does not contribute to the total injected
+current~$\langle J_\mathrm{ext}(k, q)$. One could instead consider a
+current source~$I_s(k)$ with sinusoidal directivity
+$J(x, y, \alpha) = \pi I_s \sin\alpha \delta(x) \delta(y)$, 
+so that~$f_s(k) = \pi I_s(k)$. This would require some alterations
+in expressions for~$\fplus{\rho}_s(k, q)$, $\Omega_s(k, q)$ and~$\Phi_s(k)$.
+Following the general solution~(\ref{eq:solution-rho-plus-0}), we
+modify Eq.(\ref{eq:rho-s}) as follows:
+\begin{align}
+  \rho^\mathrm{(sin)}(k, q) = I_s(k) \tilde{\rho}_s(k, q)\ , \qquad
+  \tilde{\rho}_s(k, q) \equiv \frac{\pi i q - 2 \gamma'}{k^2 + q^2}
+  + \frac{\pi |k| + 2\gamma'}{2|k| (|k| + i q)}
+  \frac{\fplus{K}_\rho(k, q)}{K_\rho^\ast(k)}\ . 
+\end{align}
+Eq.(\ref{eq:omega-s}) also acquires an extra contribution
+to satisfy Eq.(\ref{eq:consistency-D-Omega}):
+\begin{align}
+  \Omega^\mathrm{(sin)}(k, q) = I_s(k) \tilde{\Omega}_s(k)\ , \qquad
+  \tilde{\Omega}_s(k, q) = \sgn k  \left[1 + \frac{\pi |k|}{2\gamma'}\right]
+  \frac{\fplus{K}_\Omega(k, q)}{K_\Omega^\ast(k)} - \frac{\pi k}{2\gamma'}\ .
+\end{align}
+The downward flux now takes the form
+$\Phi^\mathrm{(sin)}(k) = \tilde{\Phi}_s(k) I_s(k)$, with
+\begin{align}
+  \tilde{\Phi}_s(k) \equiv
+  1 -   \left\{\frac{\pi}{2} + \frac{\gamma'}{|k|} \right\}
+  \left\{\frac{\gamma}{2|k| \left[K_\rho(k)^\ast\right]^2}
+  - \frac{|k|}{\gamma' \left[K_\Omega^\ast(k)\right]^2}
+  \right\}
+  - \frac{\pi |k|}{2\gamma'}\ . 
+\end{align}
+Its expansion at~$|k| \ll \gamma$ for~$\gamma' = \gamma$ is given by
+\begin{align}
+  \tilde{\Phi}_s(k) =
+  %- %\left(\frac{\pi} - 1 - \frac{2}{\pi}\right)
+  - {\tilde C}_1 \frac{|k|}{\gamma} + \tilde{C}_2 \frac{k^2}{\gamma^2}
+  + O(|k|^3)\ ,
+  \qquad
+  \tilde{C}_1 = \pi - 1 - \frac{2}{\pi} \approx 1.5049\ ,
+  \qquad\tilde{C}_2 \approx 2.2315\ . 
+\end{align}
+% For I_s: 1.192 and 1.975
+
+A self-consistent solution can be obtained similarly to
+Sec.~\ref{sec:vicinity}, with the secondary source
+given by~$f_s(k) = \pi \tilde{\Phi}_s(k)/[1 - \pi \Phi_s(k)]$.
+Expanding this at~$k \to 0$, one finds
+\begin{align}
+  f_s(k) = -{\tilde C}_1 + \frac{|k|}{\gamma} - 0.2393 \frac{k^2}{\gamma^2}
+  + O(k^3)\ .
+\end{align}
+Note that the coefficient in the second term, $|k|/\gamma$,
+is the same as in Eq.(\ref{eq:fs-k=0}), which indicates independence
+of the viscous flow at large scales from directivity of the current
+injector. However, the limiting value~$f_s(k = 0)$ is different, 
+$1.505$ instead of~$1.192$, which results in a different value of
+Sharvin's contact resistance. The~$1/x^3$ correction to the
+edge potential defined by the quadratic term is also non-universal. 
+
+
+%
+% Expansion for tilde{phi}/(1/pi - phi_s):
+%     -(pi^2 - pi - 2)/pi + |k| - 0.2393 * k^2
+%               -1.5049 + |k| - 0.2393 * k^2
+% vs -(2*sqrt(2) - 1 - 2/pi)  + |k| - 0.7065 k^2  
+%     1.192 
 
 
 \section{Integral representations of the Wiener-Hopf kernels}
