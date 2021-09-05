@@ -8,6 +8,7 @@ import pylab as pl
 import numpy as np
 from xkernel_new import WHKernels
 from contours import make_paths_and_kernels
+from edgesin import EdgeSinFlow, EdgeSinFlow_sym
 
 def do_compare(x, y_new, y_old, quantity, label):
     pl.figure()
@@ -62,6 +63,8 @@ log_Ko_star = cauchy_integral_array(path_up, np.log(K.omega(k, path_dn.points())
 #print ("dn: log Ko_star = ", log_Ko_star, np.log(K_up.Komega_star))
 
 custom_flows = {
+    "edgesin"     : EdgeSinFlow(k, K_up, path_up, K_dn, path_dn),
+    "edgesin-sym" : EdgeSinFlow_sym(k, K_up, path_up, K_dn, path_dn),
     "stokes-x" : Stokeslet(1, 0, h, k, K_up, path_up, K_dn, path_dn),
     "stokes-y" : Stokeslet(0, 1, h, k, K_up, path_up, K_dn, path_dn),
     "edge-src-sym" : EdgeInjectedFlow_sym(k, K_up, path_up, K_dn, path_dn),

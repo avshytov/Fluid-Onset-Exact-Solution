@@ -2,6 +2,7 @@ import xkernel_new as xkernel
 import path
 import flows
 import numpy as np
+from edgesin import EdgeSinFlow, EdgeSinFlow_sym
 from diffuse import DiffuseFlow, DiffuseFlow_sym
 from stokeslet import Stokeslet
 from bulk import InjectedFlow
@@ -98,7 +99,7 @@ def show_rhs_and_diff(flow, label, lhs_rho, rhs_rho, lhs_omega, rhs_omega,
     pl.plot(q, lhs_omega.imag, label='Im lhs.omega')
    # print ("shape: ", q.shape, rhs_omega.shape)
     pl.plot(q, rhs_omega.real, '--', label='Re rhs omega')
-    pl.plot(q, rhs_omega.imag, '--', label='Re rhs omega')
+    pl.plot(q, rhs_omega.imag, '--', label='Im rhs omega')
     pl.plot(q, np.abs(err_omega), label='|diff|')
     pl.legend()
     pl.title("%s omega %s" % (label, contour_label))
@@ -425,8 +426,12 @@ def test_wh(h, k, gamma, gamma1, yv):
     inj_edge_sym   = EdgeInjectedFlow_sym(k, K_up, path_up, K_dn, path_dn)
     stokes_x   = Stokeslet(1, 0, h, k, K_up, path_up, K_dn, path_dn)
     stokes_y   = Stokeslet(0, 1, h, k, K_up, path_up, K_dn, path_dn)
+    inj_sin     = EdgeSinFlow(k, K_up, path_up, K_dn, path_dn)
+    inj_sin_sym = EdgeSinFlow(k, K_up, path_up, K_dn, path_dn)
     print ("done", time.time() - now)
     all_flows  = {
+          'inj-sin'      : inj_sin,
+          'inj-sin-sym'  : inj_sin_sym,
           'inj-edge-sym' : inj_edge_sym, 
           'diffuse-sym'  : diff_flow_sym,
           'inj-edge' : inj_edge, 
